@@ -1,0 +1,138 @@
+/* 默认：白天模式变量 */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --border-color: #eaeaea;
+    --link-color: #2a6496;
+    --link-hover-color: #16426d;
+}
+
+/* 自动检测：黑夜模式变量 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --border-color: #333333;
+        --link-color: #79c0ff; 
+        --link-hover-color: #a5d6ff;
+    }
+
+    /* MathJax 默认会继承文本颜色，但有时需要强制声明 */
+    mjx-container {
+      color: var(--text-color) !important;
+    }
+}
+
+html {
+    scroll-behavior: smooth; /* 设置平滑滚动，并防止导航栏遮挡标题 */
+    scroll-padding-top: 80px; /* 大于导航栏高度 */
+}
+
+/* 全局基础设置 */
+body {
+    margin: 0;
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    font-family: ui-monospace, serif;
+}
+/* 强制让 SVG 继承文本颜色 */
+svg {
+    fill: currentColor;
+}
+
+/* 统一应用到所有链接，特别是 arXiv 所在的 a 标签 */
+a {
+    color: var(--link-color);
+    transition: color 0.2s ease;
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--link-hover-color);
+    text-decoration: underline;
+}
+
+/* 网站主容器 */
+.main-card {
+    background: var(--bg-color);
+    color: var(--text-color);
+    width: 100%;
+    max-width: 850px;
+    padding: 60px 50px;
+    box-sizing: border-box;
+    min-height: 100vh;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    /* 修正：因为导航栏固定了，需要给主体内容加内边距，防止被遮挡 */
+    margin-top: 80px !important;
+}
+
+
+.intro-row {
+    display: flex;
+    gap: 20px; /* 适当缩小间距以适应三列 */
+    justify-content: space-between;
+    align-items: center; /* 建议居中对齐，三等分时视觉更平衡 */
+    margin-bottom: 3em;
+}
+
+/* 重点：让简介内部的三行纵向排列 */
+.intro-words {
+    flex: 1;                 /* 占据 1/3 宽度 */
+    display: flex;           /* 开启内部 Flex 布局 */
+    flex-direction: column;  /* 内部元素上下排列 */
+    gap: 5px;               /* 这里就是你想要的“回车”间距 */
+}
+.intro-words p {
+    margin: 0;               /* 清除 p 标签自带的 margin */
+    line-height: 1.4;        /* 如果单行文字太长折行了，这是折行间距 */
+    font-size: 14px;
+}
+
+/* 核心：为三个子部分设置等宽 */
+.intro-words, 
+.intro-ruby, 
+.intro-avatar-container {
+    flex: 1;          /* 强制平分剩余空间 */
+    display: flex;    /* 开启内部 flex 以便控制内容位置 */
+}
+
+/* 中间的 Ruby 居中 */
+.intro-ruby {
+    justify-content: center;
+    font-size: 32px;
+    font-family: 'STKaiti', 'KaiTi', '楷体', '华文楷体', serif, --apple-system;
+}
+
+/* 右侧的头像容器靠右 */
+.intro-avatar-container {
+    justify-content: flex-end;
+}
+
+/* 彻底锁死头像尺寸，解决“图片太大”的问题 */
+.avatar-frame {
+    width: 160px;
+    height: 160px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #eee;
+    flex-shrink: 0; /* 防止在窄屏下被挤压 */
+}
+
+.avatar-frame img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+}
+
+@media screen and (max-width: 768px) {
+    .intro-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: left;
+    }
+
+    .main-card {
+        padding: 30px 20px;
+    }
+}

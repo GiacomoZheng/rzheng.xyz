@@ -1,0 +1,67 @@
+/* ============================================================
+   Bibliography List (参考文献列表样式)
+   ============================================================ */
+.bib-entry {
+    display: grid !important;
+    /* 固定第一列宽度，第二列自适应 */
+    grid-template-columns: 90px 1fr !important; 
+    align-items: baseline !important; 
+    column-gap: 15px;
+    margin-bottom: 0.8rem !important; /* 稍微增加条目间距，更易阅读 */
+    line-height: 1.5;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+/* 目标唤醒样式 (点击引用跳转后的效果) */
+.bib-entry:target {
+    /* 使用变量适配黑夜模式 */
+    background-color: var(--cite-active-bg) !important;
+    border-left: 4px solid var(--cite-link);
+    padding-left: 12px;
+}
+
+.bib-label {
+    grid-column: 1;
+    font-weight: bold;
+    color: var(--cite-link); /* 让 Label 颜色与正文引用一致 */
+    white-space: nowrap; 
+}
+
+.bib-content {
+    grid-column: 2;
+    text-align: justify;
+    color: var(--cite-text);
+}
+
+/* 消除 Typst 自动生成的 p 标签干扰 */
+.bib-entry p, 
+.bib-label p, 
+.bib-content p {
+    display: inline !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* ============================================================
+   响应式适配
+   ============================================================ */
+@media screen and (max-width: 768px) {
+    .bib-entry {
+        /* 在手机端，如果 label 太长导致重叠，改为上下堆叠布局 */
+        grid-template-columns: 1fr !important; 
+        row-gap: 4px;
+        margin-bottom: 1.2rem !important;
+    }
+    
+    .bib-label {
+        grid-column: 1;
+        font-size: 0.9em;
+        opacity: 0.8;
+    }
+
+    .bib-content {
+        grid-column: 1; /* 内容也占满第一列 */
+    }
+}

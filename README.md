@@ -1,2 +1,2 @@
-# github.rzheng.xyz
-My academic website (github pages part)
+# rzheng.xyz
+My academic website, powered by typst and gemini.

@@ -1,0 +1,164 @@
+:root {
+    --nav-bg: rgba(255, 255, 255, 1);
+    --nav-bg-glass: rgba(255, 255, 255, 0.8);
+    --nav-link-color: #444444;
+    --nav-border-color: #eaeaea;
+    --nav-hover-color: #007bff;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --nav-bg: rgba(26, 26, 26, 1);
+        --nav-bg-glass: rgba(26, 26, 26, 0.8);
+        --nav-link-color: #bbbbbb;
+        --nav-border-color: #333333;
+        --nav-hover-color: #4dabff;
+    }
+}
+
+/* 1. 导航栏外层：固定吸顶 */
+.navbar-container {
+    background-color: var(--nav-bg-glass);
+    border-bottom: 1px solid var(--nav-border-color);
+    backdrop-filter: blur(5px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+/* 2. 内部对齐 */
+.navbar-content {
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+/* 3. 名字 Logo 样式 */
+.navbar-logo {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-color)
+}
+
+/* 4.1 右侧组合区域 */
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* 这里是 Home 与 菜单第一项 的间距 */
+}
+/* 4.2 桌面端：Home */
+.nav-home-wrapper {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+/* 4.3 桌面端：菜单内部容器 */
+.navbar-menu {
+    display: flex;
+    flex-direction: row;
+    gap: 25px; /* 这里是 菜单内部各项目 的间距 */
+}
+
+/* --- 电脑端与手机端通用的 Active 逻辑 --- */
+/* 1. 基础状态：链接颜色 */
+.navbar-container a {
+    color: var(--nav-link-color);
+    transition: color 0.2s ease; /* 让颜色变化平滑一点 */
+}
+
+/* 2. 悬停与激活状态：颜色统一 */
+/* 当用户鼠标悬停时，或者被 JS 标记为 active 时，显示高亮色 */
+.navbar-container a:hover,
+.navbar-container a.active {
+    color: var(--nav-hover-color) !important;
+}
+
+/* 3. 增强：只有 active 项加粗，视觉引导更强 */
+.navbar-container a.active {
+    font-weight: 700; 
+}
+
+/* 5. 链接颜色统一控制（防止变色） */
+.nav-home-wrapper a, .nav-home-wrapper a:visited,
+.navbar-menu a, .navbar-menu a:visited {
+    text-decoration: none;
+    color: var(--nav-link-color);
+    font-weight: 500;
+    outline: none;
+    transition: color 0.2s;
+}
+
+.nav-home-wrapper a:hover, .navbar-menu a:hover {
+    color: var(--nav-hover-color);
+}
+
+/* 6. 默认隐藏手机端开关 */
+.nav-toggle { display: none; }
+.nav-toggle-label { display: none; cursor: pointer; }
+
+/* 7. 电脑端响应式 */
+@media screen and (min-width: 769px) {
+    /* 确保 navbar-menu 没有任何外边距或内边距干扰间距计算 */
+    .navbar-menu {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+/* 7.2 手机端响应式 */
+@media screen and (max-width: 768px) {
+    .navbar-right { gap: 12px; }
+    .nav-home-wrapper { order: 1; }
+    .nav-toggle-label { 
+        display: block; 
+        order: 2; 
+        padding: 5px;
+    }
+
+    /* 汉堡图标三条杠 */
+    .nav-toggle-label span, .nav-toggle-label span::before, .nav-toggle-label span::after {
+        display: block;
+        background: var(--text-color);
+        height: 2px;
+        width: 22px;
+        position: relative;
+    }
+    .nav-toggle-label span::before { content: ""; top: 7px; }
+    .nav-toggle-label span::after { content: ""; bottom: 9px; }
+
+    /* 下拉菜单 */
+    .navbar-menu {
+        background-color: var(--nav-bg);
+        border-bottom: 1px solid var(--nav-border-color);
+        gap: 0;
+        display: none; 
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        padding: 5px 0;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    }
+
+    .navbar-menu a {
+        padding: 12px 20px;
+        border-bottom: 1px solid var(--nav-border-color);
+    }
+    
+
+    /* 展开逻辑 */
+    .nav-toggle:checked ~ .navbar-menu {
+        display: flex;
+    }
+}
