@@ -1,3 +1,4 @@
+// .. { "export": "output/index.html", "features": ["html"] }
 #html.script(
   src: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js",
   async: true
@@ -12,7 +13,7 @@
 #import "lib/ruby.typ": r
 
 #let name = "Zheng, Renpeng"
-#let works = "bib/works.yml"
+#let works = "res/works.yml"
 #set document(title: name)
 
 #show bibliography: none
@@ -20,13 +21,14 @@
 #show cite: it => my-cite(yaml(works), str(it.key))
 
 // 注入外部样式
-#html.link(rel: "stylesheet", href: "assets/style.css")
-#html.link(rel: "stylesheet", href: "assets/nav.css")
-#html.link(rel: "stylesheet", href: "assets/cite.css")
-#html.link(rel: "stylesheet", href: "assets/bib.css")
-#html.link(rel: "stylesheet", href: "assets/calendar.css")
-#html.script(src: "assets/cite.js")
-#html.script(src: "assets/nav.js")
+#html.link(rel: "stylesheet", href: "/assets/style.css")
+#html.link(rel: "stylesheet", href: "/assets/nav.css")
+#html.link(rel: "stylesheet", href: "/assets/cite.css")
+#html.link(rel: "stylesheet", href: "/assets/bib.css")
+#html.link(rel: "stylesheet", href: "/assets/calendar.css")
+#html.script(src: "/assets/cite.js")
+#html.script(src: "/assets/nav.js")
+// #html.link(rel: "icon", type: "image/svg+xml", href: "/assets/favicon.svg") // 改成用脚本注入了
 
 // main
 #html.div(class: "main-card", [
@@ -42,12 +44,10 @@
       #r[郑|仁|鹏][zhèng|rén|péng]
     ])
 		#html.div(class: "avatar-frame", [
-      #image("assets/avatar.png")
+      #image("res/avatar.png")
     ])
   ])
 
-  @key #my-cite(yaml(works), "hello")
-  
   #html.div([
     I am working on birational and complex algebraic geometry, mainly focusing on K-stability. I am also interested in geometric shapes encoded by combinatorics, especially toric and spherical varieties. 
   ])
@@ -61,16 +61,16 @@
     ]
   ])
   
-  #html.div(class: "calendar-container", [
-    #html.elem("iframe", 
-      attrs: (
-        src: "https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Europe%2FLondon&src=cmVucGVuZy56aGVuZy5hY0BnbWFpbC5jb20&color=%23039be5&showTitle=0&showPrint=0&showTabs=1&showCalendars=0&showNav=1&showDate=1&mode=AGENDA",
-        class: "google-calendar",
-        frameborder: "0",
-        scrolling: "no"
-      ), []
-    )
-  ])
+  // #html.div(class: "calendar-container", [
+  //   #html.elem("iframe", 
+  //     attrs: (
+  //       src: "https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Europe%2FLondon&src=cmVucGVuZy56aGVuZy5hY0BnbWFpbC5jb20&color=%23039be5&showTitle=0&showPrint=0&showTabs=1&showCalendars=0&showNav=1&showDate=1&mode=AGENDA",
+  //       class: "google-calendar",
+  //       frameborder: "0",
+  //       scrolling: "no"
+  //     ), []
+  //   )
+  // ])
 
   #html.div(id: "publications", [
     = Publications / Preprints

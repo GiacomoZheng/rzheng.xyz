@@ -1,3 +1,5 @@
+#let is-html = sys.inputs.at("target", default: "") == "html"
+
 // --- 辅助函数 1：格式化作者姓名 ---
 #let format-authors(authors) = {
   let raw-authors = if type(authors) == array { authors } else { (authors,) }
@@ -37,6 +39,17 @@
   "[" + label-text + year-short + "]"
 }
 
+// --- 链接包装函数
+#let universal-link(url, body) = {
+  // 检测是否正在导出为 HTML
+  if is-html {
+    html.a(href: url, target: "_blank", body)
+  } else {
+    // PDF 导出时使用标准链接（PDF 默认就会在新窗口打开链接，所以不需要 target）
+    link(url, body)
+  }
+}
+
 // --- 辅助函数 3：构造内容区 (处理期刊/arXiv等) ---
 #let create-bib-content(details) = {
   let author-str = format-authors(details.author)
@@ -53,11 +66,10 @@
       }
     }
     (#details.date)#if "page-range" in details { [, pp. #details.page-range] }.
-    
     #if "serial-number" in details and "arxiv" in details.serial-number {
       let eprint = details.serial-number.arxiv
       [ arXiv: ]
-      html.a(href: "https://arxiv.org/abs/" + eprint, target: "_blank", eprint)
+      universal-link("https://arxiv.org/abs/" + eprint, eprint)
       if "primary-class" in details { [ [#details.primary-class].] } else { [.] }
     }
   ]
@@ -65,15 +77,28 @@
 
 // --- 主渲染函数 ---
 #let render-bib(refs) = {
-  
+  // ! 重写为一个巨大的表
   for (key, details) in refs {
     // 内部调用逻辑
     let final-label = generate-label(key, details.author, details.date)
     let bib-content = create-bib-content(details)
+
+    if is-html {
+      html.div(class: "bib-entry", id: key, [
+        #html.span(class: "bib-label", final-label)#html.div(class: "bib-content", bib-content)
+      ])
+    } else {
+      // PDF 模式：使用 Grid 模拟你在 CSS 里写的 grid 布局
+      
+      grid(
+        columns: (90pt, 1fr), // 自动适应 label 长度
+        column-gutter: 15pt, // 之前错误的参数是 column-gap
+        row-gutter: 8pt,     // 条目内部的行间距（如果有换行）
+        strong(final-label),
+        text(hyphenate: true, bib-content)
+      )
+    }
     
-    html.div(class: "bib-entry", id: key, [
-      #html.span(class: "bib-label", final-label)#html.div(class: "bib-content", bib-content)
-    ])
   }
 }
 

@@ -101,7 +101,7 @@ a:hover {
 .intro-ruby {
     justify-content: center;
     font-size: 32px;
-    font-family: 'STKaiti', 'KaiTi', '楷体', '华文楷体', serif, --apple-system;
+    font-family: '华文楷体', 'STKaiti', 'KaiTi', '楷体', serif, --apple-system;
 }
 
 /* 右侧的头像容器靠右 */

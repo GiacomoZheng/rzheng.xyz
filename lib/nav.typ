@@ -1,12 +1,12 @@
 // 1. 定义导航项枚举
-#let HOME = (name: [Home], url: "#")
+#let HOME = (name: [Home], url: "/index.html#", type: "anchor")
 #let Nav = (
-  PUBS: (name: [Publications], url: "#publications"),
-  TEACHING: (name: [Teaching], url: "#teaching"),
-  CV: (name: [CV], url: "/cv.html"),
+  PUBS: (name: [Publications], url: "/index.html#publications", type: "anchor"),
+  TEAC: (name: [Teaching],     url: "/index.html#teaching",     type: "anchor"),
+  CV:   (name: [CV],           url: "/cv.html",                 type: "external"), 
 )
 
-#let nav-bar(name, current: HOME.name) = {
+#let nav-bar(name) = {
   html.nav(class: "navbar-container", [
     #html.div(class: "navbar-content", [
       
@@ -18,8 +18,14 @@
         
         // 2. Home 链接，现在用 div 包裹，并指向 index.html
         #html.div(class: "nav-home-wrapper", [
-          // #link("/index.html" + HOME.url, HOME.name)
-          #html.a(href: "/index.html" + HOME.url, class: "active", HOME.name)
+          // #link(HOME.url, HOME.name)
+          #html.elem("a", attrs: (
+              href: HOME.url,
+              "data-type": HOME.type, // 将具体类型传给 JS
+              target: "_self" ,
+              rel: "",
+              class: "nav-link"
+            ), HOME.name)
         ])
 
         // 3. 手机端开关 (Checkbox Hack)
@@ -27,11 +33,20 @@
         #html.elem("label", attrs: ("for": "nav-toggle", class: "nav-toggle-label"), [
           #html.span[] 
         ])
+
         
         // 4. 可折叠的菜单列表
         #html.div(class: "navbar-menu", [
-          #for (_, value) in Nav {
-            link("/index.html" + value.url, value.name)
+          #for (_, item) in Nav {
+            let t = item.at("type", default: "anchor");
+            let is-new-tab = (t == "external")
+            html.elem("a", attrs: (
+              href: item.url,
+              "data-type": t, // 将具体类型传给 JS
+              target: if is-new-tab { "_blank" } else { "_self" },
+              rel: if is-new-tab { "noopener noreferrer" } else { "" },
+              class: "nav-link"
+            ), item.name)
           }
         ])
       ])

@@ -1,0 +1,49 @@
+/* Overleaf 风格预览样式 */
+:root {
+    --bg-primary: #1b222c;    /* --neutral-90 */
+    --bg-secondary: #2f3a4c;  /* --neutral-80 */
+    --text-secondary: #e7e9ee; /* --neutral-20 */
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+body {
+    background: var(--bg-secondary); /* 外部灰框使用 secondary */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+embed {
+    /* 模拟 Overleaf 预览窗口的轻微内缩感 */
+    width: 100%; 
+    height: 100%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    display: block;
+    transition: filter 0.3s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background: var(--bg-primary); /* 深色模式下外框变深 */
+    }
+
+    embed {
+        /* 1. invert(0.9): 不完全反转，避免对比度过高
+           2. hue-rotate(180deg): 修正色相（如蓝色链接不偏色）
+           3. brightness(1.1): 提亮反转后的文字
+           4. contrast(0.9): 降低对比度，模拟 Overleaf 的柔和感
+        */
+        filter: invert(0.9) hue-rotate(180deg) brightness(1.1) contrast(0.9);
+        
+        /* 这里的背景色会影响加载瞬间的底色 */
+        background: var(--text-secondary); 
+    }
+}
