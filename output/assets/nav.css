@@ -18,28 +18,36 @@
 
 /* 1. 导航栏外层：固定吸顶 */
 .navbar-container {
+    position: fixed;
+    width: 100%;
+    height: var(--nav-height);
+
+    display: flex;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* 同时设置 left 和 right 为 0，拉伸可用空间 */
+    
+    z-index: 1000;
+
+    box-sizing: border-box;
+
     background-color: var(--nav-bg-glass);
     border-bottom: 1px solid var(--nav-border-color);
     backdrop-filter: blur(5px);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    height: 60px;
-    display: flex;
-    align-items: center;
+    
 }
 
-/* 2. 内部对齐 */
 .navbar-content {
-    max-width: 800px;
-    margin: 0 auto;
     width: 100%;
+    max-width: var(--max-width);
+    padding: 0 var(--padding-width);
+    margin: 0 auto;
+
     display: flex;
+    /* 2. 内部对齐 */
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
 }
 
 /* 3. 名字 Logo 样式 */
@@ -49,20 +57,20 @@
     color: var(--text-color)
 }
 
-/* 4.1 右侧组合区域 */
+/* 4. 右侧组合区域 */
 .navbar-right {
     display: flex;
     align-items: center;
     gap: 25px; /* 这里是 Home 与 菜单第一项 的间距 */
 }
-/* 4.2 桌面端：Home */
+/* 4.1 桌面端：Home */
 .nav-home-wrapper {
     display: flex;
     align-items: center;
     margin: 0;
     padding: 0;
 }
-/* 4.3 桌面端：菜单内部容器 */
+/* 4.2 桌面端：菜单内部容器 */
 .navbar-menu {
     display: flex;
     flex-direction: row;
@@ -71,20 +79,20 @@
 
 /* --- 电脑端与手机端通用的 Active 逻辑 --- */
 /* 1. 基础状态：链接颜色 */
-.navbar-container a {
+.navbar-link {
     color: var(--nav-link-color);
     transition: color 0.2s ease; /* 让颜色变化平滑一点 */
 }
 
 /* 2. 悬停与激活状态：颜色统一 */
-/* 当用户鼠标悬停时，或者被 JS 标记为 active 时，显示高亮色 */
-.navbar-container a:hover,
-.navbar-container a.active {
-    color: var(--nav-hover-color) !important;
+/* 当用户鼠标悬停时，显示高亮色 */
+.navbar-link:hover {
+    color: var(--nav-hover-color);
 }
 
-/* 3. 增强：只有 active 项加粗，视觉引导更强 */
-.navbar-container a.active {
+/* 3. 增强： active 项加粗，显示高亮色，视觉引导更强 */
+.navbar-link.active {
+    color: var(--nav-hover-color);
     font-weight: 700; 
 }
 
@@ -117,6 +125,9 @@
 
 /* 7.2 手机端响应式 */
 @media screen and (max-width: 768px) {
+    .navbar-content {
+        padding: var(--padding-width-mobile);
+    }
     .navbar-right { gap: 12px; }
     .nav-home-wrapper { order: 1; }
     .nav-toggle-label { 
@@ -144,18 +155,19 @@
         display: none; 
         flex-direction: column;
         position: absolute;
-        top: 60px;
+        top: var(--nav-height);
         left: 0;
+        right: 0;
         width: 100%;
         padding: 5px 0;
         box-shadow: 0 5px 10px rgba(0,0,0,0.2);
     }
 
     .navbar-menu a {
+        text-align: left;
         padding: 12px 20px;
         border-bottom: 1px solid var(--nav-border-color);
     }
-    
 
     /* 展开逻辑 */
     .nav-toggle:checked ~ .navbar-menu {

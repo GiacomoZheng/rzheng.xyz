@@ -1,6 +1,28 @@
 // .. {"export": "output/cv.pdf"}
 #import "@preview/gloat:0.1.0": *
 
+#let dark_mode = sys.inputs.at("theme", default: "light") == "dark"
+#let bg_color = if dark_mode { rgb("#1b222c") } else { white }
+#let text_color = if dark_mode { rgb("#e7e9ee") } else { black }
+#set page(
+  fill: bg_color,
+  foreground: if dark_mode {
+    place(top + center, dy: 10pt)[
+      #rect(
+        stroke: 0.8pt + red,    // 红色边框，粗细为 0.8pt
+        radius: 2pt,           // 圆角（如果不想要圆角设为 0pt）
+        inset: 4pt,            // 文字距离边框的间距
+        // fill: rgb("#1b222c").lighten(10%),
+        link("https://rzheng.xyz/cv.pdf")[
+          #set text(fill: text_color, size: 11pt, weight: "bold")
+          For Preview Only. Click to Get the Print Version (White Background)
+        ]
+      )
+    ]
+  } else { none }
+)
+#set text(fill: text_color)
+
 #show: cv.with(
   author: "Renpeng Zheng",
   // address: "Address here",

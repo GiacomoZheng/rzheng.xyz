@@ -3,20 +3,21 @@
     /* 默认：白天模式 (白底黑字) */
     :root {
       --bg-color: #ffffff;
-      --text-color: #000000;
+      --text-color: #333333;
     }
 
-    /* 深色模式 (黑底白字) */
-
-    :root {
-      --bg-color: #000000;
-      --text-color: #ffffff;
+    @media (prefers-color-scheme: dark) {
+      /* 深色模式 (黑底白字) */
+      :root {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+      }
     }
 
     .bg { fill: var(--bg-color); transition: fill 0.3s; }
     .letter { 
       fill: var(--text-color); 
-      font-family: '华文楷体', 'STKaiti', 'KaiTi', '楷体', serif, --apple-system; 
+      font-family: '楷体-简-粗体', 'STKaiti', 'KaiTi', '楷体', serif, --apple-system; 
       font-weight: bold;
       transition: fill 0.3s;
     }

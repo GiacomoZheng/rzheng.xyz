@@ -58,7 +58,7 @@
     #author-str. 
     “#details.title.” 
     #if "parent" in details {
-      [In: ] + html.em(details.parent.title) + [ ]
+      [In: ] + emph(details.parent.title) + [ ]
       if "volume" in details {
         let vol = str(details.volume)
         if "issue" in details { vol + "." + str(details.issue) } else { vol }
@@ -98,7 +98,6 @@
         text(hyphenate: true, bib-content)
       )
     }
-    
   }
 }
 
@@ -128,7 +127,7 @@
       label,
       // 内部 span 也必须用 html.elem 才能带上跳转 onclick
       html.elem("span", attrs: (
-        class: "cite-tooltip", 
+        class: "cite-tooltip  no-print", 
         onclick: "location.hash='" + key + "'; event.stopPropagation();"
       ), tooltip-inner)
     ).join())

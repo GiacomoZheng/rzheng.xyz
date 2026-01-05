@@ -1,4 +1,4 @@
-// 1. 定义导航项枚举
+// 定义导航项枚举
 #let HOME = (name: [Home], url: "/index.html#", type: "anchor")
 #let Nav = (
   PUBS: (name: [Publications], url: "/index.html#publications", type: "anchor"),
@@ -10,31 +10,25 @@
   html.nav(class: "navbar-container", [
     #html.div(class: "navbar-content", [
       
-      // 1. 左侧姓名 (纯文本)
+      // 左侧姓名 (纯文本)
       #html.div(class: "navbar-logo", [#strong(name)])
-      
       // 右侧组合容器
       #html.div(class: "navbar-right", [
-        
         // 2. Home 链接，现在用 div 包裹，并指向 index.html
         #html.div(class: "nav-home-wrapper", [
-          // #link(HOME.url, HOME.name)
           #html.elem("a", attrs: (
               href: HOME.url,
               "data-type": HOME.type, // 将具体类型传给 JS
               target: "_self" ,
               rel: "",
-              class: "nav-link"
+              class: "navbar-link"
             ), HOME.name)
         ])
 
         // 3. 手机端开关 (Checkbox Hack)
         #html.input(type: "checkbox", id: "nav-toggle", class: "nav-toggle")
-        #html.elem("label", attrs: ("for": "nav-toggle", class: "nav-toggle-label"), [
-          #html.span[] 
-        ])
+        #html.elem("label", attrs: ("for": "nav-toggle", class: "nav-toggle-label"), [#html.span[]])
 
-        
         // 4. 可折叠的菜单列表
         #html.div(class: "navbar-menu", [
           #for (_, item) in Nav {
@@ -45,7 +39,7 @@
               "data-type": t, // 将具体类型传给 JS
               target: if is-new-tab { "_blank" } else { "_self" },
               rel: if is-new-tab { "noopener noreferrer" } else { "" },
-              class: "nav-link"
+              class: "navbar-link"
             ), item.name)
           }
         ])

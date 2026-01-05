@@ -9,8 +9,7 @@
   // 遍历每一对，生成 HTML 结构
   for (b, a) in pairs {
     html.ruby[
-      #b
-      #html.rp[（]
+      #b#html.rp[（]
       #html.rt(a)
       #html.rp[）]
     ]

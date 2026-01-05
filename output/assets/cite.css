@@ -38,16 +38,16 @@
 /* 2. 浮窗容器通用重置 (不分设备) */
 .cite-tooltip {
     /* 强制重置样式干扰 */
-    white-space: normal !important;
+    white-space: normal;
     text-align: left;
-    line-height: 1.5 !important;
+    line-height: 1.5;
     font-size: 0.85rem;
     box-sizing: border-box;
     z-index: 9999;
 
     /* 视觉设计 */
-    background-color: var(--cite-bg) !important;
-    color: var(--cite-text) !important;
+    background-color: var(--cite-bg);
+    color: var(--cite-text);
     border: 1px solid var(--cite-border);
     box-shadow: 0 8px 24px var(--cite-shadow);
     padding: 12px 15px;
@@ -60,25 +60,25 @@
 
 /* 3. 内部元素：解决 Typst 换行与样式干扰 */
 .cite-tooltip * {
-    white-space: normal !important;
-    display: inline !important;
-    margin: 0 !important;
+    white-space: normal;
+    display: inline;
+    margin: 0;
 }
 
 .cite-tooltip b {
-    color: var(--cite-text) !important; /* 加粗名字颜色 */
-    font-weight: 700 !important;
-    margin-right: 4px !important;
+    color: var(--cite-text); /* 加粗名字颜色 */
+    font-weight: 700;
+    margin-right: 4px;
 }
 
 .cite-tooltip i {
-    font-style: italic !important;
-    color: var(--cite-title) !important;
+    font-style: italic;
+    color: var(--cite-title);
 }
 
 .cite-tooltip br {
-    display: block !important;
-    margin: 5px 0 !important;
+    display: block;
+    margin: 5px 0;
     content: "";
 }
 
@@ -123,22 +123,22 @@
 @media screen and (max-width: 768px) {
     .cite-tooltip {
         /* border-top: 1px solid var(--cite-border); */
-        display: block !important;
+        display: block;
         /* 必须是 block 以便 transform 生效 */
-        position: fixed !important;
+        position: fixed;
         /* 强制相对于窗口 */
-        left: 10px !important;
-        right: 10px !important;
-        bottom: 10px !important;
-        top: auto !important;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        top: auto;
         /* 彻底切断桌面端的干扰 */
-        width: calc(100% - 20px) !important;
+        width: calc(100% - 20px);
 
         /* 动画：从下方滑入 */
         transform: translateY(120%);
         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
 
-        pointer-events: auto !important;
+        pointer-events: auto;
         /* 必须可点，以便点击跳转 */
         cursor: pointer;
     }
@@ -152,13 +152,13 @@
 
     /* 引用文字点击后的视觉反馈 */
     .citation-link.active {
-        background-color: var(--cite-active-bg) !important;
+        background-color: var(--cite-active-bg);
         outline: 1px solid var(--cite-link);
         border-radius: 3px;
     }
 
     /* 移除移动端箭头 */
     .cite-tooltip::after {
-        display: none !important;
+        display: none;
     }
 }
