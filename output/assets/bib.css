@@ -16,7 +16,6 @@
 
 /* 目标唤醒样式 (点击引用跳转后的效果) */
 .bib-entry:target {
-    /* 使用变量适配黑夜模式 */
     background-color: var(--cite-active-bg);
     border-left: 4px solid var(--cite-link);
     padding-left: 12px;
@@ -51,17 +50,16 @@
     .bib-entry {
         /* 在手机端，如果 label 太长导致重叠，改为上下堆叠布局 */
         grid-template-columns: 1fr; 
-        row-gap: 4px;
+        row-gap: 0px;
         margin-bottom: 1.2rem;
     }
     
     .bib-label {
         grid-column: 1;
-        font-size: 0.9em;
-        opacity: 0.8;
     }
 
     .bib-content {
-        grid-column: 1; /* 内容也占满第一列 */
+        padding-left: 1rem;
+        grid-column: 1;
     }
 }

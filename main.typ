@@ -7,7 +7,7 @@
 #let math(it) = html.span[\\\( #it \\\)]
 #let equation(it) = html.div(class: "mathml-eq", [\\\[ #it \\\]])
 
-// ------------------------------------------------------------
+// -----------------------------------------
 #import "lib/render.typ": render-bib, my-cite
 #import "lib/nav.typ": nav-bar
 #import "lib/ruby.typ": r
@@ -20,15 +20,19 @@
 #bibliography(works, style: "apa")
 #show cite: it => my-cite(yaml(works), str(it.key))
 
-// 注入外部样式
-#html.link(rel: "stylesheet", href: "/assets/style.css")
-#html.link(rel: "stylesheet", href: "/assets/nav.css")
-#html.link(rel: "stylesheet", href: "/assets/cite.css")
-#html.link(rel: "stylesheet", href: "/assets/bib.css")
-#html.link(rel: "stylesheet", href: "/assets/calendar.css")
-#html.link(rel: "stylesheet", href: "/assets/print.css")
-#html.script(src: "/assets/active.js")
-#html.script(src: "/assets/nav.js")
+#let add_css(href) = html.link(rel: "stylesheet", href: href)
+#let add_js_mod(src) = html.script(src: src, type: "module")
+
+// 外部样式
+#add_css("/assets/style.css")
+#add_css("/assets/nav.css")
+#add_css("/assets/cite.css")
+#add_css("/assets/bib.css")
+#add_css("/assets/calendar.css")
+#add_css("/assets/print.css")
+#add_js_mod("/assets/cite.js")
+#add_js_mod("/assets/active.js")
+#add_js_mod("/assets/global-clicks.js")
 // #html.link(rel: "icon", type: "image/svg+xml", href: "/assets/favicon.svg") // 改成用脚本注入了
 
 // main
@@ -54,34 +58,28 @@
   My newest preprint is @KQSVCD, where we find a special ℚ-divisor of a polarised spherical variety.
 
   = Education
-  #block[
     - 2027: (Expected) PhD in Pure Mathematics (supervised by Hamid Abban and Johannes Hofscheier), University of Nottingham, UK
     - 2022: MSc in Pure Mathematics (supervised by Jonathan Lai), Imperial College London, UK
     - 2021: BSc in Mathematics and Applied Mathematics, the Chinese University of Hong Kong, Shenzhen, China
-  ]
   
   #html.div(id: "calendar-container", class: "no-print", [])
   #html.script(src: "/assets/calendar.js")
 
-  #html.div(id: "publications", [
-    = Publications / Preprints
-    #render-bib(yaml(works))
+  #html.div(id: "research", [
+    = Research
+    == Publications / Preprints
+      #render-bib(yaml(works))
+    // == Selected Talks
   ])
   
   #html.div(id: "teaching", [
     = Teaching and Marking
-    === University of Nottingham (Teaching Affiliate and Demonstrator)
-    #block[
-      - 2024-2025 \
-        #block[
-          - MATH1101 Core Mathematics (Full Year UK) - Demonstration
-          - MATH2102 Real Analysis (Spring UK) - Marking
-        ]
-      - 2025-2026 \
-        #block[
-          - MATH2102 Real Analysis (Autumn UK) - Marking
-        ]
-    ]
+    == University of Nottingham (Teaching Affiliate and Demonstrator)
+    === 2024-2025
+      - MATH1101 Core Mathematics (Full Year UK) - Demonstration
+      - MATH2102 Real Analysis (Spring UK) - Marking
+    === 2025-2026
+      - MATH2102 Real Analysis (Autumn UK) - Marking
   ])
 
 ])

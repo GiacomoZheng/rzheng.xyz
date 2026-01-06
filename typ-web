@@ -1,28 +1,34 @@
 #!/bin/bash
 
+CURRENT_DATE=$(date +%F)
+
 # --- 配置路径 ---
 RES_DIR="res"
 BIB_SRC="$RES_DIR/works.bib"
 BIB_OUT="$RES_DIR/works.yml"
 LIB_DIR="lib"
 OUT_DIR="output"
-ASSETS_DIR="output/assets"
+SITEMAP="$OUT_DIR/sitemap.xml"
+ASSETS_DIR="$OUT_DIR/assets"
 RELOAD_SIGNAL="$OUT_DIR/.reload"
 
 mkdir -p "$OUT_DIR"
 
 # --- 注入函数
 TO_INJECT=$(cat << EOF
-	
+
+		<link rel="canonical" href="https://rzheng.xyz/" />
 		<meta name="color-scheme" content="light dark">
 		<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 		<meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
 		<meta name="apple-mobile-web-app-title" content="R. Zheng">
-		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 		<link rel="apple-touch-icon" href="/assets/icon.png">
-	
+
+		<link rel="manifest" href="/manifest.json">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
 EOF
 )
 
@@ -108,10 +114,39 @@ get_project_state() {
     } | cksum
 }
 
-# --- 3. 执行逻辑 ---
+# --- Sitemap ---
+get_lastmod() {
+    local target_file="$1"
+    # 1. 由 Shell 负责检查文件是否存在
+    if [ ! -f "$target_file" ]; then
+        echo "Error: File [$target_file] not found." >&2
+        return 1
+    fi
+    # 2. 只有文件存在时，才调用 Perl 获取日期
+    # perl 的逻辑被简化到极致：只负责 stat 和格式化
+    perl -MPOSIX -e 'print strftime "%Y-%m-%d", localtime((stat $ARGV[0])[9])' "$target_file"
+}
+
+generate_sitemap() {
+	local date_index=$(get_lastmod "$OUT_DIR/index.html") || exit 1
+    # 直接在 output 根目录生成/更新
+    cat > $SITEMAP <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://rzheng.com/</loc>
+    <lastmod>${date_index}</lastmod>
+    <priority>1.0</priority>
+  </url>
+
+</urlset>
+EOF
+    echo "[INFO] Sitemap generated at ./output/sitemap.xml"
+}
+
+# --- 执行逻辑 ---
 case "$1" in
     update)
-        rm -f "$RELOAD_SIGNAL"
         update_bib
         [ -f "main.typ" ] && compile_main "update"
         [ -f "cv.typ" ] && compile_cv "update"
@@ -120,6 +155,7 @@ case "$1" in
                 compile_generic "$f" "update"
             fi
         done
+		generate_sitemap
         echo "[DONE] 干净的构建已完成"
         ;;
     

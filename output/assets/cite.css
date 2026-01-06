@@ -6,9 +6,7 @@
     --cite-shadow: rgba(0, 0, 0, 0.15);
     --cite-link: #2a6496;
     --cite-active-bg: #f0f0f0;
-    --cite-title: #555555;
 }
-
 @media (prefers-color-scheme: dark) {
     :root {
         /* 黑夜模式变量 */
@@ -18,10 +16,8 @@
         --cite-shadow: rgba(0, 0, 0, 0.4);
         --cite-link: #58a6ff;
         --cite-active-bg: #2d2d2d;
-        --cite-title: #aaaaaa;
     }
 }
-
 
 /* 1. 基础链接：作为定位锚点 */
 .citation-link {
@@ -56,30 +52,6 @@
     /* 默认隐藏状态 */
     visibility: hidden;
     opacity: 0;
-}
-
-/* 3. 内部元素：解决 Typst 换行与样式干扰 */
-.cite-tooltip * {
-    white-space: normal;
-    display: inline;
-    margin: 0;
-}
-
-.cite-tooltip b {
-    color: var(--cite-text); /* 加粗名字颜色 */
-    font-weight: 700;
-    margin-right: 4px;
-}
-
-.cite-tooltip i {
-    font-style: italic;
-    color: var(--cite-title);
-}
-
-.cite-tooltip br {
-    display: block;
-    margin: 5px 0;
-    content: "";
 }
 
 /* ============================================================
@@ -131,8 +103,7 @@
         right: 10px;
         bottom: 10px;
         top: auto;
-        /* 彻底切断桌面端的干扰 */
-        width: calc(100% - 20px);
+        width: auto;
 
         /* 动画：从下方滑入 */
         transform: translateY(120%);
@@ -143,15 +114,15 @@
         cursor: pointer;
     }
 
-    /* 手机端激活状态 (通过 JS 控制的 .active) */
-    .citation-link.active .cite-tooltip {
+    /* 手机端激活状态 (通过 JS 控制的 .is-peeking) */
+    .citation-link.is-peeking .cite-tooltip {
         visibility: visible;
         opacity: 1;
         transform: translateY(0);
     }
 
     /* 引用文字点击后的视觉反馈 */
-    .citation-link.active {
+    .citation-link.is-peeking {
         background-color: var(--cite-active-bg);
         outline: 1px solid var(--cite-link);
         border-radius: 3px;

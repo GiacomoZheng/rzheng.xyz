@@ -4,16 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Zheng, Renpeng</title>
-  	
+  
+		<link rel="canonical" href="https://rzheng.xyz/" />
 		<meta name="color-scheme" content="light dark">
 		<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 		<meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
 		<meta name="apple-mobile-web-app-title" content="R. Zheng">
-		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 		<link rel="apple-touch-icon" href="/assets/icon.png">
-	
+
+		<link rel="manifest" href="/manifest.json">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
 	</head>
   <body>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async>
@@ -24,18 +27,17 @@
     <link rel="stylesheet" href="/assets/bib.css">
     <link rel="stylesheet" href="/assets/calendar.css">
     <link rel="stylesheet" href="/assets/print.css">
-    <script src="/assets/active.js">
-    </script>
-    <script src="/assets/nav.js">
-    </script>
+    <script src="/assets/cite.js" type="module"></script>
+    <script src="/assets/active.js" type="module"></script>
+    <script src="/assets/global-clicks.js" type="module"></script>
     <div class="main-card">
       <nav class="navbar-container">
         <div class="navbar-content">
           <div class="navbar-logo"><strong>Zheng, Renpeng</strong></div>
-          <div class="navbar-right">
+          <div id="navbar-right">
             <div class="nav-home-wrapper"><a href="/index.html#" data-type="anchor" target="_self" rel class="navbar-link">Home</a></div>
-            <input type="checkbox" id="nav-toggle" class="nav-toggle"><label for="nav-toggle" class="nav-toggle-label"><span></span></label>
-            <div class="navbar-menu"><a href="/index.html#publications" data-type="anchor" target="_self" rel class="navbar-link">Publications</a><a href="/index.html#teaching" data-type="anchor" target="_self" rel class="navbar-link">Teaching</a><a href="/cv.html" data-type="external" target="_blank" rel="noopener noreferrer" class="navbar-link">CV</a></div>
+            <input type="checkbox" id="navbar-toggle" class="navbar-toggle"><label for="navbar-toggle" class="navbar-toggle-label"><span></span></label>
+            <div class="navbar-menu"><a href="/index.html#research" data-type="anchor" target="_self" rel class="navbar-link">Research</a><a href="/index.html#teaching" data-type="anchor" target="_self" rel class="navbar-link">Teaching</a><a href="/cv.html" data-type="external" target="_blank" rel="noopener noreferrer" class="navbar-link">CV</a></div>
           </div>
         </div>
       </nav>
@@ -50,20 +52,19 @@
         <div class="avatar-frame"><img src="assets/avatar.png"></div>
       </div>
       <p>I am working on birational and complex algebraic geometry, mainly focusing on K-stability. I am also interested in geometric shapes encoded by combinatorics, especially toric and spherical varieties.</p>
-      <p>My newest preprint is <a href="#KQSVCD" class="citation-link" onclick="handleCiteClick(event, this)">[Zheng25]<span class="cite-tooltip  no-print" onclick="location.hash='KQSVCD'; event.stopPropagation();"><b>Zheng</b> (2025)<br><i>K-stability of Q-Fano Spherical Varieties via Compatible Divisors</i></span></a>, where we find a special ℚ-divisor of a polarised spherical variety.</p>
+      <p>My newest preprint is <a href="#KQSVCD" class="citation-link">[Zheng25] <span class="cite-tooltip  no-print"><strong>Zheng</strong> (2025)<br><em>K-stability of Q-Fano Spherical Varieties via Compatible Divisors</em></span></a>, where we find a special ℚ-divisor of a polarised spherical variety.</p>
       <h2>Education</h2>
-      <div>
-        <ul>
-          <li>2027: (Expected) PhD in Pure Mathematics (supervised by Hamid Abban and Johannes Hofscheier), University of Nottingham, UK</li>
-          <li>2022: MSc in Pure Mathematics (supervised by Jonathan Lai), Imperial College London, UK</li>
-          <li>2021: BSc in Mathematics and Applied Mathematics, the Chinese University of Hong Kong, Shenzhen, China</li>
-        </ul>
-      </div>
+      <ul>
+        <li>2027: (Expected) PhD in Pure Mathematics (supervised by Hamid Abban and Johannes Hofscheier), University of Nottingham, UK</li>
+        <li>2022: MSc in Pure Mathematics (supervised by Jonathan Lai), Imperial College London, UK</li>
+        <li>2021: BSc in Mathematics and Applied Mathematics, the Chinese University of Hong Kong, Shenzhen, China</li>
+      </ul>
       <div id="calendar-container" class="no-print"></div>
       <script src="/assets/calendar.js">
       </script>
-      <div id="publications">
-        <h2>Publications / Preprints</h2>
+      <div id="research">
+        <h2>Research</h2>
+        <h3>Publications / Preprints</h3>
         <div class="bib-entry" id="KQSVCD">
           <p><span class="bib-label">[Zheng25]</span></p>
           <div class="bib-content">Renpeng Zheng. “K-stability of Q-Fano Spherical Varieties via Compatible Divisors.” (2025). arXiv: <a href="https://arxiv.org/abs/2601.00054" target="_blank">2601.00054</a>.</div>
@@ -71,28 +72,16 @@
       </div>
       <div id="teaching">
         <h2>Teaching and Marking</h2>
-        <h4>University of Nottingham (Teaching Affiliate and Demonstrator)</h4>
-        <div>
-          <ul>
-            <li>
-              <p>2024-2025<br></p>
-              <div>
-                <ul>
-                  <li>MATH1101 Core Mathematics (Full Year UK) - Demonstration</li>
-                  <li>MATH2102 Real Analysis (Spring UK) - Marking</li>
-                </ul>
-              </div>
-            </li>
-            <li>
-              <p>2025-2026<br></p>
-              <div>
-                <ul>
-                  <li>MATH2102 Real Analysis (Autumn UK) - Marking</li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </div>
+        <h3>University of Nottingham (Teaching Affiliate and Demonstrator)</h3>
+        <h4>2024-2025</h4>
+        <ul>
+          <li>MATH1101 Core Mathematics (Full Year UK) - Demonstration</li>
+          <li>MATH2102 Real Analysis (Spring UK) - Marking</li>
+        </ul>
+        <h4>2025-2026</h4>
+        <ul>
+          <li>MATH2102 Real Analysis (Autumn UK) - Marking</li>
+        </ul>
       </div>
     </div>
   </body>

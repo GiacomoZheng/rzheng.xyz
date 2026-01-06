@@ -38,13 +38,13 @@
 
 html {
     scroll-behavior: smooth; /* 设置平滑滚动，并防止导航栏遮挡标题 */
-    scroll-padding-top: var(--nav-height) + 20px; /* 大于导航栏高度 */
+    scroll-padding-top: calc(var(--nav-height) + 20px); /* 大于导航栏高度 */
 }
 
 header {
     padding-top: env(safe-area-inset-top);
     background-color: var(--bg-color); /* 你的 Header 背景色 */
-  }
+}
 
 /* 全局基础设置 */
 body {
@@ -125,6 +125,7 @@ ruby > rt {
     height: 160px;
     border-radius: 8px;
     overflow: hidden;
+    /* 禁止滚动 */
     border: 1px solid #eee;
     flex-shrink: 0; /* 防止在窄屏下被挤压 */
 }
@@ -143,7 +144,6 @@ a {
 }
 a:hover {
     color: var(--link-hover-color);
-    text-decoration: underline;
 }
 
 @media screen and (max-width: 768px) {

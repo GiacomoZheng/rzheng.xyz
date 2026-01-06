@@ -1,7 +1,7 @@
 // 定义导航项枚举
 #let HOME = (name: [Home], url: "/index.html#", type: "anchor")
 #let Nav = (
-  PUBS: (name: [Publications], url: "/index.html#publications", type: "anchor"),
+  PUBS: (name: [Research], url: "/index.html#research", type: "anchor"),
   TEAC: (name: [Teaching],     url: "/index.html#teaching",     type: "anchor"),
   CV:   (name: [CV],           url: "/cv.html",                 type: "external"), 
 )
@@ -13,7 +13,7 @@
       // 左侧姓名 (纯文本)
       #html.div(class: "navbar-logo", [#strong(name)])
       // 右侧组合容器
-      #html.div(class: "navbar-right", [
+      #html.div(id: "navbar-right", [
         // 2. Home 链接，现在用 div 包裹，并指向 index.html
         #html.div(class: "nav-home-wrapper", [
           #html.elem("a", attrs: (
@@ -26,8 +26,8 @@
         ])
 
         // 3. 手机端开关 (Checkbox Hack)
-        #html.input(type: "checkbox", id: "nav-toggle", class: "nav-toggle")
-        #html.elem("label", attrs: ("for": "nav-toggle", class: "nav-toggle-label"), [#html.span[]])
+        #html.input(type: "checkbox", id: "navbar-toggle", class: "navbar-toggle")
+        #html.elem("label", attrs: ("for": "navbar-toggle", class: "navbar-toggle-label"), [#html.span[]])
 
         // 4. 可折叠的菜单列表
         #html.div(class: "navbar-menu", [

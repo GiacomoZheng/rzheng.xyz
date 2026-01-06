@@ -58,7 +58,7 @@
 }
 
 /* 4. 右侧组合区域 */
-.navbar-right {
+#navbar-right {
     display: flex;
     align-items: center;
     gap: 25px; /* 这里是 Home 与 菜单第一项 的间距 */
@@ -81,7 +81,6 @@
 /* 1. 基础状态：链接颜色 */
 .navbar-link {
     color: var(--nav-link-color);
-    transition: color 0.2s ease; /* 让颜色变化平滑一点 */
 }
 
 /* 2. 悬停与激活状态：颜色统一 */
@@ -91,28 +90,14 @@
 }
 
 /* 3. 增强： active 项加粗，显示高亮色，视觉引导更强 */
-.navbar-link.active {
+.navbar-link.is-active {
     color: var(--nav-hover-color);
-    font-weight: 700; 
-}
-
-/* 5. 链接颜色统一控制（防止变色） */
-.nav-home-wrapper a, .nav-home-wrapper a:visited,
-.navbar-menu a, .navbar-menu a:visited {
-    text-decoration: none;
-    color: var(--nav-link-color);
-    font-weight: 500;
-    outline: none;
-    transition: color 0.2s;
-}
-
-.nav-home-wrapper a:hover, .navbar-menu a:hover {
-    color: var(--nav-hover-color);
+    font-weight: bolder; 
 }
 
 /* 6. 默认隐藏手机端开关 */
-.nav-toggle { display: none; }
-.nav-toggle-label { display: none; cursor: pointer; }
+.navbar-toggle { display: none; }
+.navbar-toggle-label { display: none; cursor: pointer; }
 
 /* 7. 电脑端响应式 */
 @media screen and (min-width: 769px) {
@@ -128,24 +113,24 @@
     .navbar-content {
         padding: var(--padding-width-mobile);
     }
-    .navbar-right { gap: 12px; }
+    #navbar-right { gap: 12px; }
     .nav-home-wrapper { order: 1; }
-    .nav-toggle-label { 
+    .navbar-toggle-label { 
         display: block; 
         order: 2; 
         padding: 5px;
     }
 
     /* 汉堡图标三条杠 */
-    .nav-toggle-label span, .nav-toggle-label span::before, .nav-toggle-label span::after {
+    .navbar-toggle-label span, .navbar-toggle-label span::before, .navbar-toggle-label span::after {
         display: block;
         background: var(--text-color);
         height: 2px;
         width: 22px;
         position: relative;
     }
-    .nav-toggle-label span::before { content: ""; top: 7px; }
-    .nav-toggle-label span::after { content: ""; bottom: 9px; }
+    .navbar-toggle-label span::before { content: ""; top: 7px; }
+    .navbar-toggle-label span::after { content: ""; bottom: 9px; }
 
     /* 下拉菜单 */
     .navbar-menu {
@@ -163,14 +148,14 @@
         box-shadow: 0 5px 10px rgba(0,0,0,0.2);
     }
 
-    .navbar-menu a {
+    .navbar-link {
         text-align: left;
         padding: 12px 20px;
         border-bottom: 1px solid var(--nav-border-color);
     }
 
     /* 展开逻辑 */
-    .nav-toggle:checked ~ .navbar-menu {
+    .navbar-toggle:checked ~ .navbar-menu {
         display: flex;
     }
 }
