@@ -53,17 +53,19 @@ update_bib() {
 # --- 2. 编译函数 ---
 
 # 专供 CV 编译 (PDF + 选择)
+CV_NAME="$OUT_DIR/renpeng-zheng.pdf"
+CV_DARK="$OUT_DIR/renpeng-zheng-dark.pdf"
 compile_cv() {
     echo "[TYPST] 独立编译 CV -> PDF"
-    typst compile "cv.typ" "$OUT_DIR/cv.pdf"
-    typst compile "cv.typ" "$OUT_DIR/cv-dark.pdf" --input theme=dark
+    typst compile "cv.typ" $CV_NAME
+    typst compile "cv.typ" $CV_DARK --input theme=dark
     
     cat > "$OUT_DIR/cv.html" <<EOF
 <!DOCTYPE html>
 <html><head>
 <script>
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const target = isDark ? "/cv-dark.pdf" : "/cv.pdf";
+    const target = isDark ? "/renpeng-zheng-dark.pdf" : "/renpeng-zheng.pdf";
     window.location.replace(target);
 </script>
 </head><body></body></html>
@@ -115,32 +117,43 @@ get_project_state() {
 }
 
 # --- Sitemap ---
-get_lastmod() {
-    local target_file="$1"
-    # 1. 由 Shell 负责检查文件是否存在
-    if [ ! -f "$target_file" ]; then
-        echo "Error: File [$target_file] not found." >&2
-        return 1
-    fi
-    # 2. 只有文件存在时，才调用 Perl 获取日期
-    # perl 的逻辑被简化到极致：只负责 stat 和格式化
-    perl -MPOSIX -e 'print strftime "%Y-%m-%d", localtime((stat $ARGV[0])[9])' "$target_file"
+# 获取 MD5 (Bash 读文件，Perl 算哈希)
+get_md5() {
+    [ -f "$1" ] && cat "$1" | perl -MDigest::MD5 -e 'print Digest::MD5->new->addfile(*STDIN)->hexdigest'
 }
 
-generate_sitemap() {
-	local date_index=$(get_lastmod "$OUT_DIR/index.html") || exit 1
-    # 直接在 output 根目录生成/更新
-    cat > $SITEMAP <<EOF
+# 自动更新 Sitemap 逻辑
+sync_sitemap() {
+    local index_html="$OUT_DIR/index.html"
+    local hash_cache=".index.md5"
+    
+    local current_hash=$(get_md5 "$index_html")
+    [ -z "$current_hash" ] && return 0 # 如果没读到内容直接退出
+
+    # 如果哈希变了，才动 sitemap.xml
+    if [ "$current_hash" != "$(cat "$hash_cache" 2>/dev/null)" ]; then
+        local today=$(date +%F)
+        
+        cat > $SITEMAP <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rzheng.xyz/</loc>
-    <lastmod>${date_index}</lastmod>
+    <lastmod>$today</lastmod>
     <priority>1.0</priority>
   </url>
 
 </urlset>
 EOF
+        echo "$current_hash" > "$hash_cache"
+        echo "[Sitemap] 内容已更新，日期设为 $today"
+    fi
+}
+
+generate_sitemap() {
+	local date_index=$(get_lastmod "$OUT_DIR/index.html") || exit 1
+    # 直接在 output 根目录生成/更新
+    
     echo "[INFO] Sitemap generated at ./output/sitemap.xml"
 }
 
@@ -155,12 +168,12 @@ case "$1" in
                 compile_generic "$f" "update"
             fi
         done
-		generate_sitemap
+		sync_sitemap
         echo "[DONE] 干净的构建已完成"
         ;;
     
     watch)
-        echo "[SERVER] http://localhost:3000 | CV: /cv.html"
+        echo "[SERVER] http://localhost:3000"
 		lsof -ti:3000 | xargs kill -9 2>/dev/null || true
 		python3 -m http.server 3000 --directory $OUT_DIR > /dev/null 2>&1 &
 		# python3 -c "import http.server, socketserver, os; os.chdir('$OUT_DIR'); class T(socketserver.ThreadingMixIn, socketserver.TCPServer): allow_reuse_address = True; H = type('H', (http.server.SimpleHTTPRequestHandler,), {'end_headers': lambda s: [s.send_header('Cache-Control', 'no-store'), super(http.server.SimpleHTTPRequestHandler, s).end_headers()], 'log_message': lambda *a: None}); T(('', 3000), H).serve_forever()" > /dev/null 2>&1 &
@@ -192,7 +205,7 @@ case "$1" in
 				else
 					# 2. 否则，哪行坏了修哪行 (按需编译)
 					update_bib
-					[ "cv.typ" -nt "$OUT_DIR/cv.pdf" ] && compile_cv
+					[ "cv.typ" -nt $CV_NAME ] && compile_cv
 					[ "main.typ" -nt "$OUT_DIR/index.html" ] && compile_main "watch"
 				fi
 
