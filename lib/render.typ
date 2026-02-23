@@ -1,6 +1,6 @@
 #let is-html = sys.inputs.at("target", default: "") == "html"
 
-// --- 辅助函数 1：格式化作者姓名 ---
+// --- 格式化作者姓名 ---
 #let format-other-authors(authors, exclude: "Renpeng Zheng") = {
   let raw-authors = if type(authors) == array { authors } else { (authors,) }
   let processed = raw-authors.map(a => {
@@ -23,7 +23,7 @@
   if a.contains(",") { a.split(",").at(0).trim() } else { a.split(" ").last() }
 }
 
-// --- 辅助函数 2：重构 Label 生成逻辑 ---
+// --- Label 生成 ---
 #let generate-label(key, authors, date) = {
   let raw-authors = if type(authors) == array { authors } else { (authors,) }
   let year-short = str(date).slice(2, 4)
@@ -78,33 +78,26 @@
 }
 
 #let render-pdf-bib(refs) = {
-  // ! 重写为一个巨大的表
-  for (key, details) in refs {
-    // 内部调用逻辑
+  table(
+    columns: (auto, 1fr),
+    column-gutter: 15pt,
+    row-gutter: 8pt,
+    align: top,
+    ..refs.pairs().map(((key, details)) => {
+    // 1. 计算逻辑
     let final-label = generate-label(key, details.author, details.date)
     let bib-content = create-pdf-bib-list(details)
 
-    if is-html {
-      html.div(class: "bib-entry", id: key, [
-        #html.span(class: "bib-label", final-label)#html.div(class: "bib-content", bib-content)
-      ])
-    } else {
-      grid(
-        columns: (90pt, 1fr),
-        // 自动适应 label 长度
-        column-gutter: 15pt,
-        // 之前错误的参数是 column-gap
-        row-gutter: 8pt,
-        // 条目内部的行间距（如果有换行）
-        strong(final-label), text(hyphenate: true, bib-content),
-      )
-    }
-  }
+    // 2. 返回渲染内容
+    (strong(final-label), text(hyphenate: true, bib-content))
+  }).flatten()
+  )
 }
 // ============================================
 
 // ============================================
 // --- WEB ---
+// ！ 目前typst编译的table还不能处理class，所以先继续使用html.elem
 #let create-web-bib-list(details) = {
   let other-authors-str = format-other-authors(details.author)
 
@@ -121,10 +114,10 @@
         [, #universal-link("https://doi.org/" + details.doi, [DOI])]
       }
       if "journal" in details {
-        [ in *#{details.journal}*]
+        [ in #strong(details.journal)]
       }
       if "bib" in details {
-        [, TODO]
+        [, BIB(TODO)]
       }
     }.
   ]

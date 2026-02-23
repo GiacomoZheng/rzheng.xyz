@@ -1,1 +1,1 @@
-magick -size 256x256 -background none -fill "#EE1C25" -font "STKaiti" -pointsize 200 -gravity center label:"郑" -bordercolor none output.png
+magick -size 180x180 -background none -fill "#EE1C25" -font "STKaiti" -pointsize 140 -gravity center label:"郑" -bordercolor none output.png

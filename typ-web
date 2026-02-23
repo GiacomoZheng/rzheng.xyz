@@ -19,16 +19,18 @@ TO_INJECT=$(cat << EOF
 
 		<link rel="canonical" href="https://rzheng.xyz/" />
 		<meta name="color-scheme" content="light dark">
-		<link rel="icon" type="image/png" href="/assets/icon.png">
 		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 		<meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
-		<meta name="apple-mobile-web-app-title" content="R. Zheng">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-		<link rel="apple-touch-icon" href="/assets/icon.png">
 
-		<link rel="manifest" href="/manifest.json">
+		<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="manifest" href="/site.webmanifest" />
+
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<meta name="apple-mobile-web-app-title" content="R. Zheng" />
 		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 EOF
 )
 
@@ -53,8 +55,9 @@ update_bib() {
 # --- 2. 编译函数 ---
 
 # 专供 CV 编译 (PDF + 选择)
-CV_NAME="$OUT_DIR/renpeng-zheng.pdf"
-CV_DARK="$OUT_DIR/renpeng-zheng-dark.pdf"
+mkdir -p $OUT_DIR/cv
+CV_NAME="$OUT_DIR/cv/renpeng-zheng.pdf"
+CV_DARK="$OUT_DIR/cv/renpeng-zheng-dark.pdf"
 compile_cv() {
     echo "[TYPST] 独立编译 CV -> PDF"
     typst compile "cv.typ" $CV_NAME
@@ -65,7 +68,7 @@ compile_cv() {
 <html><head>
 <script>
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const target = isDark ? "/renpeng-zheng-dark.pdf" : "/renpeng-zheng.pdf";
+    const target = isDark ? "/cv/renpeng-zheng-dark.pdf" : "/cv/renpeng-zheng.pdf";
     window.location.replace(target);
 </script>
 </head><body></body></html>
@@ -91,8 +94,7 @@ compile_generic() {
     typst compile "$f" "$OUT_DIR/$out" --input target=html --features html
     
     # 注入
-    inject_favicon "$OUT_DIR/$out"
-    inject_theme_color "$OUT_DIR/$out"   
+    inject "$OUT_DIR/$out"
     [ "$mode" == "watch" ] && inject_reload_js "$OUT_DIR/$out"
 }
 

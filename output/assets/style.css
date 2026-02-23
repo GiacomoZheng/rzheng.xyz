@@ -5,9 +5,17 @@
     --padding-width: 80px;
     --padding-width-mobile: 20px;
     --nav-height: 60px;
+    --nav-floating-gap: 0px;
+    --nav-radius: 0px;
 
     --en-font:  ui-monospace, 'Roboto Mono', sans-serif;
     --zh-font: '楷体-简-粗体', 'STKaiti', 'KaiTi', '楷体', serif, --apple-system;
+}
+@media screen and (max-width: 768px) {
+    :root {
+        --nav-floating-gap: calc(15px + env(safe-area-inset-bottom));
+        --nav-radius: 30px;
+    }
 }
 
 /* 默认：白天模式变量 */
@@ -17,7 +25,7 @@
     --border-color: #eaeaea;
     --link-color: #2a6496;
     --link-hover-color: #16426d;
-    --shadow-color: rgba(0, 0, 0, 0.05)
+    --main-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 /* 自动检测：黑夜模式变量 */
 @media (prefers-color-scheme: dark) {
@@ -27,7 +35,7 @@
         --border-color: #333333;
         --link-color: #79c0ff; 
         --link-hover-color: #a5d6ff;
-        --shadow-color: rgba(255, 255, 255, 0.05)
+        --main-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
     }
     /* MathJax 默认会继承文本颜色，但有时需要强制声明 */
     mjx-container {
@@ -60,7 +68,7 @@ html {
 
 header {
     padding-top: env(safe-area-inset-top);
-    background-color: var(--bg-color); /* 你的 Header 背景色 */
+    background-color: var(--bg-color);
 }
 
 /* 全局基础设置 */
@@ -79,18 +87,20 @@ body {
     max-width: var(--max-width);
     min-height: 100vh;
     padding: 20px var(--padding-width);
-    margin-top: var(--nav-height);
+    margin-top: calc(var(--nav-height) + 5px);
 
     color: var(--text-color);
 
-    box-sizing: border-box;
-    box-shadow: 0 0 15px var(--shadow-color);
+    box-shadow: var(--main-shadow);
 }
 @media screen and (max-width: 768px) {
     .main-card {
         /* 手机端的nav在下方，不需要顶部边距 */
         margin-top: 0px; 
-        padding: 30px var(--padding-width-mobile);
+        /* margin-bottom: calc(var(--nav-height) + var(--nav-floating-gap)); */
+        padding: calc(var(--nav-height) + var(--nav-floating-gap)) var(--padding-width-mobile);
+        padding-top: 20px;
+        /* padding-bottom: calc(var(--nav-height) + var(--nav-floating-gap)) !important; */
     }
 }
 
