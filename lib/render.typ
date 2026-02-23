@@ -1,16 +1,18 @@
 #let is-html = sys.inputs.at("target", default: "") == "html"
 
 // --- 辅助函数 1：格式化作者姓名 ---
-#let format-authors(authors) = {
+#let format-other-authors(authors, exclude: "Renpeng Zheng") = {
   let raw-authors = if type(authors) == array { authors } else { (authors,) }
   let processed = raw-authors.map(a => {
     if a.contains(",") {
       let parts = a.split(",").map(it => it.trim())
       parts.at(1) + " " + parts.at(0)
     } else { a }
-  })
+  }).filter(name => not name == exclude)
 
-  if processed.len() == 1 {
+  if processed.len() == 0 {
+    [] // 如果全被过滤了，返回空
+  } else if processed.len() == 1 {
     processed.at(0)
   } else {
     processed.slice(0, -1).join(", ") + ", and " + processed.last()
@@ -49,9 +51,10 @@
   }
 }
 
-// --- 辅助函数 3：构造内容区 (处理期刊/arXiv等) ---
-#let create-bib-content(details) = {
-  let author-str = format-authors(details.author)
+// ============================================
+// --- PDF ---
+#let create-pdf-bib-list(details) = {
+  let author-str = format-other-authors(details.author, exclude: "")
 
   [
     #author-str.
@@ -74,13 +77,12 @@
   ]
 }
 
-// --- 主渲染函数 ---
-#let render-bib(refs) = {
+#let render-pdf-bib(refs) = {
   // ! 重写为一个巨大的表
   for (key, details) in refs {
     // 内部调用逻辑
     let final-label = generate-label(key, details.author, details.date)
-    let bib-content = create-bib-content(details)
+    let bib-content = create-pdf-bib-list(details)
 
     if is-html {
       html.div(class: "bib-entry", id: key, [
@@ -99,6 +101,51 @@
     }
   }
 }
+// ============================================
+
+// ============================================
+// --- WEB ---
+#let create-web-bib-list(details) = {
+  let other-authors-str = format-other-authors(details.author)
+
+  [
+    #{details.title}.
+    (#details.date)#{
+      if not other-authors-str == [] {
+        [, with #other-authors-str]
+      }
+      if "arxiv" in details {
+        [, #universal-link("https://arxiv.org/abs/" + details.arxiv, [arXiv])]
+      }
+      if "doi" in details {
+        [, #universal-link("https://doi.org/" + details.doi, [DOI])]
+      }
+      if "journal" in details {
+        [ in *#{details.journal}*]
+      }
+      if "bib" in details {
+        [, TODO]
+      }
+    }.
+  ]
+}
+
+#let render-web-bib(refs) = {
+  // ! 重写为一个巨大的表
+  for (key, details) in refs {
+    // 内部调用逻辑
+    let final-label = generate-label(key, details.author, details.date)
+    let bib-content = create-web-bib-list(details)
+
+    html.div(class: "bib-entry", id: key, [
+      #html.span(class: "bib-label", final-label)#html.div(class: "bib-content", bib-content)
+    ])
+  }
+}
+// ============================================
+
+
+
 
 #let my-cite(refs, key) = {
   if key in refs {

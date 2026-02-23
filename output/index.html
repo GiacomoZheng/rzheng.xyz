@@ -7,7 +7,7 @@
   
 		<link rel="canonical" href="https://rzheng.xyz/" />
 		<meta name="color-scheme" content="light dark">
-		<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+		<link rel="icon" type="image/png" href="/assets/icon.png">
 		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 		<meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
 		<meta name="apple-mobile-web-app-title" content="R. Zheng">
@@ -29,15 +29,15 @@
     <link rel="stylesheet" href="/assets/print.css">
     <script src="/assets/cite.js" type="module"></script>
     <script src="/assets/active.js" type="module"></script>
-    <script src="/assets/global-clicks.js" type="module"></script>
     <div class="main-card">
-      <nav class="navbar-container">
-        <div class="navbar-content">
-          <div class="navbar-logo"><strong>Zheng, Renpeng</strong></div>
-          <div id="navbar-right">
-            <div class="nav-home-wrapper"><a href="/index.html#" data-type="anchor" target="_self" rel class="navbar-link">Home</a></div>
-            <input type="checkbox" id="navbar-toggle" class="navbar-toggle"><label for="navbar-toggle" class="navbar-toggle-label"><span></span></label>
-            <div class="navbar-menu"><a href="/index.html#research" data-type="anchor" target="_self" rel class="navbar-link">Research</a><a href="/index.html#teaching" data-type="anchor" target="_self" rel class="navbar-link">Teaching</a><a href="/cv.html" data-type="external" target="_blank" rel="noopener noreferrer" class="navbar-link">CV</a></div>
+      <nav class="nav-container">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle hidden"><label for="nav-toggle" class="menu-overlay"><span></span></label>
+        <div class="nav-content glass">
+          <div class="nav-logo"><strong>Zheng, Renpeng</strong></div>
+          <div id="nav-right">
+            <div class="nav-home-wrapper"><a href="/index.html#" data-type="anchor" target="_self" rel class="nav-link">Home</a></div>
+            <label for="nav-toggle" class="nav-toggle-label"><span class="menu-icon"><span class="line"></span><span class="line"></span><span class="bottom-lines"><span class="line" id="bottom-l-line"></span><span class="line" id="bottom-r-line"></span></span></span></label>
+            <div class="nav-menu"><a href="/index.html#research" data-type="anchor" target="_self" rel class="nav-link">Research</a><a href="/index.html#teaching" data-type="anchor" target="_self" rel class="nav-link">Teaching</a><a href="/cv.html" data-type="external" target="_blank" rel="noopener noreferrer" class="nav-link">CV</a></div>
           </div>
         </div>
       </nav>
@@ -67,7 +67,7 @@
         <h3>Publications / Preprints</h3>
         <div class="bib-entry" id="KQSVCD">
           <p><span class="bib-label">[Zheng25]</span></p>
-          <div class="bib-content">Renpeng Zheng. “K-stability of Q-Fano Spherical Varieties via Compatible Divisors.” (2025). arXiv: <a href="https://arxiv.org/abs/2601.00054" target="_blank">2601.00054</a>.</div>
+          <div class="bib-content">K-stability of Q-Fano Spherical Varieties via Compatible Divisors. (2025), <a href="https://arxiv.org/abs/2601.00054" target="_blank">arXiv</a>.</div>
         </div>
       </div>
       <div id="teaching">

@@ -8,7 +8,7 @@
 #let equation(it) = html.div(class: "mathml-eq", [\\\[ #it \\\]])
 
 // -----------------------------------------
-#import "lib/render.typ": render-bib, my-cite
+#import "lib/render.typ": render-web-bib, my-cite
 #import "lib/nav.typ": nav-bar
 #import "lib/ruby.typ": r
 
@@ -32,8 +32,6 @@
 #add_css("/assets/print.css")
 #add_js_mod("/assets/cite.js")
 #add_js_mod("/assets/active.js")
-#add_js_mod("/assets/global-clicks.js")
-// #html.link(rel: "icon", type: "image/svg+xml", href: "/assets/favicon.svg") // 改成用脚本注入了
 
 // main
 #html.div(class: "main-card", [
@@ -68,8 +66,9 @@
   #html.div(id: "research", [
     = Research
     == Publications / Preprints
-      #render-bib(yaml(works))
+      #render-web-bib(yaml(works))
     // == Selected Talks
+
   ])
   
   #html.div(id: "teaching", [

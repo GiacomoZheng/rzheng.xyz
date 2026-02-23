@@ -27,7 +27,7 @@
   author: "Renpeng Zheng",
   // address: "Address here",
   contacts: (
-    [#link("mailto:renpeng.zheng@nottingham.ac.uk")[renpeng.zheng\@nottingham.ac.uk]],
+    link("mailto:renpeng.zheng@nottingham.ac.uk")[renpeng.zheng\@nottingham.ac.uk],
     [ORCID iD: #link("https://orcid.org/0009-0005-0309-8458")[0009-0005-0309-8458]],
   ),
   updated: datetime.today(),
@@ -68,9 +68,9 @@
 // #exp()
 
 = Publications / Preprints
-#import "lib/render.typ": render-bib
-#let works = "res/works.yml"
+#import "lib/render.typ": render-pdf-bib
+#let works = "res/ref.yml"
 #show bibliography: none
 #bibliography(works, style: "apa")
 #show cite: it => my-cite(yaml(works), str(it.key))
-#render-bib(yaml(works))
+#render-pdf-bib(yaml(works))

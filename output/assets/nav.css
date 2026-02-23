@@ -1,23 +1,48 @@
 :root {
-    --nav-bg: rgba(255, 255, 255, 1);
-    --nav-bg-glass: rgba(255, 255, 255, 0.8);
+    --nav-floating-gap: 0px;
+    --nav-radius: 0px;
+}
+
+@media screen and (max-width: 768px) {
+    :root {
+        --nav-floating-gap: 15px;
+        --nav-radius: 30px;
+    }
+}
+
+:root {
+    --nav-glass-bg: rgba(255, 255, 255, 0.65);
+    --nav-glass-border: 1px solid rgba(0, 0, 0, 0.1);
+    --nav-shadow: 0 4px 8px 0 rgba(31, 31, 31, 0.5);
     --nav-link-color: #444444;
-    --nav-border-color: #eaeaea;
+    --nav-border: 1px solid #eaeaea;
     --nav-hover-color: #007bff;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --nav-bg: rgba(26, 26, 26, 1);
-        --nav-bg-glass: rgba(26, 26, 26, 0.8);
+        --nav-glass-bg: rgba(26, 26, 26, 0.4);
+        --nav-glass-border: 1px solid rgba(255, 255, 255, 0.15);
+        --nav-shadow: 0 4px 40px 0 rgba(0, 0, 0, 0.9);
         --nav-link-color: #bbbbbb;
-        --nav-border-color: #333333;
+        --nav-border: 1px solid #333333;
         --nav-hover-color: #4dabff;
     }
 }
 
+.glass {
+    backdrop-filter: blur(5px) saturate(180%);
+    background: var(--nav-glass-bg);
+    /* 3. 边框：这是“玻璃感”的精髓，模拟玻璃的厚度边缘 */
+    border: var(--nav-glass-border);
+    /* 4. 阴影：让容器产生悬浮在壁纸上的立体感 */
+    box-shadow: var(--nav-shadow);
+    /* 5. 性能优化：避免动画时闪烁 */
+    backface-visibility: hidden;
+}
+
 /* 1. 导航栏外层：固定吸顶 */
-.navbar-container {
+.nav-container {
     position: fixed;
     width: 100%;
     height: var(--nav-height);
@@ -26,136 +51,219 @@
     top: 0;
     left: 0;
     right: 0;
-    /* 同时设置 left 和 right 为 0，拉伸可用空间 */
-    
+
     z-index: 1000;
-
-    box-sizing: border-box;
-
-    background-color: var(--nav-bg-glass);
-    border-bottom: 1px solid var(--nav-border-color);
-    backdrop-filter: blur(5px);
-    
 }
 
-.navbar-content {
+@media screen and (max-width: 768px) {
+    .nav-container {
+        /* 浮动式设计：不占满全屏宽度，两边留白 */
+        left: var(--nav-floating-gap);
+        right: var(--nav-floating-gap);
+        width: calc(100% - 30px);
+        top: auto;
+        bottom: calc(var(--nav-floating-gap) + env(safe-area-inset-bottom));
+        /* 悬离底部 */
+
+        /* 此时高度不需要包含安全区域，因为我们已经悬浮在它上方了 */
+        padding-bottom: 0;
+    }
+}
+
+.nav-content {
     width: 100%;
     max-width: var(--max-width);
     padding: 0 var(--padding-width);
     margin: 0 auto;
 
     display: flex;
-    /* 2. 内部对齐 */
     justify-content: space-between;
     align-items: center;
 }
 
-/* 3. 名字 Logo 样式 */
-.navbar-logo {
+@media screen and (max-width: 768px) {
+    .nav-content {
+        padding: var(--padding-width-mobile);
+        border-radius: var(--nav-radius);
+    }
+}
+
+.nav-logo {
     font-size: 1.2rem;
     font-weight: bold;
     color: var(--text-color)
 }
 
 /* 4. 右侧组合区域 */
-#navbar-right {
+#nav-right {
     display: flex;
     align-items: center;
-    gap: 25px; /* 这里是 Home 与 菜单第一项 的间距 */
+    gap: 25px;
+    /* Home 与 菜单第一项 的间距 */
 }
-/* 4.1 桌面端：Home */
+
+@media screen and (max-width: 768px) {
+    #nav-right {
+        gap: 12px;
+    }
+}
+
+/* 返回Home */
 .nav-home-wrapper {
     display: flex;
     align-items: center;
     margin: 0;
     padding: 0;
+    border-bottom: var(--nav-border);
 }
-/* 4.2 桌面端：菜单内部容器 */
-.navbar-menu {
-    display: flex;
-    flex-direction: row;
-    gap: 25px; /* 这里是 菜单内部各项目 的间距 */
-}
-
-/* --- 电脑端与手机端通用的 Active 逻辑 --- */
-/* 1. 基础状态：链接颜色 */
-.navbar-link {
-    color: var(--nav-link-color);
-}
-
-/* 2. 悬停与激活状态：颜色统一 */
-/* 当用户鼠标悬停时，显示高亮色 */
-.navbar-link:hover {
-    color: var(--nav-hover-color);
-}
-
-/* 3. 增强： active 项加粗，显示高亮色，视觉引导更强 */
-.navbar-link.is-active {
-    color: var(--nav-hover-color);
-    font-weight: bolder; 
-}
-
-/* 6. 默认隐藏手机端开关 */
-.navbar-toggle { display: none; }
-.navbar-toggle-label { display: none; cursor: pointer; }
-
-/* 7. 电脑端响应式 */
-@media screen and (min-width: 769px) {
-    /* 确保 navbar-menu 没有任何外边距或内边距干扰间距计算 */
-    .navbar-menu {
-        margin: 0;
-        padding: 0;
-    }
-}
-
-/* 7.2 手机端响应式 */
+.nav-toggle-label {display: none;}
 @media screen and (max-width: 768px) {
-    .navbar-content {
-        padding: var(--padding-width-mobile);
-    }
-    #navbar-right { gap: 12px; }
-    .nav-home-wrapper { order: 1; }
-    .navbar-toggle-label { 
-        display: block; 
-        order: 2; 
-        padding: 5px;
+    .nav-toggle-label {
+        /* 固定尺寸，不允许被内容撑开 */
+        min-width: 44px; 
+        height: 44px;
+        cursor: pointer;
+        
+        /* 2. 内部线条的参考坐标系 */
+        position: relative; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     /* 汉堡图标三条杠 */
-    .navbar-toggle-label span, .navbar-toggle-label span::before, .navbar-toggle-label span::after {
-        display: block;
-        background: var(--text-color);
-        height: 2px;
-        width: 22px;
-        position: relative;
-    }
-    .navbar-toggle-label span::before { content: ""; top: 7px; }
-    .navbar-toggle-label span::after { content: ""; bottom: 9px; }
-
-    /* 下拉菜单 */
-    .navbar-menu {
-        background-color: var(--nav-bg);
-        border-bottom: 1px solid var(--nav-border-color);
-        gap: 0;
-        display: none; 
+    .menu-icon {
+        display: flex;
         flex-direction: column;
+        align-items: flex-end;
+        gap: 5px;
+        width: 24px;
+        
+    }
+    .menu-icon .line {
+        width: 100%;
+        height: 2px;
+        background: var(--text-color);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+    }
+    .menu-icon .bottom-lines {
+        position: relative;
+        width: 24px;
+        height: 2px;
+    }
+    .menu-icon .bottom-lines .line {
+        position: absolute; /* 绝对定位，它们会默认重叠在左上角 */
+        top: 0; left: 0;
+    }
+    
+    .nav-toggle:checked ~ .nav-content .menu-icon :nth-child(1) {
+        transform: translate(0px, 5px) scaleX(0);
+    }
+    .nav-toggle:checked ~ .nav-content .menu-icon :nth-child(2) {
+        transform: scaleX(0);
+    }
+    .nav-toggle:checked ~ .nav-content .menu-icon #bottom-l-line {
+        transform: rotate(-45deg) translate(0px, -5px) scaleX(0.5);
+    }
+    .nav-toggle:checked ~ .nav-content .menu-icon #bottom-r-line {
+        transform: rotate( 45deg) translate(0px, -5px) scaleX(0.5);
+    }
+
+    
+}
+
+/* 菜单内部容器 */
+.nav-menu {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    /* 这里是 菜单内部各项目 的间距 */
+    margin: 0;
+    padding: 0;
+}
+
+@media screen and (max-width: 768px) {
+
+    /* 上拉菜单 */
+    .nav-menu {
+        /* 初始隐藏 */
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        /* 增加平滑过渡，消除生硬感 */
+        transform: translateY(15px);
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+
+        flex-direction: column;
+        gap: 0;
+
         position: absolute;
-        top: var(--nav-height);
+        top: auto;
+        bottom: var(--nav-height);
         left: 0;
         right: 0;
         width: 100%;
-        padding: 5px 0;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+
+        background-color: var(--bg-color);
+        border-radius: var(--nav-radius);
+        border: var(--nav-glass-border);
     }
 
-    .navbar-link {
+    /* 展开 */
+    .nav-toggle:checked ~ .nav-content .nav-menu {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+        transition:
+            opacity 0.3s ease-out,
+            transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* 增加一点点回弹效果 */
+    }
+
+    .menu-overlay {
+        position: fixed;
+        visibility: hidden;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100dvh;
+        /* background: rgba(255, 0, 0); */
+        z-index: -1;
+        transition: opacity 0.3s ease;
+        
+    }
+
+    .nav-toggle:checked ~ .menu-overlay {
+        visibility: visible;
+    }
+}
+
+/* 基础状态链接颜色 */
+.nav-link {
+    color: var(--nav-link-color);
+    border-bottom: var(--nav-border);
+}
+
+/* 当用户鼠标悬停时，显示高亮色 */
+.nav-link:hover {
+    color: var(--nav-hover-color);
+}
+
+/* 增强： active 项加粗，显示高亮色，视觉引导更强 */
+.nav-link.is-active {
+    color: var(--nav-hover-color);
+    font-weight: bolder;
+}
+
+@media screen and (max-width: 768px) {
+    .nav-link {
         text-align: left;
         padding: 12px 20px;
-        border-bottom: 1px solid var(--nav-border-color);
+        border-bottom: var(--nav-glass-border);
     }
 
-    /* 展开逻辑 */
-    .navbar-toggle:checked ~ .navbar-menu {
-        display: flex;
+    .nav-link:last-child {
+        border-bottom: 0px;
     }
 }

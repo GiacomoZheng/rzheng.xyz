@@ -2,7 +2,7 @@ let currentActive = null;
 
 const map = {};
 function init() {
-	document.querySelectorAll('.navbar-link').forEach(a => {
+	document.querySelectorAll('.nav-link').forEach(a => {
 		map[a.href] = a;
 	});
     document.querySelectorAll('.citation-link').forEach(a => {

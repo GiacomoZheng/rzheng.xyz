@@ -19,7 +19,6 @@
     --link-hover-color: #16426d;
     --shadow-color: rgba(0, 0, 0, 0.05)
 }
-
 /* 自动检测：黑夜模式变量 */
 @media (prefers-color-scheme: dark) {
     :root {
@@ -36,9 +35,27 @@
     }
 }
 
+.hidden {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0; height: 0;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    /* 消除ios闪烁 */
+    -webkit-tap-highlight-color: transparent;
+}
+
 html {
     scroll-behavior: smooth; /* 设置平滑滚动，并防止导航栏遮挡标题 */
     scroll-padding-top: calc(var(--nav-height) + 20px); /* 大于导航栏高度 */
+}
+@media screen and (max-width: 768px) {
+    html {
+        scroll-padding-top: 20px; /* 大于导航栏高度 */
+    }
 }
 
 header {
@@ -63,12 +80,18 @@ body {
     min-height: 100vh;
     padding: 20px var(--padding-width);
     margin-top: var(--nav-height);
-    /* 修正：因为导航栏固定了，需要给主体内容加内边距，防止被遮挡 */
 
     color: var(--text-color);
 
     box-sizing: border-box;
     box-shadow: 0 0 15px var(--shadow-color);
+}
+@media screen and (max-width: 768px) {
+    .main-card {
+        /* 手机端的nav在下方，不需要顶部边距 */
+        margin-top: 0px; 
+        padding: 30px var(--padding-width-mobile);
+    }
 }
 
 .intro-row {
@@ -77,6 +100,13 @@ body {
     justify-content: space-between;
     align-items: center; /* 建议居中对齐，三等分时视觉更平衡 */
     margin-bottom: 3em;
+}
+@media screen and (max-width: 768px) {
+    .intro-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: left;
+    }
 }
 
 /* 重点：让简介内部的三行纵向排列 */
@@ -144,16 +174,4 @@ a {
 }
 a:hover {
     color: var(--link-hover-color);
-}
-
-@media screen and (max-width: 768px) {
-    .intro-row {
-        flex-direction: column;
-        align-items: center;
-        text-align: left;
-    }
-
-    .main-card {
-        padding: 30px var(--padding-width-mobile);
-    }
 }
