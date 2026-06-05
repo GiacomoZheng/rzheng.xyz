@@ -6,9 +6,9 @@
     <title>Zheng, Renpeng</title>
   
 		<link rel="canonical" href="https://rzheng.xyz/" />
-		<meta name="color-scheme" content="light dark">
-		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-		<meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
+		<meta name="color-scheme" content="light dark" />
+		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+		<meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
 
 		<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -17,50 +17,58 @@
 
 		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 		<meta name="apple-mobile-web-app-title" content="R. Zheng" />
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name='description' content='I am a PhD student at Nottingham, working on algebraic geometry' />
+
+		<link rel="stylesheet" href="/assets/style.css">
+		<link rel="stylesheet" href="/assets/aclinks.css">
+		<link rel="stylesheet" href="/assets/maincard.css">
+		<link rel="stylesheet" href="/assets/nav.css">
+		<link rel="stylesheet" href="/assets/cite.css">
+		<link rel="stylesheet" href="/assets/bib.css">
+		<link rel="stylesheet" href="/assets/calendar.css">
+		<link rel="stylesheet" href="/assets/print.css">
+		<script src="/assets/cite.js" type="module"></script>
+		<script src="/assets/active.js" type="module"></script>
+		<script src="/assets/nav.js" type="module"></script>
 	</head>
   <body>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async>
-    </script>
-    <link rel="stylesheet" href="/assets/style.css">
-    <link rel="stylesheet" href="/assets/nav.css">
-    <link rel="stylesheet" href="/assets/cite.css">
-    <link rel="stylesheet" href="/assets/bib.css">
-    <link rel="stylesheet" href="/assets/calendar.css">
-    <link rel="stylesheet" href="/assets/print.css">
-    <script src="/assets/cite.js" type="module"></script>
-    <script src="/assets/active.js" type="module"></script>
-    <div class="main-card">
-      <nav class="nav-container">
-        <input type="checkbox" id="nav-toggle" class="nav-toggle hidden"><label for="nav-toggle" class="menu-overlay"><span></span></label>
-        <div class="nav-content glass">
-          <div class="nav-logo"><strong>Zheng, Renpeng</strong></div>
-          <div id="nav-right">
-            <div class="nav-home-wrapper"><a href="/index.html#" data-type="anchor" target="_self" rel class="nav-link">Home</a></div>
-            <label for="nav-toggle" class="nav-toggle-label"><span class="menu-icon"><span class="line"></span><span class="line"></span><span class="bottom-lines"><span class="line" id="bottom-l-line"></span><span class="line" id="bottom-r-line"></span></span></span></label>
-            <div class="nav-menu"><a href="/index.html#research" data-type="anchor" target="_self" rel class="nav-link">Research</a><a href="/index.html#teaching" data-type="anchor" target="_self" rel class="nav-link">Teaching</a><a href="/cv.html" data-type="external" target="_blank" rel="noopener noreferrer" class="nav-link">CV</a></div>
-          </div>
+    <input type="checkbox" id="menu-toggle" class="overlay-toggle hidden"><label for="menu-toggle" id="menu-overlay" class="overlay"><span></span></label>
+    <nav class="nav-container">
+      <div class="nav-content">
+        <div class="nav-logo"><strong>Zheng, Renpeng</strong></div>
+        <div id="nav-right">
+          <div class="nav-home-wrapper"><a href="/index.html#" data-type="anchor" target="_self" rel class="nav-link">Home</a></div>
+          <label for="menu-toggle" class="menu-toggle-label"><span class="menu-icon"><span class="line"></span><span class="line"></span><span class="bottom-lines"><span class="line" id="bottom-l-line"></span><span class="line" id="bottom-r-line"></span></span></span></label>
+          <div class="nav-menu"><a href="/index.html#research" data-type="anchor" target="_self" rel class="nav-link">Research</a><a href="/index.html#teaching" data-type="anchor" target="_self" rel class="nav-link">Teaching</a></div>
         </div>
-      </nav>
+      </div>
+    </nav>
+    <input type="checkbox" id="tooltip-toggle" class="overlay-toggle hidden"><label for="tooltip-toggle" id="tooltip-overlay" class="overlay"><span></span></label>
+    <div class="main-card">
       <div class="intro-row">
         <div class="intro-words">
           <p>PhD Student</p>
           <p>University of Nottingham</p>
           <p>Renpeng.Zheng &lt;at> Nottingham.ac.uk</p>
           <p>Supervised by Hamid Abban and Johannes Hofscheier</p>
+          <div class="academic-links"><a href="https://arxiv.org/a/zheng_r_3.html"><div class="ai my-arxiv-square"><img id="arxiv-logo" class="square" src="assets/arxiv.svg"></div></a><a href="https://cv.hal.science/zheng-renpeng"><i class="ai ai-hal-square"><span id="hal-bg" class="square"></span></i></a><a href="https://orcid.org/0009-0005-0309-8458"><i class="ai ai-orcid-square"></i></a><a href="https://zbmath.org/authors/zheng.renpeng"><div class="ai my-zbmath-square"><img id="zbmath-logo" class="square" src="assets/zbmath.svg"></div></a></div>
         </div>
         <div class="intro-ruby"><ruby>郑<rp>（</rp> <rt>zhèng</rt> <rp>）</rp></ruby><ruby>仁<rp>（</rp> <rt>rén</rt> <rp>）</rp></ruby><ruby>鹏<rp>（</rp> <rt>péng</rt> <rp>）</rp></ruby></div>
         <div class="avatar-frame"><img src="assets/avatar.png"></div>
       </div>
       <p>I am working on birational and complex algebraic geometry, mainly focusing on K-stability. I am also interested in geometric shapes encoded by combinatorics, especially toric and spherical varieties.</p>
-      <p>My newest preprint is <a href="#KQSVCD" class="citation-link">[Zheng25] <span class="cite-tooltip  no-print"><strong>Zheng</strong> (2025)<br><em>K-stability of Q-Fano Spherical Varieties via Compatible Divisors</em></span></a>, where we find a special ℚ-divisor of a polarised spherical variety.</p>
-      <h2>Education</h2>
-      <ul>
-        <li>2027: (Expected) PhD in Pure Mathematics (supervised by Hamid Abban and Johannes Hofscheier), University of Nottingham, UK</li>
-        <li>2022: MSc in Pure Mathematics (supervised by Jonathan Lai), Imperial College London, UK</li>
-        <li>2021: BSc in Mathematics and Applied Mathematics, the Chinese University of Hong Kong, Shenzhen, China</li>
-      </ul>
+      <p>My newest paper is <a href="#KQSVCD" class="cite-link">[Zheng26] <span class="no-print"><strong>Zheng</strong> (2026)<br><em>K-stability of Q-Fano Spherical Varieties via Compatible Divisors</em></span></a>, where we find a special ℚ-divisor of a polarised spherical variety.</p>
+      <div id="education">
+        <h2>Education</h2>
+        <ul>
+          <li>2027: (Expected) PhD in Pure Mathematics (supervised by Hamid Abban and Johannes Hofscheier), University of Nottingham, UK</li>
+          <li>2022: MSc in Pure Mathematics (supervised by Jonathan Lai), Imperial College London, UK</li>
+          <li>2021: BSc in Mathematics and Applied Mathematics, The Chinese University of Hong Kong, Shenzhen, China</li>
+        </ul>
+      </div>
       <div id="calendar-container" class="no-print"></div>
       <script src="/assets/calendar.js">
       </script>
@@ -68,23 +76,28 @@
         <h2>Research</h2>
         <h3>Publications / Preprints</h3>
         <div class="bib-entry" id="KQSVCD">
-          <p><span class="bib-label">[Zheng25]</span></p>
-          <div class="bib-content">K-stability of Q-Fano Spherical Varieties via Compatible Divisors. (2025), <a href="https://arxiv.org/abs/2601.00054" target="_blank">arXiv</a>.</div>
+          <p><span class="bib-label">[Zheng26]</span></p>
+          <div class="bib-content"><em>K-stability of Q-Fano Spherical Varieties via Compatible Divisors</em> (2026), at <strong>Annales de l’Institut Fourier</strong> (to appear), <a href="https://arxiv.org/abs/2601.00054">arXiv</a>.</div>
         </div>
+        <h3>Conferences / Seminars</h3>
+        <ul>
+          <li><strong>Jun 2026</strong>, at Junior Algebraic geometry Warwick Seminar, <em>University of Warwick</em>, Coventry, UK. Presenting <a href="#KQSVCD" class="cite-link">[Zheng26] <span class="no-print"><strong>Zheng</strong> (2026)<br><em>K-stability of Q-Fano Spherical Varieties via Compatible Divisors</em></span></a>.</li>
+        </ul>
       </div>
       <div id="teaching">
         <h2>Teaching and Marking</h2>
         <h3>University of Nottingham (Teaching Affiliate and Demonstrator)</h3>
         <h4>2024-2025</h4>
         <ul>
-          <li>MATH1101 Core Mathematics (Full Year UK) - Demonstration</li>
-          <li>MATH2102 Real Analysis (Spring UK) - Marking</li>
+          <li>MATH1101 Core Mathematics (Full Year UK) - Demonstration.</li>
+          <li>MATH2102 Real Analysis (Spring UK) - Marking.</li>
         </ul>
         <h4>2025-2026</h4>
         <ul>
-          <li>MATH2102 Real Analysis (Autumn UK) - Marking</li>
+          <li>MATH2102 Real Analysis (Autumn UK) - Marking.</li>
         </ul>
       </div>
     </div>
+    <footer>© 2025-2026 郑仁鹏</footer>
   </body>
 </html>

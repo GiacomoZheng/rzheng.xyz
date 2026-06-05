@@ -75,3 +75,6 @@ Temporary Items
 output/.reload
 .index.md5
 ref.yml
+cv.pdf
+**/*.ttf
+**/*.otf

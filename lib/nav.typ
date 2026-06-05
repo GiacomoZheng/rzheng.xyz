@@ -3,7 +3,7 @@
 #let Nav = (
   PUBS: (name: [Research], url: "/index.html#research", type: "anchor"),
   TEAC: (name: [Teaching],     url: "/index.html#teaching",     type: "anchor"),
-  CV:   (name: [CV],           url: "/cv.html",                 type: "external"), 
+  // CV:   (name: [CV],           url: "/cv.html",                 type: "external"), 
 )
 #let icon = {
   html.span(class: "menu-icon", [
@@ -13,12 +13,7 @@
 
 #let nav-bar(name) = {
   html.nav(class: "nav-container", [
-    // 手机端开关 (Checkbox Hack)，不可见
-    #html.input(type: "checkbox", id: "nav-toggle", class: "nav-toggle hidden")
-    // 遮罩层，用于消除收起菜单
-    #html.elem("label", attrs: ("for": "nav-toggle", class: "menu-overlay"), html.span())
-
-    #html.div(class: "nav-content glass", [
+    #html.div(class: "nav-content", [
       #html.div(class: "nav-logo", strong(name))
       #html.div(id: "nav-right", [
         // 2. Home 链接，现在用 div 包裹，并指向 index.html
@@ -32,7 +27,7 @@
             ), HOME.name)
         ])
         
-        #html.elem("label", attrs: ("for": "nav-toggle", class: "nav-toggle-label"), icon)
+        #html.elem("label", attrs: ("for": "menu-toggle", class: "menu-toggle-label"), icon)
        
         // 4. 可折叠的菜单列表
         #html.div(class: "nav-menu", [

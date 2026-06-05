@@ -1,135 +1,118 @@
 :root {
-    /* 白天模式变量 */
-    --cite-bg: #ffffff;
-    --cite-text: #333333;
-    --cite-border: #d1d9e0;
-    --cite-shadow: rgba(0, 0, 0, 0.15);
-    --cite-link: #2a6496;
-    --cite-active-bg: #f0f0f0;
+  --cite-bg-color: #ffffff;
+  --cite-border-color: #d1d9e0;
+  --cite-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 @media (prefers-color-scheme: dark) {
-    :root {
-        /* 黑夜模式变量 */
-        --cite-bg: #1e1e1e;
-        --cite-text: #e0e0e0;
-        --cite-border: #444444;
-        --cite-shadow: rgba(0, 0, 0, 0.4);
-        --cite-link: #58a6ff;
-        --cite-active-bg: #2d2d2d;
-    }
+  :root {
+    --cite-bg-color: #1e1e1e;
+    --cite-border-color: #444444;
+    --cite-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
 }
 
 /* 1. 基础链接：作为定位锚点 */
-.citation-link {
-    color: var(--cite-link);
-    text-decoration: none;
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    font-weight: 500;
-    -webkit-tap-highlight-color: transparent;
-    /* 移除移动端点击蓝框 */
+.cite-link {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  font-weight: 500;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* 2. 浮窗容器通用重置 (不分设备) */
-.cite-tooltip {
-    /* 强制重置样式干扰 */
-    white-space: normal;
-    text-align: left;
-    line-height: 1.5;
-    font-size: 0.85rem;
-    box-sizing: border-box;
-    z-index: 9999;
+.cite-link span {
+  /* 默认隐藏状态 */
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
 
-    /* 视觉设计 */
-    background-color: var(--cite-bg);
-    color: var(--cite-text);
-    border: 1px solid var(--cite-border);
-    box-shadow: 0 8px 24px var(--cite-shadow);
-    padding: 12px 15px;
-    border-radius: 8px;
+  white-space: normal;
+  text-align: left;
+  line-height: 1.5;
+  font-size: 0.85rem;
+  z-index: 100;
+  color: var(--text-color);
+  padding: 12px 20px;
 
-    /* 默认隐藏状态 */
-    visibility: hidden;
-    opacity: 0;
+  background-color: var(--cite-bg-color);
+  border: 1px solid var(--cite-border-color);
+  box-shadow: var(--cite-shadow);
+  border-radius: 8px;
 }
 
 /* ============================================================
    设备适配逻辑
    ============================================================ */
-
 /* 4. 桌面端 (769px 以上)：相对于引用文字悬浮 */
 @media screen and (min-width: 769px) {
-    .cite-tooltip {
-        position: absolute;
-        bottom: 145%;
-        left: 50%;
-        transform: translateX(-50%) translateY(10px);
-        width: 300px;
-        transition: opacity 0.25s ease, transform 0.25s ease;
-        pointer-events: none;
-        /* 防止鼠标滑进浮窗引起闪烁 */
-    }
+  .cite-link span {
+    position: absolute;
+    bottom: 145%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    width: 300px;
+    transition: var(--appear-or-dis), transform 0.25s ease;
+  }
 
-    .citation-link:hover .cite-tooltip {
-        visibility: visible;
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
+  .cite-link:hover span {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 
-    /* 桌面端小箭头 */
-    .cite-tooltip::after {
-        content: "";
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        border-width: 8px;
-        border-style: solid;
-        border-color: var(--cite-bg) transparent transparent transparent;
-        filter: drop-shadow(0 1px 0 var(--cite-border));
-    }
+  /* 桌面端小箭头 */
+  .cite-link span::after {
+    /* 这个画法太天才了 */
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: var(--cite-bg-color) transparent transparent transparent;
+    filter: drop-shadow(0 1px 0 var(--cite-border-color));
+  }
 }
 
 /* 5. 移动端 (768px 以下)：强制吸底 */
 @media screen and (max-width: 768px) {
-    .cite-tooltip {
-        /* border-top: 1px solid var(--cite-border); */
-        display: block;
-        /* 必须是 block 以便 transform 生效 */
-        position: fixed;
-        /* 强制相对于窗口 */
-        left: 10px;
-        right: 10px;
-        bottom: 10px;
-        top: auto;
-        width: auto;
+  .cite-link span {
+    position: fixed;
+    width: calc(100% - 2 * var(--floating-side-gap));
+    left: auto;
+    right: var(--floating-side-gap);
+    top: auto;
+    bottom: var(--nav-height-space);
+    /* 浮于nav上方 */
 
-        /* 动画：从下方滑入 */
-        transform: translateY(120%);
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+    /* 动画：从下方滑入 */
+    transform: translateY(120%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
 
-        pointer-events: auto;
-        /* 必须可点，以便点击跳转 */
-        cursor: pointer;
-    }
+    pointer-events: auto;
+  }
 
-    /* 手机端激活状态 (通过 JS 控制的 .is-peeking) */
-    .citation-link.is-peeking .cite-tooltip {
-        visibility: visible;
-        opacity: 1;
-        transform: translateY(0);
-    }
+  /* 引用文字点击后的视觉反馈 */
+  .cite-link.is-peeking {
+    background-color: var(--bg-color-active);
+    outline: 1px solid var(--link-color);
+    border-radius: 3px;
+    z-index: 100; 
+    /* 高度要超过overlay */
+  }
 
-    /* 引用文字点击后的视觉反馈 */
-    .citation-link.is-peeking {
-        background-color: var(--cite-active-bg);
-        outline: 1px solid var(--cite-link);
-        border-radius: 3px;
-    }
+  /* 手机端激活状态 (通过 JS 控制的 .is-peeking) */
+  .cite-link.is-peeking span {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-    /* 移除移动端箭头 */
-    .cite-tooltip::after {
-        display: none;
-    }
+  #tooltip-overlay {
+    /* background-color: rgba(255, 0, 0); */
+    z-index: 90;
+  }
 }

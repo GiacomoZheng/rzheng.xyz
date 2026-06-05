@@ -1,11 +1,9 @@
 #!/bin/bash
 
-CURRENT_DATE=$(date +%F)
+# CURRENT_DATE=$(date +%F)
 
 # --- 配置路径 ---
 RES_DIR="res"
-BIB_SRC="$RES_DIR/ref.bib"
-BIB_OUT="$RES_DIR/ref.yml"
 LIB_DIR="lib"
 OUT_DIR="output"
 SITEMAP="$OUT_DIR/sitemap.xml"
@@ -18,9 +16,9 @@ mkdir -p "$OUT_DIR"
 TO_INJECT=$(cat << EOF
 
 		<link rel="canonical" href="https://rzheng.xyz/" />
-		<meta name="color-scheme" content="light dark">
-		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-		<meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
+		<meta name="color-scheme" content="light dark" />
+		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+		<meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
 
 		<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -29,8 +27,22 @@ TO_INJECT=$(cat << EOF
 
 		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 		<meta name="apple-mobile-web-app-title" content="R. Zheng" />
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name='description' content='I am a PhD student at Nottingham, working on algebraic geometry' />
+
+		<link rel="stylesheet" href="/assets/style.css">
+		<link rel="stylesheet" href="/assets/aclinks.css">
+		<link rel="stylesheet" href="/assets/maincard.css">
+		<link rel="stylesheet" href="/assets/nav.css">
+		<link rel="stylesheet" href="/assets/cite.css">
+		<link rel="stylesheet" href="/assets/bib.css">
+		<link rel="stylesheet" href="/assets/calendar.css">
+		<link rel="stylesheet" href="/assets/print.css">
+		<script src="/assets/cite.js" type="module"></script>
+		<script src="/assets/active.js" type="module"></script>
+		<script src="/assets/nav.js" type="module"></script>
 EOF
 )
 
@@ -40,25 +52,17 @@ inject() {
     perl -i -pe "s|<\/head>|$TO_INJECT\n\t<\/head>|g" "$target"
 }
 
-# --- 1. 参考文献转换 ---
-update_bib() {
-    if [ -f "$BIB_SRC" ]; then
-        if [ ! -f "$BIB_OUT" ] || [ "$BIB_SRC" -nt "$BIB_OUT" ]; then
-            echo "[BIB] 更新文献库..."
-            hayagriva "$BIB_SRC" > "$BIB_OUT"
-            return 0
-        fi
-    fi
-    return 1
-}
 
-# --- 2. 编译函数 ---
+# --- 编译函数 ---
 
 # 专供 CV 编译 (PDF + 选择)
-mkdir -p $OUT_DIR/cv
+# mkdir -p $OUT_DIR/cv
 CV_NAME="$OUT_DIR/cv/renpeng-zheng.pdf"
 CV_DARK="$OUT_DIR/cv/renpeng-zheng-dark.pdf"
 compile_cv() {
+	echo "CV: do nothing"
+}
+ignore() {
     echo "[TYPST] 独立编译 CV -> PDF"
     typst compile "cv.typ" $CV_NAME
     typst compile "cv.typ" $CV_DARK --input theme=dark
@@ -66,6 +70,7 @@ compile_cv() {
     cat > "$OUT_DIR/cv.html" <<EOF
 <!DOCTYPE html>
 <html><head>
+<meta charset="UTF-8">
 <script>
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const target = isDark ? "/cv/renpeng-zheng-dark.pdf" : "/cv/renpeng-zheng.pdf";
@@ -79,7 +84,7 @@ EOF
 compile_main() {
 	local mode=$1
     echo "[TYPST] 编译主页 -> index.html"
-    typst compile "main.typ" "$OUT_DIR/index.html" --input target=html --features html
+    typst compile "main.typ" "$OUT_DIR/index.html" --features html
     # 注入 Favicon
     inject "$OUT_DIR/index.html"
     [ "$mode" == "watch" ] && inject_reload_js "$OUT_DIR/index.html"
@@ -91,7 +96,7 @@ compile_generic() {
     local mode=$2
     local out="${f%.typ}.html"
     echo "[TYPST] 编译 HTML: $f"
-    typst compile "$f" "$OUT_DIR/$out" --input target=html --features html
+    typst compile "$f" "$OUT_DIR/$out" --features html
     
     # 注入
     inject "$OUT_DIR/$out"
@@ -114,7 +119,7 @@ get_project_state() {
     # 监控引用的目录：LIB_DIR, RES_DIR, ASSETS_DIR
     # 使用 md5/cksum 汇总所有文件的修改时间、大小和路径
     {
-        ls -lR *.typ "$LIB_DIR" "$RES_DIR" "$ASSETS_DIR" 2>/dev/null
+        ls -lR main.typ "$LIB_DIR" "$RES_DIR" "$ASSETS_DIR" 2>/dev/null
     } | cksum
 }
 
@@ -167,19 +172,12 @@ EOF
     fi
 }
 
-generate_sitemap() {
-	local date_index=$(get_lastmod "$OUT_DIR/index.html") || exit 1
-    # 直接在 output 根目录生成/更新
-    
-    echo "[INFO] Sitemap generated at ./output/sitemap.xml"
-}
 
 # --- 执行逻辑 ---
 case "$1" in
     update)
-        update_bib
         [ -f "main.typ" ] && compile_main "update"
-        [ -f "cv.typ" ] && compile_cv "update"
+        # [ -f "cv.typ" ] && compile_cv "update"
         for f in *.typ; do
             if [[ "$f" != "main.typ" && "$f" != "cv.typ" ]]; then
                 compile_generic "$f" "update"
@@ -191,10 +189,7 @@ case "$1" in
     
     watch)
         echo "[SERVER] http://localhost:3000"
-		LAN_IP=$(get_lan_ip) || LAN_IP="[无法获取]"
-		if [[ "$LAN_IP" != "[无法获取]" ]]; then
-			echo "[SERVER] http://$LAN_IP:3000"
-		fi
+		LAN_IP=$(get_lan_ip) && echo "[SERVER] http://$LAN_IP:3000"
 		lsof -ti:3000 | xargs kill -9 2>/dev/null || true
 		python3 -m http.server 3000 --directory $OUT_DIR > /dev/null 2>&1 &
 		# python3 -c "import http.server, socketserver, os; os.chdir('$OUT_DIR'); class T(socketserver.ThreadingMixIn, socketserver.TCPServer): allow_reuse_address = True; H = type('H', (http.server.SimpleHTTPRequestHandler,), {'end_headers': lambda s: [s.send_header('Cache-Control', 'no-store'), super(http.server.SimpleHTTPRequestHandler, s).end_headers()], 'log_message': lambda *a: None}); T(('', 3000), H).serve_forever()" > /dev/null 2>&1 &
@@ -202,7 +197,6 @@ case "$1" in
         trap "kill $SERVER_PID; rm -f $RELOAD_SIGNAL; exit" SIGINT SIGTERM
 
         # 初始编译
-        update_bib
         [ -f "main.typ" ] && compile_main "watch"
         for f in *.typ; do
             if [[ "$f" != "main.typ" && "$f" != "cv.typ" ]]; then
@@ -224,7 +218,6 @@ case "$1" in
 					[ -f "main.typ" ] && compile_main "watch"
 				else
 					# 2. 否则，哪行坏了修哪行 (按需编译)
-					update_bib
 					[ "main.typ" -nt "$OUT_DIR/index.html" ] && compile_main "watch"
 				fi
 

@@ -1,0 +1,100 @@
+/* v1: U+E9C3,U+E90A,U+E92D,U+E9F9 */
+
+@font-face {
+  font-family: 'Academicons';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('./academicons-min-v1.woff2') format('woff2');
+
+  font-display: swap;
+}
+
+.academic-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: left;
+}
+@media screen and (max-width: 768px) {
+  .academic-links {
+    justify-content: center;
+  }
+}
+
+.ai {
+  /* copy from Academicons */
+  font-family: 'Academicons';
+  font-weight: 400;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  /* display: inline-block; */
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}
+.ai, .fa {
+  display: inline-flex;
+  position: relative; 
+  font-size: 2.5rem;
+  align-items: center;
+}
+a:has(.ai) {
+  color: inherit; /* 让a标签放弃抵抗，听从内部图标的颜色 */
+}
+a:hover .ai {
+  opacity: 0.8;
+}
+
+.square {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1; 
+  border-radius: 0.1em;
+}
+
+/* ORCiD */
+.ai-orcid-square::before {
+  content: "\e9c3";
+  color: #A6CE39;
+}
+/* arXiv */
+.my-arxiv-square::before {
+  content: "\e90a";
+  color: transparent;
+  display: block;
+}
+/* HAL */
+.ai-hal-square::before {
+  content: "\e92d";
+  color: #000058;
+  display: block;
+}
+#hal-bg {
+  z-index: -1;
+  background:
+    linear-gradient(45deg,
+      #1A0C70 0%, #1A0C70 25%, #732F46 50%, #EB5328 75%, #EB5328 100%
+    );
+}
+
+/* zbMATH */
+.my-zbmath-square::before {
+  content: "\e90a";
+  color: transparent;
+  display: block;
+}
+
+
+
+
+/* for future */
+.ai-google-scholar-square::before {
+  content: "\e9f9";
+  color: #4285F4;
+}
+/* .ai-mathscinet                                { color: #1A365D; } */

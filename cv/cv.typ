@@ -1,4 +1,3 @@
-// .. {"export": "output/cv.pdf"}
 #import "@preview/gloat:0.1.0": *
 
 #let dark_mode = sys.inputs.at("theme", default: "light") == "dark"
@@ -13,7 +12,7 @@
         radius: 2pt,           // 圆角（如果不想要圆角设为 0pt）
         inset: 4pt,            // 文字距离边框的间距
         // fill: rgb("#1b222c").lighten(10%),
-        link("https://rzheng.xyz/cv.pdf")[
+        link("/cv/renpeng-zheng.pdf")[
           #set text(fill: text_color, size: 11pt, weight: "bold")
           For Preview Only. Click to Get the Print Version (White Background)
         ]
@@ -33,43 +32,51 @@
   updated: datetime.today(),
 )
 
+= Research Interests
+
+I am working on birational and complex algebraic geometry, mainly focusing on K-stability. I am also interested in geometric shapes encoded by combinatorics, especially toric and spherical varieties.
+
+
+
 = Education
 
+#let time(y1, m1, y2, m2) = datetime(year: y1, month: m1, day: 01).display("[month repr:short] [year]") + [ -- ] +datetime(year: y2, month: m2, day: 01).display("[month repr:short] [year]")
+
 #edu(
-  institution: "University of Nottingham",
-	location: "Nottingham, United Kingdom",
+  institution: [University of Nottingham],
+  location: [Nottingham, United Kingdom],
   degrees: (
     [(Expected) PhD in Pure Mathematics],
   ),
-  date: datetime(year: 2024, month: 02, day: 01).display("[month repr:short] [year]") + " -- " +datetime(year: 2027, month: 07, day: 01).display("[month repr:short] [year]"),
-	details:	"Advisors: Hamid Abban and Johannes Hofscheier",
+  date: time(2024, 02, 2027, 07),
+  details: [Advisors: Hamid Abban and Johannes Hofscheier],
 )
 
 #edu(
-  institution: "Imperial College London",
-	location: "London, United Kingdom",
+  institution: [Imperial College London],
+  location: [London, United Kingdom],
   degrees: (
     [MSc in Pure Mathematics],
   ),
-  date: datetime(year: 2021, month: 10, day: 01).display("[month repr:short] [year]") + " -- " +datetime(year: 2022, month: 10, day: 01).display("[month repr:short] [year]"),
-	details:	"Supervisor: Jonathan Lai",
+  date: time(2021, 10, 2022, 10),
+  details: [Supervisor: Jonathan Lai],
 )
 
 #edu(
-  institution: "the Chinese University of Hong Kong, Shenzhen",
-	location: "Shenzhen, China",
+  institution: [The Chinese University of Hong Kong, Shenzhen],
+  location: [Shenzhen, China],
   degrees: (
     [BSc in Mathematics and Applied Mathematics],
   ),
-  date: datetime(year: 2017, month: 09, day: 01).display("[month repr:short] [year]") + " -- " +datetime(year: 2021, month: 05, day: 01).display("[month repr:short] [year]"),
+  date: time(2017, 09, 2021, 05),
 )
 
 // = Employment
 // #exp()
 
 = Publications / Preprints
-#import "lib/render.typ": render-pdf-bib
-#let works = "res/ref.yml"
+#import "render.typ": render-pdf-bib
+#let works = "../res/works.yml"
 #show bibliography: none
 #bibliography(works, style: "apa")
 #show cite: it => my-cite(yaml(works), str(it.key))

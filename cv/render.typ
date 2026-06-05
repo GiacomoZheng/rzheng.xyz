@@ -24,6 +24,7 @@
 }
 
 // --- Label 生成 ---
+// ! 没法解决同年的两篇文章的情况
 #let generate-label(key, authors, date) = {
   let raw-authors = if type(authors) == array { authors } else { (authors,) }
   let year-short = str(date).slice(2, 4)
@@ -78,7 +79,7 @@
 }
 
 #let render-pdf-bib(refs) = {
-  table(
+  grid(
     columns: (auto, 1fr),
     column-gutter: 15pt,
     row-gutter: 8pt,
@@ -102,22 +103,26 @@
   let other-authors-str = format-other-authors(details.author)
 
   [
-    #{details.title}.
-    (#details.date)#{
+    #emph(details.title) (#details.date)#{
       if not other-authors-str == [] {
         [, with #other-authors-str]
+      }
+      if "journal" in details {
+        [, at #strong(details.journal)]
+        if "doi" in details {
+          [, #universal-link("https://doi.org/" + details.doi, [DOI])]
+        } else {
+          [ (to appear)]
+        }
       }
       if "arxiv" in details {
         [, #universal-link("https://arxiv.org/abs/" + details.arxiv, [arXiv])]
       }
-      if "doi" in details {
-        [, #universal-link("https://doi.org/" + details.doi, [DOI])]
-      }
-      if "journal" in details {
-        [ in #strong(details.journal)]
+      if "abstract" in details {
+        [, abstract (TODO)]
       }
       if "bib" in details {
-        [, BIB(TODO)]
+        [, BIB (TODO)]
       }
     }.
   ]
@@ -137,44 +142,40 @@
 }
 // ============================================
 
+#let my-cite(refs, keys) = {
+  let keys = if type(keys) == str { (keys,) } else { keys }
+  for key in keys {
+    if key in refs {
+      let details = refs.at(key)
+      let label = generate-label(key, details.author, details.date)
 
-
-
-#let my-cite(refs, key) = {
-  if key in refs {
-    let details = refs.at(key)
-    let label = generate-label(key, details.author, details.date)
-
-    let preview-authors = {
-      let authors = if type(details.author) == array { details.author } else { (details.author,) }
-      
-      if authors.len() <= 3 {
-        // 情况 1：1-3 个作者，全部列出姓氏，用逗号分隔
-        authors.map(get-last-name).join(", ")
-      } else {
-        // 情况 2：超过 3 个作者，列出前三个姓氏 + et al.
-        authors.slice(0, 3).map(get-last-name).join(", ") + " et al."
+      let preview-authors = {
+        let authors = if type(details.author) == array { details.author } else { (details.author,) }
+        
+        if authors.len() <= 3 {
+          // 情况 1：1-3 个作者，全部列出姓氏，用逗号分隔
+          authors.map(get-last-name).join(", ")
+        } else {
+          // 情况 2：超过 3 个作者，列出前三个姓氏 + et al.
+          authors.slice(0, 3).map(get-last-name).join(", ") + " et al."
+        }
       }
-    }
 
-    // 构造悬浮窗内部内容
-    let tooltip-inner = [
-      #strong(preview-authors) (#details.date)\
-      #emph(details.title)
-    ]
-
-    html.a(
-      href: "#" + key,
-      class: "citation-link",
-      [
-        #label
-        #html.span(
-          class: "cite-tooltip  no-print",
-          tooltip-inner,
-        )
+      // 构造悬浮窗内部内容
+      let tooltip-inner = [
+        #strong(preview-authors) (#details.date)\
+        #emph(details.title)
       ]
-    )
-  } else {
-    html.elem("span", attrs: (style: "color: red;"), "[" + key + "?]")
+
+      
+      html.a(href: "#" + key, class: "cite-link", [
+        #label
+        #html.span(class: "no-print", tooltip-inner)
+      ])
+      
+
+    } else {
+      html.elem("span", attrs: (style: "color: red;"), "[" + key + "?]")
+    }
   }
 }
