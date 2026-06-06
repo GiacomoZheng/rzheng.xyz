@@ -72,14 +72,17 @@ a:hover .ai {
 .ai-hal-square::before {
   content: "\e92d";
   color: #000058;
+  /* color: transparent; */
   display: block;
 }
 #hal-bg {
   z-index: -1;
-  background:
-    linear-gradient(45deg,
-      #1A0C70 0%, #1A0C70 25%, #732F46 50%, #EB5328 75%, #EB5328 100%
-    );
+  background: linear-gradient(45deg,
+    #1A0C70 0%, #1A0C70 25%, #732F46 50%, #EB5328 75%, #EB5328 100%
+  );
+  background-size: 80% 80%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* zbMATH */
@@ -90,8 +93,7 @@ a:hover .ai {
 }
 
 
-
-
+/* ----------------------------------------------------------- */
 /* for future */
 .ai-google-scholar-square::before {
   content: "\e9f9";
