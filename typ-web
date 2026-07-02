@@ -38,11 +38,12 @@ TO_INJECT=$(cat << EOF
 		<link rel="stylesheet" href="/assets/nav.css">
 		<link rel="stylesheet" href="/assets/cite.css">
 		<link rel="stylesheet" href="/assets/bib.css">
-		<link rel="stylesheet" href="/assets/calendar.css">
+		<link rel="stylesheet" href="/assets/google.css">
 		<link rel="stylesheet" href="/assets/print.css">
 		<script src="/assets/cite.js" type="module"></script>
 		<script src="/assets/active.js" type="module"></script>
 		<script src="/assets/nav.js" type="module"></script>
+		<script src="/assets/bib.js" type="module"></script>
 EOF
 )
 

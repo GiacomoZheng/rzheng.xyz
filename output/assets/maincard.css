@@ -109,3 +109,12 @@ ruby > rt {
   height: 100%;
   object-fit: cover;
 }
+
+
+
+/* header */
+.header-toggle {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between; /* 关键：标题靠左，开关靠右。如果你想让它们挨在一起，可以换成 flex-start */
+}

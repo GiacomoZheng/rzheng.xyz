@@ -28,20 +28,21 @@
 		<link rel="stylesheet" href="/assets/nav.css">
 		<link rel="stylesheet" href="/assets/cite.css">
 		<link rel="stylesheet" href="/assets/bib.css">
-		<link rel="stylesheet" href="/assets/calendar.css">
+		<link rel="stylesheet" href="/assets/google.css">
 		<link rel="stylesheet" href="/assets/print.css">
 		<script src="/assets/cite.js" type="module"></script>
 		<script src="/assets/active.js" type="module"></script>
 		<script src="/assets/nav.js" type="module"></script>
+		<script src="/assets/bib.js" type="module"></script>
 	</head>
   <body>
     <input type="checkbox" id="menu-toggle" class="overlay-toggle hidden"><label for="menu-toggle" id="menu-overlay" class="overlay"><span></span></label>
-    <nav class="nav-container">
+    <nav>
       <div class="nav-content">
-        <div class="nav-logo"><strong>Zheng, Renpeng</strong></div>
+        <div id="nav-logo"><strong>Zheng, Renpeng</strong></div>
         <div id="nav-right">
           <div class="nav-home-wrapper"><a href="/index.html#" data-type="anchor" target="_self" rel class="nav-link">Home</a></div>
-          <label for="menu-toggle" class="menu-toggle-label"><span class="menu-icon"><span class="line"></span><span class="line"></span><span class="bottom-lines"><span class="line" id="bottom-l-line"></span><span class="line" id="bottom-r-line"></span></span></span></label>
+          <label for="menu-toggle" class="menu-toggle-label"><span id="menu-icon"><span class="line"></span><span class="line"></span><span class="bottom-lines"><span class="line" id="bottom-l-line"></span><span class="line" id="bottom-r-line"></span></span></span></label>
           <div class="nav-menu"><a href="/index.html#research" data-type="anchor" target="_self" rel class="nav-link">Research</a><a href="/index.html#teaching" data-type="anchor" target="_self" rel class="nav-link">Teaching</a></div>
         </div>
       </div>
@@ -57,10 +58,10 @@
           <div class="academic-links"><a href="https://arxiv.org/a/zheng_r_3.html"><div class="ai my-arxiv-square"><img id="arxiv-logo" class="square" src="assets/arxiv.svg"></div></a><a href="https://cv.hal.science/zheng-renpeng"><i class="ai ai-hal-square"><span id="hal-bg" class="square"></span></i></a><a href="https://orcid.org/0009-0005-0309-8458"><i class="ai ai-orcid-square"></i></a><a href="https://zbmath.org/authors/zheng.renpeng"><div class="ai my-zbmath-square"><img id="zbmath-logo" class="square" src="assets/zbmath.svg"></div></a></div>
         </div>
         <div class="intro-ruby"><ruby>郑<rp>（</rp> <rt>zhèng</rt> <rp>）</rp></ruby><ruby>仁<rp>（</rp> <rt>rén</rt> <rp>）</rp></ruby><ruby>鹏<rp>（</rp> <rt>péng</rt> <rp>）</rp></ruby></div>
-        <div class="avatar-frame"><img src="assets/avatar.png"></div>
+        <div class="avatar-frame"><img src="assets/avatar.webp"></div>
       </div>
       <p>I am working on birational and complex algebraic geometry, mainly focusing on K-stability. I am also interested in geometric shapes encoded by combinatorics, especially toric and spherical varieties.</p>
-      <p>My newest paper is <a href="#KQSVCD" class="cite-link">[Zheng26] <span class="no-print"><strong>Zheng</strong> (2026)<br><em>K-stability of Q-Fano Spherical Varieties via Compatible Divisors</em></span></a>, where we find a special ℚ-divisor of a polarised spherical variety.</p>
+      <p>My newest paper is <a href="#KQSVCD" class="cite-link">[Zheng26] <span class="no-print"><strong>Zheng</strong> (2026)<br><em>K-stability of Q-Fano spherical varieties via compatible divisors</em></span></a>, where we find a special ℚ-divisor of a polarised spherical variety.</p>
       <div id="education">
         <h2>Education</h2>
         <ul>
@@ -70,19 +71,34 @@
         </ul>
       </div>
       <div id="calendar-container" class="no-print"></div>
-      <script src="/assets/calendar.js">
-      </script>
       <div id="research">
         <h2>Research</h2>
-        <h3>Publications / Preprints</h3>
-        <div class="bib-entry" id="KQSVCD">
-          <p><span class="bib-label">[Zheng26]</span></p>
-          <div class="bib-content"><em>K-stability of Q-Fano Spherical Varieties via Compatible Divisors</em> (2026), at <strong>Annales de l’Institut Fourier</strong> (to appear), <a href="https://arxiv.org/abs/2601.00054">arXiv</a>.</div>
+        <div class="header-toggle">
+          <h3>Publications / Preprints</h3>
+          <div class="no-print" style="display: flex; align-items: center;"><label for="abstracts-toggle" id="abstracts-toggle-label">Abstracts</label><input type="checkbox" id="abstracts-toggle"></div>
+        </div>
+        <div class="bib-list">
+          <div class="bib-entry" id="KQSVCD">
+            <p><span class="bib-label">[Zheng26]</span></p>
+            <div class="bib-content">
+              <p><em>K-stability of Q-Fano spherical varieties via compatible divisors</em> (2026), at <strong>Annales de l’Institut Fourier</strong> (to appear), <a href="https://arxiv.org/abs/2601.00054">arXiv</a>, <span style="display: inline-block"><button popovertarget="KQSVCD-bib-dialog">bib</button></span>.<br></p>
+              <details name="KQSVCD" class="abstract-details"><summary><span style="font-variant-caps: small-caps">Abstract</span></summary><div>We study the K-stability of ℚ-Fano spherical varieties using compatible divisors. More precisely, if the ℚ-Fano variety, with a reductive group action, has an open Borel subgroup orbit, then there is a unique anticanonical ℚ-divisor computing the equivariant stability threshold. This ℚ-divisor is invariant under the Borel subgroup action, and it characterizes the K-stability of a ℚ-Fano spherical variety.</div></details>
+              <dialog class="bib-dialog" id="KQSVCD-bib-dialog" popover="auto">
+                <button>Copy to clipboard</button>
+                <pre><code>@article{zheng2026kstabilityqfanosphericalvarieties,<br>  title={K-stability of Q-Fano Spherical Varieties via Compatible Divisors}, <br>  author={Zheng, Renpeng},<br>  year={2026},<br>  journaltitle={Annales de l’Institut Fourier (To appear)},<br>  doi={},<br>  pages={},<br>  volume={}<br>}<br></code></pre>
+              </dialog>
+            </div>
+          </div>
         </div>
         <h3>Conferences / Seminars</h3>
         <ul>
-          <li><strong>Jun 2026</strong>, at Junior Algebraic geometry Warwick Seminar, <em>University of Warwick</em>, Coventry, UK. Presenting <a href="#KQSVCD" class="cite-link">[Zheng26] <span class="no-print"><strong>Zheng</strong> (2026)<br><em>K-stability of Q-Fano Spherical Varieties via Compatible Divisors</em></span></a>.</li>
+          <li>“<em>K-stability of Q-Fano spherical varieties via compatible divisors</em>” (Jun 2026), <strong>Junior Algebraic geometry Warwick Seminar</strong>, University of Warwick, Coventry, UK. On <a href="#KQSVCD" class="cite-link">[Zheng26] <span class="no-print"><strong>Zheng</strong> (2026)<br><em>K-stability of Q-Fano spherical varieties via compatible divisors</em></span></a>.</li>
+          <li>“<em>K-stability of Q-Fano spherical varieties via compatible divisors</em>” (Jun 2026), <strong>Algebraic Geometry Seminar</strong>, Kyoto University, Kyoto, Japan. On <a href="#KQSVCD" class="cite-link">[Zheng26] <span class="no-print"><strong>Zheng</strong> (2026)<br><em>K-stability of Q-Fano spherical varieties via compatible divisors</em></span></a>.</li>
         </ul>
+        <div class="no-print">
+          <h3>Posters / Interactive Media</h3>
+          <div id="poster-container" class="no-print"></div>
+        </div>
       </div>
       <div id="teaching">
         <h2>Teaching and Marking</h2>
@@ -99,5 +115,7 @@
       </div>
     </div>
     <footer>© 2025-2026 郑仁鹏</footer>
-  </body>
+    <script src="/assets/google.js">
+    </script>
+  <script>let lastV=''; function check(){ fetch('/.reload?t=' + Date.now(),{ cache: 'no-cache'}) .then(r=>r.text()) .then(nv=>{ if (lastV && nv !==lastV){ window.location.reload(); return;} lastV=nv; setTimeout(check, 1000);}) .catch(()=>setTimeout(check, 2000));} check();</script></body>
 </html>

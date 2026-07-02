@@ -1,9 +1,20 @@
 warick2026:
   type: misc
-  # title: K-stability of Q-Fano Spherical Varieties via Compatible Divisors
+  title: K-stability of Q-Fano spherical varieties via compatible divisors
   date: 2026-06-04
   event: Junior Algebraic geometry Warwick Seminar
   institution: University of Warwick
   location: Coventry, UK
+  refs: 
+    - KQSVCD
+
+kyoto2026:
+  type: misc
+  title: K-stability of Q-Fano spherical varieties via compatible divisors
+  date: 2026-06-19
+  event: Algebraic Geometry Seminar
+  # event: 代数幾何学セミナー / Algebraic Geometry Seminar
+  institution: Kyoto University
+  location: Kyoto, Japan
   refs: 
     - KQSVCD

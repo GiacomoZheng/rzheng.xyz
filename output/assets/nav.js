@@ -1,10 +1,9 @@
-const nav = document.querySelector('.nav-container');
+const myNav = document.querySelector('nav');
 let startY = 0;
 
 window.addEventListener('touchstart', () => {
   startY = window.scrollY;  // 手指按下的起始位置
 }, { passive: true });
-
 
 function handleScroll() {
   if (window.matchMedia("(max-width: 768px)").matches) {
@@ -12,11 +11,11 @@ function handleScroll() {
     
     if (current - startY > 20) {
       // console.log("nav ---->, current: ", current);
-      nav.classList.add('nav-compact');
+      myNav.classList.add('nav-compact');
       startY = current;
     } else if (current - startY < -50 || current < 30) {
       // console.log("<---- nav, current: ", current);
-      nav.classList.remove('nav-compact');
+      myNav.classList.remove('nav-compact');
       startY = current;
     }
   }
@@ -32,4 +31,9 @@ window.addEventListener('scroll', () => {
     ticking = true; // 只要进来了，先把锁关上，防止重复排队
   }
 }, { passive: true });
-// window.addEventListener('scroll', handleScroll, { passive: true });
+
+
+myNav.addEventListener('click', (event) => {
+  // 阻止点击事件向上冒泡,这样点击导航不会关闭菜单
+  event.stopPropagation();
+});

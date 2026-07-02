@@ -23,13 +23,12 @@
   .bib-entry {
     /* 在手机端改为上下堆叠布局 */
     grid-template-columns: 1fr; 
-    /* row-gap: 0px; */
   }
 }
 
 .bib-label {
   grid-column: 1;
-  color: var(--link-color); /* 让 Label 颜色与正文引用一致 */
+  color: var(--link-color);
   white-space: nowrap; 
 }
 
@@ -37,16 +36,53 @@
   grid-column: 2;
   text-align: justify;
 }
-
-/* 消除 Typst 自动生成的 p 标签干扰 */
 .bib-entry p {
-  display: inline;
   margin: 0;
-  padding: 0;
 }
 @media screen and (max-width: 768px) {
   .bib-content {
     padding-left: 1em;
     grid-column: 1;
   }
+}
+
+@keyframes popIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.bib-dialog {
+  padding: 12px;
+  width: 70vw;
+  max-width: 600px;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+  border-radius: 12px;
+
+  animation: popIn 0.2s ease-in;
+}
+@media screen and (max-width: 768px) {
+  .bib-dialog {
+    width: 85vw;
+    max-width: 450px;
+  }
+}
+
+.bib-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.05); /* 几乎无感，主要用来隔绝底层点击 */
+  backdrop-filter: none; 
+}
+
+.bib-dialog pre {
+  max-width: 100%;
+  overflow-x: auto;         /* 核心：超出时，只有代码块内部出现滚动条 */
+  margin: 0;
+  padding: 12px;
+  padding-top: 4px;
+  border-radius: 4px;
+}
+
+.bib-dialog button {
+  display: block;
+  margin-left: auto;
 }

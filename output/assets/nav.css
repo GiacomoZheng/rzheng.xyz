@@ -24,7 +24,7 @@
   }
 }
 
-.nav-container {
+nav {
   position: fixed;
   width: 100%;
   height: var(--nav-height);
@@ -35,7 +35,7 @@
   left: 0;
   right: 0;
 }
-.nav-container::before {
+nav::before {
   content: "";
   position: absolute;
   inset: 0; /* 撑满父容器 */
@@ -48,7 +48,7 @@
   backface-visibility: hidden;
 }
 @media screen and (max-width: 768px) {
-  .nav-container {
+  nav {
     width: calc(100% - 2 * var(--floating-side-gap));
     height: auto;
     left: auto;
@@ -61,12 +61,12 @@
     will-change: width; /* 提前告诉浏览器宽度会变 */
     transition: var(--width-transform);
   }
-  .nav-container::before {
+  nav::before {
     border-radius: var(--nav-radius);
     backface-visibility: hidden;
   }
 
-  .nav-logo, 
+  #nav-logo, 
   .nav-home-wrapper {
     display: flex;
     align-items: center;
@@ -77,13 +77,13 @@
   }
 
   /* 下滑收缩nav */
-  #menu-toggle:not(:checked) ~ .nav-compact.nav-container {
+  #menu-toggle:not(:checked) ~ nav.nav-compact {
     width: var(--nav-height); /* 变成正方形 */
     will-change: width;
     transform: translateZ(0);
     transition: var(--width-transform);
   }
-  #menu-toggle:not(:checked) ~ .nav-compact :is(.nav-logo, .nav-home-wrapper) {
+  #menu-toggle:not(:checked) ~ .nav-compact :is(#nav-logo, .nav-home-wrapper) {
     opacity: 0;
     width: 0;
     margin: 0;
@@ -109,7 +109,7 @@
   }
 }
 
-.nav-logo {
+#nav-logo {
   margin-left: 0px;
   font-size: 1.2rem;
   color: var(--text-color);
@@ -124,7 +124,7 @@
   /* Home 与 菜单第一项 的间距 */
 }
 @media screen and (max-width: 768px) {
-  .nav-logo {
+  #nav-logo {
     margin-left: 20px;
   }
   #nav-right {
@@ -156,33 +156,33 @@
   }
 
   /* 汉堡图标三条杠 */
-  .menu-icon {
+  #menu-icon {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 5px;
     width: 24px;
   }
-  .menu-icon .line {
+  #menu-icon .line {
     width: 100%;
     height: 2px;
     background-color: var(--text-color);
     transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.2);
   }
-  .menu-icon .bottom-lines {
+  #menu-icon .bottom-lines {
     position: relative;
     width: 24px;
     height: 2px;
   }
-  .menu-icon .bottom-lines .line {
+  #menu-icon .bottom-lines .line {
     position: absolute; /* 绝对定位，它们会默认重叠在左上角 */
     top: 0; left: 0;
   }
   
-  #menu-toggle:checked ~ .nav-container {
-    & .menu-icon {
-      & :nth-child(1) { transform: translate(0px, 5px) scaleX(0); }
-      & :nth-child(2) { transform: scaleX(0); }
+  #menu-toggle:checked ~ nav {
+    & #menu-icon {
+      & > :nth-child(1) { transform: translate(0px, 5px) scaleX(0); }
+      & > :nth-child(2) { transform: scaleX(0); }
     }
     & #bottom-l-line {
       transform: rotate(-45deg) translate(0px, -5px) scaleX(0.5);
@@ -241,7 +241,7 @@
   }
 
   /* 展开 */
-  #menu-toggle:checked ~ .nav-container .nav-menu {
+  #menu-toggle:checked ~ nav .nav-menu {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;

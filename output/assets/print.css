@@ -29,6 +29,11 @@
     margin-top: 0;
     padding-top: 0;
   }
+
+  /* abstract */
+  details::details-content {
+    overflow: visible;    /* 极度重要！干掉 hidden，允许跨页打印，绝对不截断 */
+  }
   
   /* 3. 设置纸张大小为 A4，边距设为 0（由内容控制） */
   @page {

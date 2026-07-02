@@ -175,7 +175,7 @@
       
 
     } else {
-      html.elem("span", attrs: (style: "color: red;"), "[" + key + "?]")
+      html.span(style: "color: red;", "[" + key + "?]")
     }
   }
 }

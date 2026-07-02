@@ -7,14 +7,16 @@ Inspirited by Apple Liquid Glass, the nav bar will collapse following your gestu
 ## Credits
 This project stands on the shoulders of the open-source community. Thanks to:
 - [Academicons](https://jpswalsh.github.io/academicons/) — For providing the beautiful academic platform icons (HAL, ORCID, etc.).
+<!-- TODO: fandol Kai -->
 
 
 ## TODO:
-
-- [] BIB, abstract in `Publications`.
-    - Idea: to show BIB, I will use `tooltip`, with a button named `copy`. 
-    - Idea: to show abstract, I will use `<details>` and `<summary>` 
-- [] Support coauthors in `Publications`.
+- [] BIB, abstract, coauthors in `Publications`.
+    - [] BIB, I will use `tooltip`, with a button named `copy`. 
+    - [*] Abstract, I use `<details>` and `<summary>` 
+- [] Coauthors. I will do it after my first co-work completed.
+    - [*] Support coauthors in `Publications`.
+    - [] Coauthors tooltips, use `#show`.
 - [] Reorganizes the `.css` files.
     - [*] open a new file `maincard.css`.
 - [] Reorganizes the `font-size`.

@@ -1,6 +1,6 @@
 #import "lib/nav.typ": nav-bar
 #import "lib/bib.typ": render-web-bib, my-cite
-#import "lib/tools.typ": r, overlay, parse-date, aclinks
+#import "lib/tools.typ": r, overlay, checkbox, parse-date, aclinks
 
 #let name = "Zheng, Renpeng"
 #let works = "res/works.yml"
@@ -10,23 +10,6 @@
 #show bibliography: none
 #bibliography(works, style: "apa")
 #show cite: it => my-cite(yaml(works), str(it.key))
-
-// I am still using the inject
-#let add_css(..hrefs) = hrefs.pos().map(h => html.link(rel: "stylesheet", href: h)).join()
-#let add_js_mod(..srcs) = srcs.pos().map(s => html.script(src: s, type: "module")).join()
-#let head() = {
-  html.head({
-    // html.meta(charset: "utf-8")
-    add_css(
-      // TODO
-    )
-    add_js_mod(
-      "/assets/cite.js", 
-      "/assets/active.js",
-      "/assets/nav.js"
-    )
-  })
-}
 
 #let main-card() = html.div(class: "main-card", [
   #html.div(class: "intro-row", [
@@ -41,13 +24,11 @@
       #r[郑|仁|鹏][zhèng|rén|péng]
     ])
 		#html.div(class: "avatar-frame", [
-      #html.img(src: "assets/avatar.png")
+      #html.img(src: "assets/avatar.webp")
     ])
   ])
 
   I am working on birational and complex algebraic geometry, mainly focusing on K-stability. I am also interested in geometric shapes encoded by combinatorics, especially toric and spherical varieties. 
-
-  
 
   My newest paper is @KQSVCD, where we find a special ℚ-divisor of a polarised spherical variety.
 
@@ -58,18 +39,21 @@
   ])
   
   #html.div(id: "calendar-container", class: "no-print", [])
-  #html.script(src: "/assets/calendar.js")
 
   #html.div(id: "research", [ = Research
-    == Publications / Preprints
+    #html.div(class: "header-toggle", [ == Publications / Preprints
+      #checkbox("abstracts", [Abstracts])
+    ])
       #render-web-bib(yaml(works))
     == Conferences / Seminars
-      #for (_, details) in yaml(talks).pairs().sorted(key: it => it.details.date) {
+      #for (_, details) in yaml(talks).pairs().sorted(key: it => it.at(1).date) {
         [
-          - *#parse-date(details.date)*, at #details.event, #emph(details.institution), #{details.location}. Presenting #cite(label(..details.refs)).
+          - "#emph(details.title)" (#parse-date(details.date)), #strong(details.event), #(details.institution), #{details.location}. #if details.refs != none [On #cite(label(..details.refs)).]
         ]
       }
-    // == Posters / Interactive Media
+    #html.div(class: "no-print", [ == Posters / Interactive Media
+      #html.div(id: "poster-container", class: "no-print", [])
+    ])
   ])
   
   #html.div(id: "teaching", [
@@ -87,6 +71,25 @@
   © 2025-#datetime.today().year() 郑仁鹏
 ]
 
+// I am still using the inject
+#let add_css(..hrefs) = hrefs.pos().map(h => html.link(rel: "stylesheet", href: h)).join()
+#let add_js_mod(..srcs) = srcs.pos().map(s => html.script(src: s, type: "module")).join()
+#let head() = {
+  html.head({
+    // html.meta(charset: "utf-8")
+    add_css(
+      // TODO
+    )
+    add_js_mod(
+      "/assets/cite.js", 
+      "/assets/active.js",
+      "/assets/nav.js"
+      // TODO
+    )
+  })
+}
+
+
 
 // ---------------------------------------------------
 // main:
@@ -98,16 +101,5 @@
   main-card()
 
   footer()
+  html.script(src: "/assets/google.js")
 }
-// #html.html({
-//   head()
-//   html.body({
-//     overlay("menu")
-//     nav-bar(name)
-
-//     overlay("tooltip")
-//     main-card()
-
-//     footer()
-//   })
-// })

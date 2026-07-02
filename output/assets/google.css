@@ -4,8 +4,13 @@
   margin: 20px auto;
   aspect-ratio: 4 / 3; /* 保持宽高比 */
 }
+#poster-container {
+  width: 100%;
+  margin: 20px auto;
+  aspect-ratio: 4 / 3; /* 保持宽高比 */
+}
 
-.google-calendar {
+.google-component {
   width: 100%;
   height: 100%;
   border: 1px solid var(--border-color);
@@ -14,7 +19,7 @@
 
 /* 核心：黑夜模式适配 */
 @media (prefers-color-scheme: dark) {
-  .google-calendar {
+  .google-component {
     /* 1. 反转颜色（黑变白，白变黑） */
     /* 2. hue-rotate(180deg) 确保蓝色还是蓝色，而不是变成橙色 */
     filter: invert(0.9) hue-rotate(180deg) brightness(1.1) contrast(0.9);

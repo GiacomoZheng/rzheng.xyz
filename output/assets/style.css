@@ -1,5 +1,6 @@
 :root {
   color-scheme: light dark;
+  interpolate-size: allow-keywords;
 
   --max-width: 900px;
   --padding-width: 80px;
@@ -87,16 +88,59 @@ a {
   transition: color 0.2s ease;
   text-decoration: none;
 }
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+
+  color: var(--link-color);
+  transition: color 0.2s ease;
+  text-decoration: none;
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+button:focus {
+  outline: none;
+}
+button:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 0px;
+  border-radius: 2px;
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+pre {
+  margin: 0px;
+}
+
+code::selection {
+  background-color: var(--bg-color-active);
+}
+
+details::details-content {
+  overflow: hidden; /* 极度重要！保证 JS 在算高度动画时，多余的内容会被切掉 */
+}
 
 footer {
   font-size: 0.9rem;
   margin-top: 20px;
 }
-/* @media screen and (max-width: 768px) {
-  footer {
-    padding-bottom: calc(var(--nav-height) + var(--floating-bottom-gap));
+
+@media screen and (max-width: 768px) {
+  ul {
+    padding-left: 20px;
+    margin-left: 0; 
+    list-style-position: outside;
+    list-style-type: circle;
   }
-} */
+}
 
 /* --------------------------- overlay --------------------------- */
 @media screen and (max-width: 768px) {

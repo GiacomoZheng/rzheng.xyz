@@ -12,7 +12,6 @@ function init() {
 	syncNav();
 	console.log("初始化成功");
 }
-window.addEventListener('load', init);
 
 function switch_active(target) {
 	target.classList.add('is-active');
@@ -39,3 +38,5 @@ function syncNav() {
 	
 }
 window.addEventListener('hashchange', syncNav);
+
+init()

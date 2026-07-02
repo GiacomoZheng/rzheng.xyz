@@ -1,5 +1,5 @@
 // --- 格式化作者姓名 ---
-#let format-other-authors(authors, exclude: "Renpeng Zheng") = {
+#let other-authors(authors, exclude: "Renpeng Zheng") = {
   let raw-authors = if type(authors) == array { authors } else { (authors,) }
   let processed = raw-authors.map(a => {
     if a.contains(",") {
@@ -18,43 +18,54 @@
 }
 
 // ！ 目前typst编译的table还不能处理class，所以先继续使用html.elem
-#let create-web-bib-list(details) = {
-  let other-authors-str = format-other-authors(details.author)
-
-  [
-    #emph(details.title) (#details.date)#{
-      if not other-authors-str == [] {
-        [, with #other-authors-str]
+#let create-web-bib-content(key, details) = [
+  #emph(details.title) (#details.date)#{
+    let other-authors-str = other-authors(details.author)
+    if not other-authors-str == [] {
+      [, with #other-authors-str]
+    }
+    if "journal" in details {
+      [, at #strong(details.journal)]
+      if "doi" in details {
+        [, #link("https://doi.org/" + details.doi, [DOI])]
+      } else {
+        [ (to appear)]
       }
-      if "journal" in details {
-        [, at #strong(details.journal)]
-        if "doi" in details {
-          [, #link("https://doi.org/" + details.doi, [DOI])]
-        } else {
-          [ (to appear)]
-        }
-      }
-      if "arxiv" in details {
-        [, #link("https://arxiv.org/abs/" + details.arxiv, [arXiv])]
-      }
-      if "bib" in details {
-        [, BIB (TODO)]
-      }
-      if "abstract" in details {
-        [, abstract (TODO)]
-      }
-    }.
-  ]
-}
+    }
+    if "arxiv" in details {
+      [, #link("https://arxiv.org/abs/" + details.arxiv, [arXiv])]
+    }
+    if "bib" in details {
+      [, #box(html.button(popovertarget: key + "-bib-dialog", [bib]))]
+    }
+    [. \ ]
+    if "abstract" in details {
+      html.details(name: key, open: false, class: "abstract-details", [
+        #html.summary(smallcaps([Abstract]))
+        #html.div(details.abstract)
+      ])
+    }
+    if "bib" in details {
+      html.dialog(class: "bib-dialog", id: key + "-bib-dialog", popover: auto, [
+        #html.button([Copy to clipboard])
+        #html.pre(raw(details.bib))
+        // #align(right)[ // maybe future
+        
+      ])
+    }
+  }
+]
 
 #let render-web-bib(refs) = {
   // ! 重写为一个巨大的表
   // 感觉似乎不大可能，毕竟我需要兼顾手机端
-  for (key, details) in refs {
-    html.div(class: "bib-entry", id: key, [
-      #html.span(class: "bib-label", "[" + details.label + "]")#html.div(class: "bib-content", create-web-bib-list(details))
-    ])
-  }
+  html.div(class: "bib-list", [
+    #for (key, details) in refs.pairs().sorted(key: it => -float(it.at(1).arxiv)) {
+      html.div(class: "bib-entry", id: key, [
+        #html.span(class: "bib-label", [\[#details.label\]])#html.div(class: "bib-content", create-web-bib-content(key, details))
+      ])
+    }
+  ])
 }
 // ============================================
 
@@ -92,7 +103,7 @@
       ])
       
     } else {
-      html.elem("span", attrs: (style: "color: red;"), "[" + key + "?]")
+      html.span(style: "color: red;", "[" + key + "?]")
     }
   }
 }

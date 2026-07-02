@@ -1,12 +1,37 @@
 KQSVCD:
   type: misc
   label: Zheng26
-  title: K-stability of Q-Fano Spherical Varieties via Compatible Divisors
+  title: K-stability of Q-Fano spherical varieties via compatible divisors
   author: Zheng, Renpeng
   date: 2026
   arxiv: '2601.00054'
   journal: Annales de l’Institut Fourier
-  # bib: 'aa'
   # doi: '0/11'
-  # abstract: We study the K-stability of ℚ-Fano spherical varieties using compatible divisors. More precisely, if the ℚ-Fano variety, with a reductive group action, has an open Borel subgroup orbit, then there is a unique anticanonical ℚ-divisor computing the equivariant stability threshold. This ℚ-divisor is invariant under the Borel subgroup action, and it characterizes the K-stability of a ℚ-Fano spherical variety.
+  bib: |
+    @article{zheng2026kstabilityqfanosphericalvarieties,
+      title={K-stability of Q-Fano Spherical Varieties via Compatible Divisors}, 
+      author={Zheng, Renpeng},
+      year={2026},
+      journaltitle={Annales de l’Institut Fourier (To appear)},
+      doi={},
+      pages={},
+      volume={}
+    }
+  abstract: We study the K-stability of ℚ-Fano spherical varieties using compatible divisors. More precisely, if the ℚ-Fano variety, with a reductive group action, has an open Borel subgroup orbit, then there is a unique anticanonical ℚ-divisor computing the equivariant stability threshold. This ℚ-divisor is invariant under the Borel subgroup action, and it characterizes the K-stability of a ℚ-Fano spherical variety.
+
+# tmp1:
+#   type: misc
+#   label: JTZ26
+#   title: TODO
+#   author:
+#     - Jubert, Simon 
+#     - Trusiani, Antonio
+#     - Zheng, Renpeng
+#   date: 2026
+#   arxiv: "2602.00054"
+#   # journal: 
+#   # bib: 'aa'
+#   # doi: '0/11'
+#   abstract: We study nanan
+
 
