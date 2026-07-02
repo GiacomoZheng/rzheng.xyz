@@ -38,12 +38,12 @@
   <body>
     <input type="checkbox" id="menu-toggle" class="overlay-toggle hidden"><label for="menu-toggle" id="menu-overlay" class="overlay"><span></span></label>
     <nav>
-      <div class="nav-content">
+      <div id="nav-content">
         <div id="nav-logo"><strong>Zheng, Renpeng</strong></div>
         <div id="nav-right">
-          <div class="nav-home-wrapper"><a href="/index.html#" data-type="anchor" target="_self" rel class="nav-link">Home</a></div>
+          <div class="nav-home-wrapper"><a href="/index.html#" class="nav-link">Home</a></div>
           <label for="menu-toggle" class="menu-toggle-label"><span id="menu-icon"><span class="line"></span><span class="line"></span><span class="bottom-lines"><span class="line" id="bottom-l-line"></span><span class="line" id="bottom-r-line"></span></span></span></label>
-          <div class="nav-menu"><a href="/index.html#research" data-type="anchor" target="_self" rel class="nav-link">Research</a><a href="/index.html#teaching" data-type="anchor" target="_self" rel class="nav-link">Teaching</a></div>
+          <div class="nav-menu"><a href="/index.html#research" class="nav-link">Research</a><a href="/index.html#teaching" class="nav-link">Teaching</a></div>
         </div>
       </div>
     </nav>
@@ -117,5 +117,5 @@
     <footer>© 2025-2026 郑仁鹏</footer>
     <script src="/assets/google.js">
     </script>
-  <script>let lastV=''; function check(){ fetch('/.reload?t=' + Date.now(),{ cache: 'no-cache'}) .then(r=>r.text()) .then(nv=>{ if (lastV && nv !==lastV){ window.location.reload(); return;} lastV=nv; setTimeout(check, 1000);}) .catch(()=>setTimeout(check, 2000));} check();</script></body>
+  </body>
 </html>

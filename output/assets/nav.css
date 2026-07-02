@@ -93,7 +93,7 @@ nav::before {
   }
 }
 
-.nav-content {
+#nav-content {
   width: 100%;
   max-width: var(--max-width);
   padding: 0 var(--padding-width);
@@ -104,7 +104,7 @@ nav::before {
   align-items: center;
 }
 @media screen and (max-width: 768px) {
-  .nav-content {
+  #nav-content {
     padding: 0px;
   }
 }
@@ -274,6 +274,15 @@ nav::before {
 .nav-link.is-active {
   color: var(--nav-hover-color);
   font-weight: bolder;
+}
+.nav-link::after {
+  display: block;
+  content: "Research"; /* 读取 HTML 里的 data-text 内容 */
+  font-weight: bolder;        /* 强行让它变成粗体 */
+  
+  height: 0;                /* 高度设为 0，不影响垂直布局 */
+  visibility: hidden;       /* 隐形，看不见它 */
+  overflow: hidden;         /* 彻底隐藏溢出 */
 }
 
 @media screen and (max-width: 768px) {
