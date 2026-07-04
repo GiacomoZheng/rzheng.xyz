@@ -72,7 +72,6 @@
   background: rgba(0, 0, 0, 0.05); /* 几乎无感，主要用来隔绝底层点击 */
   backdrop-filter: none; 
 }
-
 .bib-dialog pre {
   max-width: 100%;
   overflow-x: auto;         /* 核心：超出时，只有代码块内部出现滚动条 */
@@ -81,8 +80,22 @@
   padding-top: 4px;
   border-radius: 4px;
 }
-
 .bib-dialog button {
   display: block;
   margin-left: auto;
+}
+
+.details-wrapper {
+  height: 0;
+  overflow: hidden; /* 核心：动画期间截断 */
+  transition: height 0.3s ease; /* 300ms 动画，更轻快 */
+}
+.details-inner {
+  position: relative;
+  /* 核心：清除内部所有浮动，确保 offsetHeight 计算精准 */
+  display: flow-root;
+}
+.is-animating summary {
+  pointer-events: none;
+  /* color: #999; */
 }

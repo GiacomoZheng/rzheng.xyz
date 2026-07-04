@@ -21,7 +21,8 @@ function switch_active(target) {
 
 function syncNav() {
 	const url = new URL(window.location.href);
-	let path = url.pathname === "/" ? "/index.html" : url.pathname;
+	let path = url.pathname;
+	console.log("pathname", path);
 	let hash = url.hash || "#"; // 如果没有 hash，默认给个 # 匹配 Home
 
 	const currentKey = window.location.origin + path + hash;

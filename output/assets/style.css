@@ -1,6 +1,6 @@
 :root {
   color-scheme: light dark;
-  interpolate-size: allow-keywords;
+  /* interpolate-size: allow-keywords; */
 
   --max-width: 900px;
   --padding-width: 80px;
@@ -45,7 +45,7 @@
 :root {
   --bezier: cubic-bezier(0.16, 1, 0.3, 1); /* 定义一个复合变量作为模板 */
   --width-transform: width 0.5s var(--bezier), transform 0.5s var(--bezier);
-  --appear-or-dis: opacity 0.2s ease-out;
+  --appear-or-dis: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .hidden {
@@ -80,6 +80,10 @@ body {
   line-height: 1.4;
   /* 如果单行文字太长折行了，这是折行间距 */
   font-size: 16px;
+}
+
+summary, label {
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* 统一应用到所有链接 */
@@ -124,8 +128,16 @@ code::selection {
   background-color: var(--bg-color-active);
 }
 
-details::details-content {
-  overflow: hidden; /* 极度重要！保证 JS 在算高度动画时，多余的内容会被切掉 */
+details {
+  overflow: hidden;
+}
+details.is-animating {
+  cursor: not-allowed;
+}
+
+summary {
+  cursor: pointer;
+  user-select: none;
 }
 
 footer {

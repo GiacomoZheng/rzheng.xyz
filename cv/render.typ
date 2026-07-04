@@ -118,12 +118,6 @@
       if "arxiv" in details {
         [, #universal-link("https://arxiv.org/abs/" + details.arxiv, [arXiv])]
       }
-      if "abstract" in details {
-        [, abstract (TODO)]
-      }
-      if "bib" in details {
-        [, BIB (TODO)]
-      }
     }.
   ]
 }

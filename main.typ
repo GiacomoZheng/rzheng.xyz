@@ -11,6 +11,7 @@
 #bibliography(works, style: "apa")
 #show cite: it => my-cite(yaml(works), str(it.key))
 
+
 #let main-card() = html.div(class: "main-card", [
   #html.div(class: "intro-row", [
     #html.div(class: "intro-words", [

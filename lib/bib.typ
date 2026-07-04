@@ -42,7 +42,10 @@
     if "abstract" in details {
       html.details(name: key, open: false, class: "abstract-details", [
         #html.summary(smallcaps([Abstract]))
-        #html.div(details.abstract)
+        #html.div(
+          class: "details-wrapper",
+          html.div(class: "details-inner", details.abstract)
+        )
       ])
     }
     if "bib" in details {

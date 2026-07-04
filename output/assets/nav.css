@@ -77,7 +77,7 @@ nav::before {
   }
 
   /* 下滑收缩nav */
-  #menu-toggle:not(:checked) ~ nav.nav-compact {
+  #menu-toggle:not(:checked) ~ .nav-compact {
     width: var(--nav-height); /* 变成正方形 */
     will-change: width;
     transform: translateZ(0);
@@ -151,8 +151,6 @@ nav::before {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    -webkit-tap-highlight-color: transparent;
   }
 
   /* 汉堡图标三条杠 */
@@ -194,7 +192,7 @@ nav::before {
 }
 
 /* 菜单内部容器 */
-.nav-menu {
+#nav-menu {
   display: flex;
   flex-direction: row;
   gap: 25px;
@@ -204,7 +202,7 @@ nav::before {
 }
 @media screen and (max-width: 768px) {
   /* 上拉菜单 */
-  .nav-menu {
+  #nav-menu {
     /* 初始隐藏 */
     opacity: 0;
     visibility: hidden;
@@ -225,7 +223,7 @@ nav::before {
     right: 0;
     width: auto;
   }
-  .nav-menu::before {
+  #nav-menu::before {
     content: "";
     position: absolute;
     inset: 0; /* 撑满父容器 */
@@ -241,7 +239,7 @@ nav::before {
   }
 
   /* 展开 */
-  #menu-toggle:checked ~ nav .nav-menu {
+  #menu-toggle:checked ~ nav #nav-menu {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
@@ -275,23 +273,28 @@ nav::before {
   color: var(--nav-hover-color);
   font-weight: bolder;
 }
+.nav-link::before {
+  display: block;
+  content: attr(data-text);
+  font: inherit;
+  height: auto;
+}
 .nav-link::after {
   display: block;
-  content: "Research"; /* 读取 HTML 里的 data-text 内容 */
-  font-weight: bolder;        /* 强行让它变成粗体 */
-  
-  height: 0;                /* 高度设为 0，不影响垂直布局 */
-  visibility: hidden;       /* 隐形，看不见它 */
-  overflow: hidden;         /* 彻底隐藏溢出 */
+  content: attr(data-text);
+  font-weight: bolder;
+  height: 0;
+  visibility: hidden;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 768px) {
   .nav-link {
-    text-align: left;
+    text-align: center;
     padding: 12px 10px;
   }
 
-  .nav-menu .nav-link:last-child {
+  #nav-menu .nav-link:last-child {
     border-bottom: 0px;
   }
 }

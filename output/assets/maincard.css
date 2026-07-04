@@ -33,7 +33,7 @@
     /* 手机端的nav在下方，不需要顶部边距 */
     margin-top: 0px; 
     padding-top: 20px;
-
+    word-wrap: break-word;
   }
 }
 
@@ -115,6 +115,10 @@ ruby > rt {
 /* header */
 .header-toggle {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  justify-content: space-between; /* 关键：标题靠左，开关靠右。如果你想让它们挨在一起，可以换成 flex-start */
+}
+.header-toggle > :last-child {
+  padding-left: 10px;
+  margin-left: auto;
 }
