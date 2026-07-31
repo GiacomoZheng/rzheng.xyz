@@ -30,8 +30,7 @@
 
   white-space: normal;
   text-align: left;
-  line-height: 1.5;
-  font-size: 0.85rem;
+  font-size: 0.9em;
   z-index: 100;
   color: var(--text-color);
   padding: 12px 20px;

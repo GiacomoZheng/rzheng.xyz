@@ -6,7 +6,7 @@ warick2026:
   institution: University of Warwick
   location: Coventry, UK
   refs: 
-    - KQSVCD
+    - sphcomp
 
 kyoto2026:
   type: misc
@@ -17,4 +17,4 @@ kyoto2026:
   institution: Kyoto University
   location: Kyoto, Japan
   refs: 
-    - KQSVCD
+    - sphcomp

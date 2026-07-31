@@ -27,7 +27,7 @@
 
 // normal checkbox
 #let checkbox(name, label) = {
-  html.div(class: "no-print", style: "display: flex; align-items: baseline;",[
+  html.div(class: "checkbox-container no-print",[
     #html.elem("label", attrs: ("for": name + "-toggle", id: name + "-toggle-label"), label)
     #html.input(type: "checkbox", id: name + "-toggle")
   ])

@@ -33,7 +33,8 @@
       }
     }
     if "arxiv" in details {
-      [, #link("https://arxiv.org/abs/" + details.arxiv, [arXiv])]
+      let yymm = int(float(details.arxiv))
+      [, #link("https://arxiv.org/abs/" + details.arxiv, [arXiv:#yymm])]
     }
     if "bib" in details {
       [, #box(html.button(popovertarget: key + "-bib-dialog", [bib]))]
@@ -42,9 +43,10 @@
     if "abstract" in details {
       html.details(name: key, open: false, class: "abstract-details", [
         #html.summary(smallcaps([Abstract]))
+        // + try to simply it
         #html.div(
           class: "details-wrapper",
-          html.div(class: "details-inner", details.abstract)
+          par(details.abstract)
         )
       ])
     }
@@ -52,8 +54,6 @@
       html.dialog(class: "bib-dialog", id: key + "-bib-dialog", popover: auto, [
         #html.button([Copy to clipboard])
         #html.pre(raw(details.bib))
-        // #align(right)[ // maybe future
-        
       ])
     }
   }

@@ -41,7 +41,8 @@
   display: flex;
   gap: 20px; /* 适当缩小间距以适应三列 */
   justify-content: space-between;
-  align-items: center; /* 建议居中对齐，三等分时视觉更平衡 */
+  align-items: center;
+  /* 建议居中对齐，三等分时视觉更平衡 */
   margin-bottom: 3em;
 }
 @media screen and (max-width: 768px) {
@@ -62,7 +63,8 @@
   /* 这里就是你想要的“回车”间距 */
 }
 .intro-words p {
-  margin: 0px /* 清除 p 标签自带的 margin */
+  margin: 0; /* 清除 p 标签自带的 margin */
+  text-align: left;
 }
 
 /* 核心：为三个子部分设置等宽 */
@@ -76,16 +78,16 @@
 /* 中间的 Ruby 居中 */
 .intro-ruby {
   justify-content: center;
-  font-size: 32px;
+  font-size: 2em;
 }
 ruby {
   font-family: 'FandolKai', serif;;
-}
-ruby > rt {
-  font-style: italic;
-  font-family: "Palatino", "Georgia", sans-serif; /* we need this line to recover the font changed by ruby */
-  width: 100%;
-  font-size: 0.4em;
+  & > rt {
+    font-style: italic;
+    font-family: "Palatino", "Georgia", sans-serif; /* we need this line to recover the font changed by ruby */
+    width: 100%;
+    font-size: 0.4em;
+  }
 }
 
 /* 右侧的头像容器靠右 */
@@ -117,8 +119,13 @@ ruby > rt {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-}
-.header-toggle > :last-child {
-  padding-left: 10px;
-  margin-left: auto;
+
+  & > :is(h1, h2, h3, h4, h5, h6) {
+    margin-block-end: 0.2em;
+  }
+  
+  & > :last-child {
+    padding-left: 1em;
+    margin-left: auto;
+  }
 }

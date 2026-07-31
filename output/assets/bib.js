@@ -3,7 +3,7 @@ const allDetails = document.querySelectorAll('.abstract-details');
 
 function animateDetails(details, shouldOpen) {
   const wrapper = details.querySelector('.details-wrapper');
-  const inner = wrapper.querySelector('.details-inner');
+  const inner = wrapper.querySelector('p');
   if (shouldOpen) {
     console.log("opening");
     details.open = true; 

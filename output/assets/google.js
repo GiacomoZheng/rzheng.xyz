@@ -33,6 +33,7 @@
             </iframe>`;
         poster.innerHTML = `
             <iframe src="https://drive.google.com/embeddedfolderview?id=1q8QhaxtVw2GYZgpMGKrZ1DxO4mGrGVxj#list"
+                loading="lazy"
                 class="google-component" frameborder="0">
             </iframe>`;
     }

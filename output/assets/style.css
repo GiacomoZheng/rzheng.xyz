@@ -2,7 +2,7 @@
   color-scheme: light dark;
   /* interpolate-size: allow-keywords; */
 
-  --max-width: 900px;
+  --max-width: 840px;
   --padding-width: 80px;
   
   --nav-height: 55px;
@@ -13,7 +13,7 @@
 }
 @media screen and (max-width: 768px) {
   :root {
-    --padding-width: 20px;
+    --padding-width: clamp(20px, 16.3vw - 45.22px, 80px);
     --nav-height-space: calc(var(--nav-height) + var(--floating-bottom-gap) + 5px);
     --floating-bottom-gap: calc(5px + env(safe-area-inset-bottom));
   }
@@ -75,15 +75,35 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   font-family: var(--en-font);
-  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
   /* 如果单行文字太长折行了，这是折行间距 */
   font-size: 16px;
+  text-wrap: pretty;
+}
+
+h1, h2, h3, h4, h5, h6, .title {
+  text-wrap: balance;
+}
+h4, h5, h6 { margin-block-end: 0; }
+
+p {
+  /* max-width: 65ch; */
+  text-align: justify;
+  hyphens: auto;
+}
+@media screen and (max-width: 768px) {
+  p { text-align: left;}
 }
 
 summary, label {
   -webkit-tap-highlight-color: transparent;
+}
+
+summary, label, input[type="checkbox"] {
+  cursor: pointer;
 }
 
 /* 统一应用到所有链接 */
@@ -128,6 +148,21 @@ code::selection {
   background-color: var(--bg-color-active);
 }
 
+[style*="small-caps"] {
+  font-family: Corbel, system-ui;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.05); /* 几乎无感，主要用来隔绝底层点击 */
+  backdrop-filter: none; 
+}
+
+footer {
+  font-size: 0.9em;
+  margin-top: 20px;
+}
+
+/* --- details and summary --------------------------- */
 details {
   overflow: hidden;
 }
@@ -136,15 +171,31 @@ details.is-animating {
 }
 
 summary {
-  cursor: pointer;
   user-select: none;
 }
 
-footer {
-  font-size: 0.9rem;
-  margin-top: 20px;
+/* --- checkbox --------------------------- */
+.checkbox-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
 }
 
+.checkbox-container input[type="checkbox"] {
+  font-size: inherit;
+  /* 必须显式的写 */
+  margin: 0;
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
+/* --- unorded list --------------------------- */
+h4 + ul { margin-block-start: 0.25em; }
+li {
+  text-align: justify;
+  hyphens: auto;
+}
 @media screen and (max-width: 768px) {
   ul {
     padding-left: 20px;
@@ -152,9 +203,10 @@ footer {
     list-style-position: outside;
     list-style-type: circle;
   }
+  li { text-align: left;}
 }
 
-/* --------------------------- overlay --------------------------- */
+/* --- overlay --------------------------- */
 @media screen and (max-width: 768px) {
   .overlay {
     position: fixed;

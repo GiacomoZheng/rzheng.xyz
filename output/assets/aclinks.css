@@ -12,7 +12,7 @@
 
 .academic-links {
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: nowrap; */
   gap: 20px;
   align-items: center;
   justify-content: left;
@@ -38,7 +38,7 @@
 .ai, .fa {
   display: inline-flex;
   position: relative; 
-  font-size: 2.5rem;
+  font-size: 2.5em;
   align-items: center;
 }
 a:has(.ai) {
