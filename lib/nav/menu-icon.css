@@ -1,0 +1,22 @@
+#menu-icon {
+  --thickness: 2px;
+  --gap: 6px;
+  --length: 24px;
+  /* --length: calc(var(--gap) * 2 + var(--thickness) * 3); */
+
+  display: inline-grid;
+  grid-template-rows: repeat(3, var(--thickness));
+  row-gap: var(--gap);
+  width: var(--length);
+  & > .line {
+    grid-column: 1;
+    width: 100%;
+    height: var(--thickness);
+    border-radius: 1px;
+    background-color: var(--text-color);
+    &:nth-child(1) { grid-row: 1; }
+    &:nth-child(2) { grid-row: 2; }
+    &:nth-child(3) { grid-row: 3; }
+    &:nth-child(4) { grid-row: 3; }
+  }
+}

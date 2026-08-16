@@ -1,3 +1,5 @@
+#import "tools.typ": minify-css
+
 // --- 格式化作者姓名 ---
 #let other-authors(authors, exclude: "Renpeng Zheng") = {
   let raw-authors = if type(authors) == array { authors } else { (authors,) }
@@ -41,40 +43,63 @@
     }
     [. \ ]
     if "abstract" in details {
-      html.details(name: key, open: false, class: "abstract-details", [
-        #html.summary(smallcaps([Abstract]))
+      html.details(name: key, open: false, class: "abstract-details", {
+        html.summary(smallcaps([Abstract]))
         // + try to simply it
-        #html.div(
-          class: "details-wrapper",
+        // 等interpolate-size: allow-keywords;吧
+        html.div(class: "details-wrapper",
           par(details.abstract)
         )
-      ])
+      })
     }
     if "bib" in details {
-      html.dialog(class: "bib-dialog", id: key + "-bib-dialog", popover: auto, [
-        #html.button([Copy to clipboard])
-        #html.pre(raw(details.bib))
-      ])
+      html.dialog(class: "bib-dialog", id: key + "-bib-dialog", popover: auto, tabindex: -1, autofocus: true, {
+        html.button([Copy to clipboard])
+        html.pre(raw(lang: "bibtex", details.bib))
+      })
     }
   }
 ]
 
-#let render-web-bib(refs) = {
-  // ! 重写为一个巨大的表
-  // 感觉似乎不大可能，毕竟我需要兼顾手机端
-  html.div(class: "bib-list", [
-    #for (key, details) in refs.pairs().sorted(key: it => -float(it.at(1).arxiv)) {
-      html.div(class: "bib-entry", id: key, [
-        #html.span(class: "bib-label", [\[#details.label\]])#html.div(class: "bib-content", create-web-bib-content(key, details))
-      ])
-    }
-  ])
-}
-// ============================================
-
 #let get-last-name(a) = {
   if a.contains(",") { a.split(",").at(0).trim() } else { a.split(" ").last() }
 }
+
+#let create-tooltip-content(details) = {
+  let preview-authors = {
+    let authors = if type(details.author) == array { details.author } else { (details.author,) }
+    
+    if authors.len() <= 3 {
+      // 情况 1：1-3 个作者，全部列出姓氏，用逗号分隔
+      authors.map(get-last-name).join(", ")
+    } else {
+      // 情况 2：超过 3 个作者，列出前三个姓氏 + et al.
+      authors.slice(0, 3).map(get-last-name).join(", ") + " et al."
+    }
+  }
+
+  // 构造悬浮窗内部内容
+  [
+    #strong(preview-authors) (#details.date)\
+    #emph(details.title)
+  ]
+}
+
+
+#let render-web-bib(refs, toggle-id) = {
+  // ! 重写为一个巨大的表
+  // 感觉似乎不大可能，毕竟我需要兼顾手机端
+  // html.div(class: "bib-list", {
+  html.elem("bib-list", attrs: ("toggle-id": toggle-id), {
+    for (key, details) in refs.pairs().sorted(key: it => -float(it.at(1).arxiv)) {
+      html.div(class: "bib-entry", id: key, [
+        #html.span(class: "bib-label", [\[#details.label\]])#html.div(class: "bib-content", create-web-bib-content(key, details))#html.div(class: "tooltip-content no-print", create-tooltip-content(details))
+      ])
+    }
+  })
+}
+// ============================================
+
 
 #let my-cite(refs, keys) = {
   let keys = if type(keys) == str { (keys,) } else { keys }
@@ -82,28 +107,16 @@
     if key in refs {
       let details = refs.at(key)
 
-      let preview-authors = {
-        let authors = if type(details.author) == array { details.author } else { (details.author,) }
-        
-        if authors.len() <= 3 {
-          // 情况 1：1-3 个作者，全部列出姓氏，用逗号分隔
-          authors.map(get-last-name).join(", ")
-        } else {
-          // 情况 2：超过 3 个作者，列出前三个姓氏 + et al.
-          authors.slice(0, 3).map(get-last-name).join(", ") + " et al."
-        }
-      }
-
-      // 构造悬浮窗内部内容
-      let tooltip-inner = [
-        #strong(preview-authors) (#details.date)\
-        #emph(details.title)
-      ]
+      
 
       html.a(href: "#" + key, class: "cite-link", [
         \[#details.label\]
-        #html.span(class: "no-print", tooltip-inner)
       ])
+      // ! 目前typst编译的html.elem会被识别成块，强行切断<p>
+      // html.elem("cite-link", attrs: ("href": "#" + key), [
+      //   \[#details.label\]
+      //   #html.span(class: "no-print", tooltip-inner)
+      // ])
       
     } else {
       html.span(style: "color: red;", "[" + key + "?]")

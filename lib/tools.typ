@@ -17,7 +17,6 @@
   }
 }
 
-
 // checkbox hack
 #let overlay(name) = {
   html.input(type: "checkbox", id: name + "-toggle", class: "overlay-toggle hidden")
@@ -33,8 +32,16 @@
   ])
 }
 
+// inline css
+#let minify-css(css-code) = {
+  css-code.replace(regex("(?s)/\*.*?\*/"), "") // 1. 清除 /* 注释 */
+    .replace(regex("\s+"), " ")          // 2. 多个换行/空格合并为一个空格
+    .replace(regex("\s*([{}:;,])\s*"), m => m.captures.at(0)) // 3. 清除符号 ( { } : ; , ) 两边的空格
+    .trim()                              // 4. 清除首尾空白
+}
 
-// date
+
+// talks
 #let parse-date(yyyy-mm-dd) = {
   // 确保输入是字符串
   let d = str(yyyy-mm-dd)
@@ -46,6 +53,11 @@
   
   // 构造并返回标准的 datetime 对象
   datetime(year: year, month: month, day: day).display("[month repr:short] [year]")
+}
+#let render-talks(talks) = {
+  for (_, details) in talks.pairs().sorted(key: it => it.at(1).date) {[
+    - "#emph(details.title)" (#parse-date(details.date)), #strong(details.event), #(details.institution), #{details.location}. #if details.refs != none [On #cite(label(..details.refs)).]
+  ]}
 }
 
 

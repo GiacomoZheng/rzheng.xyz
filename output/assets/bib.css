@@ -3,25 +3,39 @@
    ============================================================ */
 .bib-entry {
   display: grid;
-  /* 固定第一列宽度，第二列自适应 */
-  grid-template-columns: 90px 1fr; 
-  align-items: baseline; 
-  column-gap: 15px;
   margin-bottom: 0.8em; /* 稍微增加条目间距，更易阅读 */
-  padding: 4px 8px;
-  border-radius: 4px;
-  transition: var(--appear-or-dis);
+  /* 固定第一列宽度，第二列自适应 */
+  grid-template-columns: 6em 1fr; 
+  align-items: baseline; 
+  column-gap: 1em;
+  padding: 0.3em 0.6em;
+  border-left: 4px solid transparent;
+  border-radius: 0.3em;
+
+  transition:
+    background-color 0.3s var(--ease-out-apple),
+    border-left-color 0.3s var(--ease-out-apple),
+    transform 0.3s var(--ease-out-apple);
+
+  & .tooltip-content {
+    display: none;
+  }
+  & p {
+    margin: 0;
+  }
 }
 /* 目标唤醒样式 (点击引用跳转后的效果) */
 .bib-entry:target {
   background-color: var(--bg-color-active);
-  border-left: 4px solid var(--link-color);
-  padding-left: 12px;
+  border-left-color: var(--link-color);
+  transform: translateX(0.5em);
+  transition-duration: 0.15s;
 }
 @media screen and (max-width: 768px) {
   .bib-entry {
     /* 在手机端改为上下堆叠布局 */
     grid-template-columns: 1fr; 
+    row-gap: 0.5em;
   }
 }
 
@@ -30,12 +44,8 @@
   color: var(--link-color);
   white-space: nowrap; 
 }
-
 .bib-content {
   grid-column: 2;
-}
-.bib-entry p {
-  margin: 0;
 }
 @media screen and (max-width: 768px) {
   .bib-content {
@@ -52,30 +62,35 @@
   to { transform: scale(1); opacity: 1; }
 }
 .bib-dialog {
-  padding: 12px;
-  width: 70vw;
-  max-width: 600px;
+  font-size: 0.8em;
+  padding: 1.5em;
+  border-radius: 0.75em;
+  width: min(80%, 40em);
+  /* 仍需调整 */
+  max-height: 50vh;
   background-color: var(--bg-color);
   border: 1px solid var(--border-color);
   box-shadow: none;
-  border-radius: 12px;
 
-  animation: popIn 0.2s ease-in;
+  animation: popIn 0.2s var(--ease-out-apple);
+}
+.bib-dialog::backdrop {
+  /* background-color: rgba(0, 0, 0, 0.3); */
+  inset: calc(env(safe-area-inset-top) + 5px) 0 var(--floating-bottom-gap) 0;
 }
 @media screen and (max-width: 768px) {
   .bib-dialog {
-    width: 85vw;
-    max-width: 450px;
+    width: 99%;
   }
 }
+
 
 .bib-dialog pre {
   max-width: 100%;
   overflow-x: auto;         /* 核心：超出时，只有代码块内部出现滚动条 */
   margin: 0;
-  padding: 12px;
-  padding-top: 4px;
-  border-radius: 4px;
+  padding: 0.25em 0.75em 0.75em;
+  border-radius: 0.25em;;
 }
 .bib-dialog button {
   display: block;
@@ -88,7 +103,7 @@
 .details-wrapper {
   height: 0;
   overflow: hidden; /* 核心：动画期间截断 */
-  transition: height 0.3s ease; /* 300ms 动画，更轻快 */
+  transition: height 0.3s var(--ease-in-out-apple);
 }
 .details-wrapper p {
   position: relative;

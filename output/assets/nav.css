@@ -1,6 +1,11 @@
 :root {
   --nav-radius: 30px;
   --floating-side-gap: 30px;
+  --width-change: width 0.5s var(--ease-in-out-apple);
+  --horizontal-vanish:
+    max-width 0.5s var(--ease-out-apple),
+    opacity 0.5s var(--ease-out-apple),
+    transform 0.5s var(--ease-out-apple);
 }
 
 :root {
@@ -10,7 +15,7 @@
   --nav-link-color: #444444; /* it is different from --link-color */
   --nav-link-border-bottom: 1px solid #eaeaea;
   --nav-hover-color: #007bff;
-  --nav-filter: blur(1px) saturate(3.6)
+  --nav-filter: blur(1px) saturate(3.6);
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -20,80 +25,69 @@
     --nav-link-color: #bbbbbb;
     --nav-link-border-bottom: 1px solid rgba(68, 68, 68, 0.6);
     --nav-hover-color: #4dabff;
-    --nav-filter: blur(1px) saturate(0.8) brightness(1.0)
+    --nav-filter: blur(1px) saturate(1.8) brightness(1.1);
   }
 }
 
-nav {
+dyn-bar {
   position: fixed;
+  inset: 0 0 auto 0;
   width: 100%;
   height: var(--nav-height);
   z-index: 1000;
 
   display: flex;
-  top: 0;
-  left: 0;
-  right: 0;
 }
-nav::before {
+dyn-bar::before {
   content: "";
   position: absolute;
-  inset: 0; /* 撑满父容器 */
-  z-index: -1; /* 躲在文字下面 */
+  inset: 0;
+  z-index: -1;
 
   backdrop-filter: var(--nav-filter);
   background-color: var(--nav-glass-bg);
-  border: var(--nav-glass-border);
   box-shadow: var(--nav-shadow);
   backface-visibility: hidden;
+  border: var(--nav-glass-border);
 }
 @media screen and (max-width: 768px) {
-  nav {
+  dyn-bar {
+    inset: auto var(--floating-side-gap) var(--floating-bottom-gap) auto;
     width: calc(100% - 2 * var(--floating-side-gap));
     height: auto;
-    left: auto;
-    right: var(--floating-side-gap);
-    top: auto;
-    bottom: var(--floating-bottom-gap);
     justify-items: right;
 
     transform: translateZ(0); 
-    will-change: width; /* 提前告诉浏览器宽度会变 */
-    transition: var(--width-transform);
+    transition: var(--width-change);
   }
-  nav::before {
+  dyn-bar::before {
     border-radius: var(--nav-radius);
-    backface-visibility: hidden;
   }
 
   #nav-logo, 
-  .nav-home-wrapper {
-    display: flex;
-    align-items: center;
+  #nav-home {
     overflow: hidden; /* 极其重要：防止收缩时文字折行 */
-    white-space: nowrap; /* 强制不换行 */
-    will-change: width, opacity;
-    transition: var(--appear-or-dis), var(--width-transform);
+    will-change: transform, opacity;
+    transition: var(--horizontal-vanish);
   }
 
-  /* 下滑收缩nav */
-  #menu-toggle:not(:checked) ~ .nav-compact {
-    width: var(--nav-height); /* 变成正方形 */
-    will-change: width;
+  /* 下滑收缩nav-bar */
+  #menu-toggle:not(:checked) ~ dyn-bar.compact {
+    width: var(--nav-height); /* 正方形 */
     transform: translateZ(0);
-    transition: var(--width-transform);
   }
-  #menu-toggle:not(:checked) ~ .nav-compact :is(#nav-logo, .nav-home-wrapper) {
+  #menu-toggle:not(:checked) ~ dyn-bar.compact :is(#nav-logo, #nav-home) {
     opacity: 0;
-    width: 0;
+    max-width: 0;
     margin: 0;
     pointer-events: none;
-    will-change: width;
     transform: translateX(10px);
+    transition-duration: 0.2s;
+    transition-timing-function: var(--ease-in-apple);
   }
 }
 
-#nav-content {
+nav {
   width: 100%;
   max-width: var(--max-width);
   padding: 0 var(--padding-width);
@@ -104,27 +98,29 @@ nav::before {
   align-items: center;
 }
 @media screen and (max-width: 768px) {
-  #nav-content {
+  nav {
     padding: 0px;
   }
 }
 
 #nav-logo {
+  font: var(--en-beauty-italic);
+  white-space: nowrap; /* 强制不换行 */
   margin-left: 0px;
   font-size: 1.2em;
   color: var(--text-color);
 }
-
 /* 4. 右侧组合区域 */
 #nav-right {
   display: flex;
-  flex-wrap: nowrap;
   margin-left: auto;
+  /* 两侧对齐 */
   gap: 25px;
   /* Home 与 菜单第一项 的间距 */
 }
 @media screen and (max-width: 768px) {
   #nav-logo {
+    max-width: 150px;
     margin-left: 20px;
   }
   #nav-right {
@@ -132,12 +128,8 @@ nav::before {
   }
 }
 
-/* 返回Home */
-.nav-home-wrapper {
-  display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 0;
+#nav-home {
+  max-width: 50px;
 }
 .menu-toggle-label {display: none;}
 @media screen and (max-width: 768px) {
@@ -152,41 +144,17 @@ nav::before {
     align-items: center;
     justify-content: center;
   }
-
-  /* 汉堡图标三条杠 */
-  #menu-icon {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 5px;
-    width: 24px;
-  }
-  #menu-icon .line {
-    width: 100%;
-    height: 2px;
-    background-color: var(--text-color);
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.2);
-  }
-  #menu-icon .bottom-lines {
-    position: relative;
-    width: 24px;
-    height: 2px;
-  }
-  #menu-icon .bottom-lines .line {
-    position: absolute; /* 绝对定位，它们会默认重叠在左上角 */
-    top: 0; left: 0;
-  }
   
-  #menu-toggle:checked ~ nav {
+  /* 点击动画 */
+  #menu-icon > .line {
+    transition: transform 0.3s var(--ease-in-out-apple);
+  }
+  #menu-toggle:checked ~ dyn-bar {
     & #menu-icon {
-      & > :nth-child(1) { transform: translate(0px, 5px) scaleX(0); }
+      & > :nth-child(1) { transform: translateY(var(--gap)) scaleX(0); }
       & > :nth-child(2) { transform: scaleX(0); }
-    }
-    & #bottom-l-line {
-      transform: rotate(-45deg) translate(0px, -5px) scaleX(0.5);
-    }
-    & #bottom-r-line {
-      transform: rotate( 45deg) translate(0px, -5px) scaleX(0.5);
+      & > :nth-child(3) { transform: rotate(-45deg) translateY(calc(var(--thickness)/2 - var(--gap))) scaleX(0.5); }
+      & > :nth-child(4) { transform: rotate( 45deg) translateY(calc(var(--thickness)/2 - var(--gap))) scaleX(0.5); }
     }
   }
 }
@@ -194,7 +162,7 @@ nav::before {
 /* 菜单内部容器 */
 #nav-menu {
   display: flex;
-  flex-direction: row;
+  /* flex-direction: row; */
   gap: 25px;
   /* 这里是 菜单内部各项目 的间距 */
   margin: 0;
@@ -208,46 +176,38 @@ nav::before {
     visibility: hidden;
     pointer-events: none;
     transform: translateY(15px);
-    transition:
-      var(--appear-or-dis),
-      transform 0.2s ease,
-      visibility 0.2s;
+    transition: var(--transition-hidden);
 
     flex-direction: column;
     gap: 0;
 
     position: absolute;
-    top: auto;
-    bottom: var(--nav-height-space);
-    left: auto;
-    right: 0;
+    inset: auto 0 calc(var(--nav-height) + 5px) auto;
+    /* 这是相对于父对象的位置 */
     width: auto;
   }
   #nav-menu::before {
     content: "";
     position: absolute;
-    inset: 0; /* 撑满父容器 */
-    z-index: -1; /* 躲在文字下面 */
-  
+    inset: 0;
+    z-index: -1;
+
     backdrop-filter: var(--nav-filter);
     background-color: var(--nav-glass-bg);
-    border: var(--nav-glass-border);
     box-shadow: var(--nav-shadow);
     backface-visibility: hidden;
-
-    border-radius: 8px
+    border: var(--nav-glass-border);
+    border-radius: 8px;
   }
 
   /* 展开 */
-  #menu-toggle:checked ~ nav #nav-menu {
+  #menu-toggle:checked ~ dyn-bar #nav-menu {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
     transform: translateY(0);
-    transition:
-      var(--appear-or-dis),
-      transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    /* 增加一点点回弹效果 */
+    transition-duration: 0.3s;
+    transition-timing-function: var(--ease-out-apple);
   }
   
   #menu-overlay {
@@ -256,19 +216,18 @@ nav::before {
   }
 }
 
-/* 基础状态链接颜色 */
 .nav-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  white-space: nowrap;
   color: var(--nav-link-color);
   border-bottom: var(--nav-link-border-bottom);
   -webkit-tap-highlight-color: transparent;
 }
-
-/* 当用户鼠标悬停时，显示高亮色 */
 .nav-link:hover {
   color: var(--nav-hover-color);
 }
-
-/* 增强： active 项加粗，显示高亮色，视觉引导更强 */
 .nav-link.is-active {
   color: var(--nav-hover-color);
   font-weight: bolder;
@@ -289,8 +248,8 @@ nav::before {
 }
 
 @media screen and (max-width: 768px) {
-  .nav-link {
-    text-align: center;
+  #nav-menu .nav-link {
+    /* text-align: center; */
     padding: 12px 10px;
   }
 

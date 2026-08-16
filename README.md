@@ -18,9 +18,7 @@ This project stands on the shoulders of the open-source community. Thanks to:
     - [ ] Change most `px` to `em`.
     - [ ] Reorganizes the `font-size`.
     - [x] Abstract new file `maincard.css`.
-- [ ] Use checkbox hack to rewrite `cite.js`.
-    - Maybe it is not a good idea.
-    - Idea: `.container:has(#toggle:checked) .my-link {}`. --- Due to the [issue](https://github.com/typst/typst/issues/5907), it does not work.
+- [ ] Remove all checkbox hack.
 - [x] BIB, abstract in `Publications`.
     - [x] BIB, I will use `tooltip`, with a button named `copy`. 
     - [x] Abstract, I use `<details>` and `<summary>` 

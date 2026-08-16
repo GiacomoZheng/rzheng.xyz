@@ -79,3 +79,5 @@ cv.pdf
 **/*.ttf
 **/*.otf
 res/*.png
+debug.js
+*.bak

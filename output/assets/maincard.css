@@ -25,13 +25,15 @@
   margin-top: var(--nav-height-space);
 
   color: var(--text-color);
+  line-height: 1.5;
+  /* 如果单行文字太长折行了，这是折行间距 */
 
   box-shadow: var(--main-shadow);
 }
 @media screen and (max-width: 768px) {
   .main-card {
     /* 手机端的nav在下方，不需要顶部边距 */
-    margin-top: 0px; 
+    margin-top: env(safe-area-inset-top); 
     padding-top: 20px;
     word-wrap: break-word;
   }
@@ -83,8 +85,7 @@
 ruby {
   font-family: 'FandolKai', serif;;
   & > rt {
-    font-style: italic;
-    font-family: "Palatino", "Georgia", sans-serif; /* we need this line to recover the font changed by ruby */
+    font: var(--en-beauty-italic);
     width: 100%;
     font-size: 0.4em;
   }
@@ -111,8 +112,6 @@ ruby {
   height: 100%;
   object-fit: cover;
 }
-
-
 
 /* header */
 .header-toggle {

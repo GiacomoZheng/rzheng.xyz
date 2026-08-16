@@ -11,27 +11,35 @@
   }
 }
 
-/* 1. 基础链接：作为定位锚点 */
 .cite-link {
   position: relative;
   display: inline-block;
   cursor: pointer;
   font-weight: 500;
+  z-index: 100;
+  /* 所有的link的高度都要超过overlay，低于浮窗 */
   -webkit-tap-highlight-color: transparent;
+
+  /* 桌面端hover/移动端第一次点击 */
+  &.is-peeking {
+    background-color: var(--bg-color-active);
+    outline: 1px solid var(--link-color);
+    border-radius: 3px;
+  }
 }
 
 /* 2. 浮窗容器通用重置 (不分设备) */
-.cite-link span {
+#global-tooltip {
+  position: fixed;
   /* 默认隐藏状态 */
-  display: block;
   visibility: hidden;
   opacity: 0;
-  pointer-events: none;
+  transition: var(--transition-hidden);
 
   white-space: normal;
   text-align: left;
   font-size: 0.9em;
-  z-index: 100;
+  z-index: 101;
   color: var(--text-color);
   padding: 12px 20px;
 
@@ -40,78 +48,57 @@
   box-shadow: var(--cite-shadow);
   border-radius: 8px;
 }
+/* 展开弹窗 */
+body:has(.cite-link.is-peeking) #global-tooltip {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  transition-timing-function: var(--ease-out-apple);
+  transition-duration: 0.25s;
+}
 
 /* ============================================================
    设备适配逻辑
    ============================================================ */
-/* 4. 桌面端 (769px 以上)：相对于引用文字悬浮 */
+/* 4. 桌面端 (769px 以上)：相对于引用文字悬浮（由js实现） */
 @media screen and (min-width: 769px) {
-  .cite-link span {
-    position: absolute;
-    bottom: 145%;
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
+  #global-tooltip {
+    transform: translateY(20px);
     width: 300px;
-    transition: var(--appear-or-dis), transform 0.25s ease;
-  }
-
-  .cite-link:hover span {
-    visibility: visible;
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  /* 桌面端小箭头 */
-  .cite-link span::after {
-    /* 这个画法太天才了 */
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 8px;
-    border-style: solid;
-    border-color: var(--cite-bg-color) transparent transparent transparent;
-    filter: drop-shadow(0 1px 0 var(--cite-border-color));
+    /* 小箭头 这个画法太天才了 */
+    &::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 8px solid transparent;
+    }
+    &:not(.is-bottom)::after {
+      top: 100%;
+      border-top-color: var(--cite-bg-color);
+      filter: drop-shadow(0 1px 0 var(--cite-border-color));
+    }
+    &.is-bottom::after {
+      bottom: 100%;
+      border-bottom-color: var(--cite-bg-color);
+      filter: drop-shadow(0 -1px 0 var(--cite-border-color));
+    }
   }
 }
 
 /* 5. 移动端 (768px 以下)：强制吸底 */
 @media screen and (max-width: 768px) {
-  .cite-link span {
-    position: fixed;
-    width: calc(100% - 2 * var(--floating-side-gap));
-    left: auto;
-    right: var(--floating-side-gap);
-    top: auto;
-    bottom: var(--nav-height-space);
+  #global-tooltip {
     /* 浮于nav上方 */
-
-    /* 动画：从下方滑入 */
-    transform: translateY(120%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
-
-    pointer-events: auto;
-  }
-
-  /* 引用文字点击后的视觉反馈 */
-  .cite-link.is-peeking {
-    background-color: var(--bg-color-active);
-    outline: 1px solid var(--link-color);
-    border-radius: 3px;
-    z-index: 100; 
-    /* 高度要超过overlay */
-  }
-
-  /* 手机端激活状态 (通过 JS 控制的 .is-peeking) */
-  .cite-link.is-peeking span {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
+    inset: auto var(--floating-side-gap) var(--nav-height-space) var(--floating-side-gap);
+    transform: translateY(120%); /* 动画：从下方滑入 */
   }
 
   #tooltip-overlay {
-    /* background-color: rgba(255, 0, 0); */
     z-index: 90;
+  }
+
+  body:has(.cite-link.is-peeking) #tooltip-overlay {
+    visibility: visible;
   }
 }

@@ -8,17 +8,21 @@
   --nav-height: 55px;
   --nav-height-space: calc(var(--nav-height) + env(safe-area-inset-top) + 5px);
   
-  --en-font:  ui-monospace, 'Roboto Mono', sans-serif;
-  /* --zh-font: '楷体-简-粗体', 'STKaiti', 'KaiTi', '楷体', serif, --apple-system; */
+  --en-font-family:  ui-monospace, 'Roboto Mono', sans-serif;
+  --en-beauty-italic: italic normal 1em "Palatino", "Palatino Linotype", "Georgia", sans-serif;
 }
 @media screen and (max-width: 768px) {
   :root {
-    --padding-width: clamp(20px, 16.3vw - 45.22px, 80px);
-    --nav-height-space: calc(var(--nav-height) + var(--floating-bottom-gap) + 5px);
+    --padding-width: clamp(20px, 16.3% - 45.22px, 80px);
     --floating-bottom-gap: calc(5px + env(safe-area-inset-bottom));
+    --nav-height-space: calc(var(--nav-height) + var(--floating-bottom-gap) + 5px);
   }
 }
-
+@media (display-mode: standalone), (display-mode: fullscreen) {
+  :root {
+    --floating-bottom-gap: env(safe-area-inset-bottom);
+  }
+}
 /* 默认：白天模式变量 */
 :root {
   --bg-color: #ffffff;
@@ -27,7 +31,8 @@
   --link-color: #2a6496;
   --link-hover-color: #16426d;
   --border-color: #d0d0d0;
-
+  --overlay-backdrop-bg: rgba(0, 0, 0, 0.01);
+  --overlay-backdrop-filter: blur(0.25px);
 }
 /* 自动检测：黑夜模式变量 */
 @media (prefers-color-scheme: dark) {
@@ -38,14 +43,23 @@
     --link-color: #79c0ff; 
     --link-hover-color: #a5d6ff;
     --border-color: #333333;
-
+    --overlay-backdrop-bg: rgba(0, 0, 0, 0.02);
+    --overlay-backdrop-filter: blur(0.5px) saturate(1.6) brightness(1.08);
   }
 }
 
 :root {
-  --bezier: cubic-bezier(0.16, 1, 0.3, 1); /* 定义一个复合变量作为模板 */
-  --width-transform: width 0.5s var(--bezier), transform 0.5s var(--bezier);
-  --appear-or-dis: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  /* 1. 进场 / 出现 */
+  --ease-out-apple: cubic-bezier(0.16, 1, 0.3, 1);
+  /* 2. 离场 / 销毁 */
+  --ease-in-apple: cubic-bezier(0.7, 0, 0.84, 0);
+  /* 3. 位移 / 形变 / 变形 */
+  --ease-in-out-apple: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --transition-hidden:
+    visibility 0.15s,
+    opacity 0.15s var(--ease-in-apple),
+    transform 0.15s var(--ease-in-apple);
 }
 
 .hidden {
@@ -76,10 +90,8 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  font-family: var(--en-font);
+  font-family: var(--en-font-family);
   font-variant-numeric: tabular-nums;
-  line-height: 1.5;
-  /* 如果单行文字太长折行了，这是折行间距 */
   font-size: 16px;
   text-wrap: pretty;
 }
@@ -109,7 +121,7 @@ summary, label, input[type="checkbox"] {
 /* 统一应用到所有链接 */
 a {
   color: var(--link-color);
-  transition: color 0.2s ease;
+  transition: color 0.2s var(--ease-in-out-apple);
   text-decoration: none;
 }
 button {
@@ -121,7 +133,7 @@ button {
   cursor: pointer;
 
   color: var(--link-color);
-  transition: color 0.2s ease;
+  transition: color 0.2s var(--ease-in-out-apple);
   text-decoration: none;
 
   appearance: none;
@@ -142,9 +154,11 @@ button:disabled {
 
 pre {
   margin: 0px;
+  border: 1px solid var(--border-color);
 }
 
-code::selection {
+code::selection,
+code *::selection {
   background-color: var(--bg-color-active);
 }
 
@@ -152,9 +166,12 @@ code::selection {
   font-family: Corbel, system-ui;
 }
 
+dialog:focus {
+  outline: none; /* 阻止容器拿到焦点时出现外框 */
+}
 dialog::backdrop {
-  background: rgba(0, 0, 0, 0.05); /* 几乎无感，主要用来隔绝底层点击 */
-  backdrop-filter: none; 
+  background: var(--overlay-backdrop-bg); /* 几乎无感，主要用来隔绝底层点击 */
+  backdrop-filter: var(--overlay-backdrop-filter); 
 }
 
 footer {
@@ -209,13 +226,13 @@ li {
 /* --- overlay --------------------------- */
 @media screen and (max-width: 768px) {
   .overlay {
+    background-color: var(--overlay-backdrop-bg);
+    backdrop-filter: var(--overlay-backdrop-filter);
     position: fixed;
     visibility: hidden;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100dvh;
-    -webkit-tap-highlight-color: transparent
+    inset: calc(env(safe-area-inset-top) + 5px) 0  var(--floating-bottom-gap) 0;
+    cursor: default;
+    -webkit-tap-highlight-color: transparent;
   }
   /* 第一个弟弟 */
   .overlay-toggle:checked + .overlay {
