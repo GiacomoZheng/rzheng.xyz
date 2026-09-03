@@ -19,20 +19,20 @@
     <meta name="description" content="I am a PhD student at Nottingham, working on algebraic geometry">
     <link rel="stylesheet" href="/assets/style.css">
     <link rel="stylesheet" href="/assets/aclinks.css">
-    <link rel="stylesheet" href="/assets/maincard.css">
+    <link rel="stylesheet" href="/assets/main.css">
     <link rel="stylesheet" href="/assets/nav.css">
-    <link rel="stylesheet" href="/assets/cite.css">
+    <link rel="stylesheet" href="/assets/tooltips.css">
     <link rel="stylesheet" href="/assets/bib.css">
     <link rel="stylesheet" href="/assets/google.css">
-    <link rel="stylesheet" href="/assets/print.css">
+    <link rel="stylesheet" href="/assets/print.css" media="print">
     <script src="/assets/cite.js" type="module"></script>
     <script src="/assets/nav.js" type="module"></script>
     <script src="/assets/bib.js" type="module"></script>
   </head>
   <body>
-    <input type="checkbox" id="menu-toggle" class="overlay-toggle hidden"><label for="menu-toggle" id="menu-overlay" class="overlay"><span></span></label><dyn-bar><nav><div id="nav-logo"><strong>Zheng, Renpeng</strong></div><active-links id="nav-right"><p><a id="nav-home" href="#" class="nav-link" data-text="Home"></a></p><label for="menu-toggle" class="menu-toggle-label"><style media="screen and (max-width: 768px)">#menu-icon{--thickness:2px;--gap:6px;--length:24px;display:inline-grid;grid-template-rows:repeat(3,var(--thickness));row-gap:var(--gap);width:var(--length);& > .line{grid-column:1;width:100%;height:var(--thickness);border-radius:1px;background-color:var(--text-color);&:nth-child(1){grid-row:1;}&:nth-child(2){grid-row:2;}&:nth-child(3){grid-row:3;}&:nth-child(4){grid-row:3;}}}</style><div id="menu-icon"><span class="line"></span><span class="line"></span><span class="line"></span><span class="line"></span></div></label><div id="nav-menu"><a id="nav-Research" href="#research" class="nav-link" data-text="Research"></a><a id="nav-Teaching" href="#teaching" class="nav-link" data-text="Teaching"></a></div></active-links></nav></dyn-bar>
-    <div class="main-card">
-      <div class="intro-row">
+    <input type="checkbox" id="menu-toggle" class="overlay-toggle hidden"><label for="menu-toggle" id="menu-overlay" class="overlay"><span></span></label><dyn-bar class="no-print"><div class="inner-bar"><div id="nav-logo"><strong>Zheng, Renpeng</strong></div><active-links><nav><div><a id="nav-home" href="#" class="nav-link" data-text="Home"></a></div><label for="menu-toggle" class="menu-toggle-label"><style media="screen and (max-width: 768px)">#menu-icon{--thickness:2px;--gap:6px;--length:24px;display:inline-grid;grid-template-rows:repeat(3,var(--thickness));row-gap:var(--gap);width:var(--length);& > .line{grid-column:1;width:100%;height:var(--thickness);border-radius:1px;background-color:var(--text-color);&:nth-child(1){grid-row:1;}&:nth-child(2){grid-row:2;}&:nth-child(3){grid-row:3;}&:nth-child(4){grid-row:3;}}}</style><div id="menu-icon"><span class="line"></span><span class="line"></span><span class="line"></span><span class="line"></span></div></label><div id="nav-menu"><a id="nav-Research" href="#research" class="nav-link" data-text="Research"></a><a id="nav-Teaching" href="#teaching" class="nav-link" data-text="Teaching"></a></div></nav></active-links></div></dyn-bar>
+    <main>
+      <header class="intro">
         <div class="intro-words">
           <p>PhD Student</p>
           <p>University of Nottingham</p>
@@ -40,39 +40,51 @@
           <p>Supervised by Hamid Abban and Johannes Hofscheier</p>
           <div class="academic-links"><a href="https://arxiv.org/a/zheng_r_3.html"><div class="ai my-arxiv-square"><img id="arxiv-logo" class="square" src="assets/arxiv.svg"></div></a><a href="https://cv.hal.science/zheng-renpeng"><i class="ai ai-hal-square"><span id="hal-bg" class="square"></span></i></a><a href="https://orcid.org/0009-0005-0309-8458"><i class="ai ai-orcid-square"></i></a><a href="https://zbmath.org/authors/zheng.renpeng"><div class="ai my-zbmath-square"><img id="zbmath-logo" class="square" src="assets/zbmath.svg"></div></a></div>
         </div>
-        <div class="intro-ruby"><ruby>郑<rp>（</rp> <rt>zhèng</rt> <rp>）</rp></ruby><ruby>仁<rp>（</rp> <rt>rén</rt> <rp>）</rp></ruby><ruby>鹏<rp>（</rp> <rt>péng</rt> <rp>）</rp></ruby></div>
-        <div class="avatar-frame"><img src="assets/avatar.webp"></div>
-      </div>
+        <div>
+          <style>
+            @font-face{font-family:'FandolKai';src:url('/assets/FandolKai-Regular-min.woff2') format('woff2');font-weight:normal;font-style:normal;font-display:swap;}ruby{font-family:'FandolKai',serif;font-size:2em;& > rt{font:var(--en-beauty-italic);font-size:0.4em;}}
+          </style>
+          <p><ruby>郑<rp>（</rp> <rt>zhèng</rt> <rp>）</rp></ruby><ruby>仁<rp>（</rp> <rt>rén</rt> <rp>）</rp></ruby><ruby>鹏<rp>（</rp> <rt>péng</rt> <rp>）</rp></ruby></p>
+        </div>
+        <style>
+          .avatar-frame{width:160px;height:160px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border-color);flex-shrink:0;}.avatar-frame img{width:100%;height:100%;object-fit:cover;}
+        </style>
+        <div class="avatar-frame"><img src="/assets/avatar.webp"></div>
+      </header>
       <p>I am working on birational and complex algebraic geometry, mainly focusing on K-stability. I am also interested in geometric shapes encoded by combinatorics, especially toric and spherical varieties.</p>
-      <p>My newest paper is <a href="#sphcomp" class="cite-link">[Zheng26]</a>, where we find a special ℚ-divisor of a polarised spherical variety.</p>
-      <div id="education">
+      <p>My newest paper is <a href="#sphcomp" class="tooltip-link" tooltip-target="#sphcomp .tooltip-content">[Zheng26]</a>, where we find a special ℚ-divisor of a polarised spherical variety.</p>
+      <section id="education">
         <h2>Education</h2>
         <ul>
-          <li>2027: (Expected) PhD in Pure Mathematics (supervised by Hamid Abban and Johannes Hofscheier), University of Nottingham, UK</li>
+          <li>2027: (Expected) PhD in Pure Mathematics (supervised by <a href="https://sites.google.com/view/hamid-abban/" class="tooltip-link" tooltip-target="#HamidAbban-tooltip-content">Hamid <span style="font-variant-caps: small-caps">Abban</span></a> and <a href="https://www.johannes-hofscheier.de" class="tooltip-link" tooltip-target="#JohannesHofscheier-tooltip-content">Johannes <span style="font-variant-caps: small-caps">Hofscheier</span></a>), University of Nottingham, UK</li>
           <li>2022: MSc in Pure Mathematics (supervised by Jonathan Lai), Imperial College London, UK</li>
           <li>2021: BSc in Mathematics and Applied Mathematics, The Chinese University of Hong Kong, Shenzhen, China</li>
         </ul>
-      </div>
+      </section>
       <div id="calendar-container" class="no-print"></div>
-      <div id="research">
+      <section id="research">
         <h2>Research</h2>
-        <div class="header-toggle">
+        <header class="heading-toggle">
           <h3>Publications / Preprints</h3>
           <div class="checkbox-container no-print"><label for="abstracts-toggle" id="abstracts-toggle-label">Abstracts</label><input type="checkbox" id="abstracts-toggle"></div>
-        </div>
-        <bib-list toggle-id="abstracts-toggle"><div class="bib-entry" id="sphcomp"><p><span class="bib-label">[Zheng26]</span></p><div class="bib-content"><p><em>K-stability of Q-Fano spherical varieties via compatible divisors</em> (2026), at <strong>Annales de l’Institut Fourier</strong> (to appear), <a href="https://arxiv.org/abs/2601.00054">arXiv:2601</a>, <span style="display: inline-block"><button popovertarget="sphcomp-bib-dialog">bib</button></span>.<br></p><details name="sphcomp" class="abstract-details"><summary><span style="font-variant-caps: small-caps">Abstract</span></summary><div class="details-wrapper"><p>We study the K-stability of ℚ-Fano spherical varieties using compatible divisors. More precisely, if the ℚ-Fano variety, with a reductive group action, has an open Borel subgroup orbit, then there is a unique anticanonical ℚ-divisor computing the equivariant stability threshold. This ℚ-divisor is invariant under the Borel subgroup action, and it characterizes the K-stability of a ℚ-Fano spherical variety.</p></div></details><dialog class="bib-dialog" id="sphcomp-bib-dialog" popover="auto" tabindex="-1" autofocus><button>Copy to clipboard</button><pre><code data-lang="bibtex"><span style="color: #d73948">@</span><span style="color: #d73948">article</span>{<span style="color: #4b69c6">zheng2026kstabilityqfanosphericalvarieties</span>,<br>  <span style="color: #198810">title</span>=<span style="color: #198810">{</span><span style="color: #198810">K-stability of Q-Fano Spherical Varieties via Compatible Divisors</span><span style="color: #198810">}</span>, <br>  <span style="color: #198810">author</span>=<span style="color: #198810">{</span><span style="color: #198810">Zheng, Renpeng</span><span style="color: #198810">}</span>,<br>  <span style="color: #198810">year</span>=<span style="color: #198810">{</span><span style="color: #198810">2026</span><span style="color: #198810">}</span>,<br>  <span style="color: #198810">journaltitle</span>=<span style="color: #198810">{</span><span style="color: #198810">Annales de l’Institut Fourier (To appear)</span><span style="color: #198810">}</span>,<br>  <span style="color: #198810">doi</span>=<span style="color: #198810">{</span><span style="color: #198810">}</span>,<br>  <span style="color: #198810">pages</span>=<span style="color: #198810">{</span><span style="color: #198810">}</span>,<br>  <span style="color: #198810">volume</span>=<span style="color: #198810">{</span><span style="color: #198810">}</span><br>}<br></code></pre></dialog></div><div class="tooltip-content no-print"><strong>Zheng</strong> (2026)<br><em>K-stability of Q-Fano spherical varieties via compatible divisors</em></div></div></bib-list>
+        </header>
+        <bib-list toggle-id="abstracts-toggle"><div class="bib-entry" id="sphcomp"><p><span class="bib-label">[Zheng26]</span></p><div class="bib-content"><p><em>K-stability of Q-Fano spherical varieties via compatible divisors</em> (2026), with Renpeng Zheng, at <strong>Annales de l’Institut Fourier</strong> (to appear), <a href="https://arxiv.org/abs/2601.00054">arXiv:2601</a>, <span style="display: inline-block"><button popovertarget="sphcomp-bib-dialog">bib</button></span>.<br></p><details name="sphcomp" class="abstract-details"><summary><span style="font-variant-caps: small-caps">Abstract</span></summary><div class="details-wrapper"><p>We study the K-stability of ℚ-Fano spherical varieties using compatible divisors. More precisely, if the ℚ-Fano variety, with a reductive group action, has an open Borel subgroup orbit, then there is a unique anticanonical ℚ-divisor computing the equivariant stability threshold. This ℚ-divisor is invariant under the Borel subgroup action, and it characterizes the K-stability of a ℚ-Fano spherical variety.</p></div></details><dialog class="bib-dialog" id="sphcomp-bib-dialog" popover="auto" tabindex="-1" autofocus><button>Copy to clipboard</button><pre><code data-lang="bibtex"><span style="color: #d73948">@</span><span style="color: #d73948">article</span>{<span style="color: #4b69c6">zheng2026kstabilityqfanosphericalvarieties</span>,<br>  <span style="color: #198810">title</span>=<span style="color: #198810">{</span><span style="color: #198810">K-stability of Q-Fano Spherical Varieties via Compatible Divisors</span><span style="color: #198810">}</span>, <br>  <span style="color: #198810">author</span>=<span style="color: #198810">{</span><span style="color: #198810">Zheng, Renpeng</span><span style="color: #198810">}</span>,<br>  <span style="color: #198810">year</span>=<span style="color: #198810">{</span><span style="color: #198810">2026</span><span style="color: #198810">}</span>,<br>  <span style="color: #198810">journaltitle</span>=<span style="color: #198810">{</span><span style="color: #198810">Annales de l’Institut Fourier (To appear)</span><span style="color: #198810">}</span>,<br>  <span style="color: #198810">doi</span>=<span style="color: #198810">{</span><span style="color: #198810">}</span>,<br>  <span style="color: #198810">pages</span>=<span style="color: #198810">{</span><span style="color: #198810">}</span>,<br>  <span style="color: #198810">volume</span>=<span style="color: #198810">{</span><span style="color: #198810">}</span><br>}<br></code></pre></dialog></div><div class="tooltip-content hidden"><p><strong>Zheng</strong> (2026)</p><p><em>K-stability of Q-Fano spherical varieties via compatible divisors</em></p></div></div></bib-list>
         <h3>Talks in Conferences / Seminars</h3>
         <ul>
-          <li>“<em>K-stability of Q-Fano spherical varieties via compatible divisors</em>” (Jun 2026), <strong>Junior Algebraic geometry Warwick Seminar</strong>, University of Warwick, Coventry, UK. On <a href="#sphcomp" class="cite-link">[Zheng26]</a>.</li>
-          <li>“<em>K-stability of Q-Fano spherical varieties via compatible divisors</em>” (Jun 2026), <strong>Algebraic Geometry Seminar</strong>, Kyoto University, Kyoto, Japan. On <a href="#sphcomp" class="cite-link">[Zheng26]</a>.</li>
+          <li>“<em>K-stability of Q-Fano spherical varieties via compatible divisors</em>” (Jun 2026), <strong>Junior Algebraic geometry Warwick Seminar</strong>, University of Warwick, Coventry, UK. On <a href="#sphcomp" class="tooltip-link" tooltip-target="#sphcomp .tooltip-content">[Zheng26]</a>.</li>
+          <li>“<em>K-stability of Q-Fano spherical varieties via compatible divisors</em>” (Jun 2026), <strong>Algebraic Geometry Seminar</strong>, Kyoto University, Kyoto, Japan. On <a href="#sphcomp" class="tooltip-link" tooltip-target="#sphcomp .tooltip-content">[Zheng26]</a>.</li>
+        </ul>
+        <h3>Visits</h3>
+        <ul>
+          <li>Visit <a href="https://sites.google.com/view/antonio-trusiani/" class="tooltip-link" tooltip-target="#AntonioTrusiani-tooltip-content">Antonio <span style="font-variant-caps: small-caps">Trusiani</span></a> at “<em>Università degli Studi di Roma Tor Vergata (UniRoma2)</em>”, Italy for one month (Apr 2026).</li>
         </ul>
         <div class="no-print">
           <h3>Posters / Interactive Media</h3>
           <div id="poster-container" class="no-print"></div>
         </div>
-      </div>
-      <div id="teaching">
-        <h2>Teaching and Marking</h2>
+      </section>
+      <section id="teaching">
+        <h2>Teaching</h2>
         <h3>University of Nottingham (Teaching Affiliate &amp; Demonstrator)</h3>
         <h4>2024-2025</h4>
         <ul>
@@ -83,10 +95,26 @@
         <ul>
           <li>MATH2102 Real Analysis (Autumn UK) — Marking.</li>
         </ul>
-      </div>
-    </div>
-    <footer>© 2025-2026 郑仁鹏</footer>
+      </section>
+    </main>
+    <footer class="no-print">© 2025-2026 郑仁鹏</footer>
     <script src="/assets/google.js">
     </script>
+    <div id="HamidAbban-tooltip-content" class="hidden">
+      <p><strong>Hamid Abban</strong></p>
+      <p>No cooperation yet.</p>
+    </div>
+    <div id="JohannesHofscheier-tooltip-content" class="hidden">
+      <p><strong>Johannes Hofscheier</strong></p>
+      <p>No cooperation yet.</p>
+    </div>
+    <div id="AntonioTrusiani-tooltip-content" class="hidden">
+      <p><strong>Antonio Trusiani</strong></p>
+      <p>No cooperation yet.</p>
+    </div>
+    <div id="SimonJubert-tooltip-content" class="hidden">
+      <p><strong>Simon Jubert</strong></p>
+      <p>No cooperation yet.</p>
+    </div>
   </body>
 </html>

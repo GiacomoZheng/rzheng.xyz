@@ -6,7 +6,7 @@
   --padding-width: 80px;
   
   --nav-height: 55px;
-  --nav-height-space: calc(var(--nav-height) + env(safe-area-inset-top) + 5px);
+  --nav-height-space: calc(var(--nav-height) + 5px);
   
   --en-font-family:  ui-monospace, 'Roboto Mono', sans-serif;
   --en-beauty-italic: italic normal 1em "Palatino", "Palatino Linotype", "Georgia", sans-serif;
@@ -31,7 +31,7 @@
   --link-color: #2a6496;
   --link-hover-color: #16426d;
   --border-color: #d0d0d0;
-  --overlay-backdrop-bg: rgba(0, 0, 0, 0.01);
+  --overlay-backdrop-bg: rgba(0, 0, 0, 0.2);
   --overlay-backdrop-filter: blur(0.25px);
 }
 /* 自动检测：黑夜模式变量 */
@@ -43,8 +43,8 @@
     --link-color: #79c0ff; 
     --link-hover-color: #a5d6ff;
     --border-color: #333333;
-    --overlay-backdrop-bg: rgba(0, 0, 0, 0.02);
-    --overlay-backdrop-filter: blur(0.5px) saturate(1.6) brightness(1.08);
+    --overlay-backdrop-bg: rgba(0, 0, 0, 0.05);
+    --overlay-backdrop-filter: blur(0.5px) saturate(1.1) brightness(1.02);
   }
 }
 
@@ -85,6 +85,9 @@ html {
 
 /* 全局基础设置 */
 body {
+  margin: 0;
+  padding: 0;
+  
   background-color: var(--bg-color);
   display: flex;
   flex-direction: column;
@@ -144,7 +147,7 @@ button:focus {
 }
 button:focus-visible {
   outline: 2px solid #0066cc;
-  outline-offset: 0px;
+  outline-offset: 0;
   border-radius: 2px;
 }
 button:disabled {
@@ -153,17 +156,13 @@ button:disabled {
 }
 
 pre {
-  margin: 0px;
+  margin: 0;
   border: 1px solid var(--border-color);
 }
 
 code::selection,
 code *::selection {
   background-color: var(--bg-color-active);
-}
-
-[style*="small-caps"] {
-  font-family: Corbel, system-ui;
 }
 
 dialog:focus {
@@ -226,7 +225,12 @@ li {
 /* --- overlay --------------------------- */
 @media screen and (max-width: 768px) {
   .overlay {
-    background-color: var(--overlay-backdrop-bg);
+    background-color: linear-gradient(
+      to bottom,
+      transparent 10%,
+      var(--overlay-backdrop-bg) 50%,
+      transparent 90%
+    );
     backdrop-filter: var(--overlay-backdrop-filter);
     position: fixed;
     visibility: hidden;

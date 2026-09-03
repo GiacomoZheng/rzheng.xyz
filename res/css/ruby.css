@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'FandolKai';
+  src: url('/assets/FandolKai-Regular-min.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+
+  font-display: swap;
+}
+
+ruby {
+  font-family: 'FandolKai', serif;
+  font-size: 2em;
+  & > rt {
+    font: var(--en-beauty-italic);
+    font-size: 0.4em;
+  }
+}

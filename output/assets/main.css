@@ -1,0 +1,75 @@
+/* * depend on stylc.css */
+:root {
+  --main-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --main-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+  }
+}
+
+main {
+  width: 100%;
+  max-width: var(--max-width);
+  min-height: 100vh;
+  padding: 20px var(--padding-width);
+  margin-top: var(--nav-height-space);
+
+  color: var(--text-color);
+  line-height: 1.5;
+  /* 如果单行文字太长折行了，这是折行间距 */
+  box-shadow: var(--main-shadow);
+
+  overflow-anchor: none;
+}
+@media screen and (max-width: 768px) {
+  main {
+    /* 手机端的nav在下方，不需要顶部边距 */
+    margin-top: env(safe-area-inset-top); 
+    padding-top: 20px;
+    word-wrap: break-word;
+  }
+}
+
+header {
+  display: flex;
+  & > div {
+    display: flex;
+  }
+}
+
+/* 让简介内部的三行纵向排列 */
+header.intro {
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 3em;
+}
+@media screen and (max-width: 768px) {
+  header.intro {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.intro-words {
+  flex: 1; /* 自由缩放 */
+  flex-direction: column;  /* 内部元素上下排列 */
+  gap: 8px;
+  & > p {
+    margin: 0; /* 清除 p 标签自带的 margin */
+    text-align: left;
+    /* 太短了，不适合两端对齐 */
+  }
+}
+
+header.heading-toggle {
+  flex-wrap: wrap;
+  align-items: baseline;
+  & > :is(h1, h2, h3, h4, h5, h6) {
+    margin-block-end: 0.2em;
+  }
+  & > :last-child {
+    margin-left: auto;
+    padding-left: 1em;
+  }
+}

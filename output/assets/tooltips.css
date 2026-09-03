@@ -11,7 +11,7 @@
   }
 }
 
-.cite-link {
+.tooltip-link {
   position: relative;
   display: inline-block;
   cursor: pointer;
@@ -36,9 +36,6 @@
   opacity: 0;
   transition: var(--transition-hidden);
 
-  white-space: normal;
-  text-align: left;
-  font-size: 0.9em;
   z-index: 101;
   color: var(--text-color);
   padding: 12px 20px;
@@ -47,9 +44,18 @@
   border: 1px solid var(--cite-border-color);
   box-shadow: var(--cite-shadow);
   border-radius: 8px;
+  & > p {
+    text-align: left;
+    white-space: normal;
+    font-size: 0.9em;
+    margin: 0;
+  }
+  p + p {
+    margin-top: 0.5lh;
+  }
 }
 /* 展开弹窗 */
-body:has(.cite-link.is-peeking) #global-tooltip {
+body:has(.tooltip-link.is-peeking) #global-tooltip {
   visibility: visible;
   opacity: 1;
   transform: translateY(0);
@@ -98,7 +104,7 @@ body:has(.cite-link.is-peeking) #global-tooltip {
     z-index: 90;
   }
 
-  body:has(.cite-link.is-peeking) #tooltip-overlay {
+  body:has(.tooltip-link.is-peeking) #tooltip-overlay {
     visibility: visible;
   }
 }

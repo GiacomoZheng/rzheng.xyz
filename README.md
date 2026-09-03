@@ -11,13 +11,13 @@ This project stands on the shoulders of the open-source community. Thanks to:
 
 
 ## TODO:
-- [ ] Coauthors. I will do it after my first co-work completed.
-    - [ ] Coauthors tooltips, use `#show`.
+- [ ] Coauthors.
+    - [x] Coauthors tooltips, use `#show`.
     - [x] Support coauthors in `Publications`.
 - [ ] Reorganizes the `.css` files.
     - [ ] Change most `px` to `em`.
     - [ ] Reorganizes the `font-size`.
-    - [x] Abstract new file `maincard.css`.
+    - [x] Abstract new file `main.css`.
 - [ ] Remove all checkbox hack.
 - [x] BIB, abstract in `Publications`.
     - [x] BIB, I will use `tooltip`, with a button named `copy`. 

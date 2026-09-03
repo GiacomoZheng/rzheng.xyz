@@ -17,9 +17,6 @@
     border-left-color 0.3s var(--ease-out-apple),
     transform 0.3s var(--ease-out-apple);
 
-  & .tooltip-content {
-    display: none;
-  }
   & p {
     margin: 0;
   }
@@ -100,6 +97,12 @@
 /* ----------------------------------------------------- */
 /* for abstracts */
 /* ----------------------------------------------------- */
+.abstract-details summary {
+  [style*="small-caps"] {
+    font-family: Corbel, system-ui;
+  }
+}
+
 .details-wrapper {
   height: 0;
   overflow: hidden; /* 核心：动画期间截断 */

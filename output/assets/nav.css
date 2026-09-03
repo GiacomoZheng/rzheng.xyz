@@ -1,7 +1,10 @@
 :root {
   --nav-radius: 30px;
   --floating-side-gap: 30px;
-  --width-change: width 0.5s var(--ease-in-out-apple);
+  --width-change:
+    padding 0.5s var(--ease-in-out-apple),
+    width 0.5s var(--ease-in-out-apple),
+    margin 0.5s var(--ease-in-out-apple);
   --horizontal-vanish:
     max-width 0.5s var(--ease-out-apple),
     opacity 0.5s var(--ease-out-apple),
@@ -11,7 +14,7 @@
 :root {
   --nav-glass-bg: rgba(255, 255, 255, 0.8);
   --nav-glass-border: 2px solid rgba(255, 255, 255, 1);
-  --nav-shadow: rgba(220, 220, 220, 0.2) 0px 0px 8px 0px inset, rgba(220, 220, 220, 0.82) 0px 0px 10px 0px;
+  --nav-shadow: rgba(220, 220, 220, 0.2) 0 0 8px 0 inset, rgba(220, 220, 220, 0.82) 0 0 10px 0;
   --nav-link-color: #444444; /* it is different from --link-color */
   --nav-link-border-bottom: 1px solid #eaeaea;
   --nav-hover-color: #007bff;
@@ -31,7 +34,7 @@
 
 dyn-bar {
   position: fixed;
-  inset: 0 0 auto 0;
+  inset: env(safe-area-inset-top) 0 auto 0;
   width: 100%;
   height: var(--nav-height);
   z-index: 1000;
@@ -48,123 +51,87 @@ dyn-bar::before {
   background-color: var(--nav-glass-bg);
   box-shadow: var(--nav-shadow);
   backface-visibility: hidden;
-  border: var(--nav-glass-border);
+  border-bottom: var(--nav-glass-border);
 }
 @media screen and (max-width: 768px) {
   dyn-bar {
     inset: auto var(--floating-side-gap) var(--floating-bottom-gap) auto;
     width: calc(100% - 2 * var(--floating-side-gap));
     height: auto;
-    justify-items: right;
-
-    transform: translateZ(0); 
-    transition: var(--width-change);
   }
   dyn-bar::before {
     border-radius: var(--nav-radius);
   }
-
-  #nav-logo, 
-  #nav-home {
-    overflow: hidden; /* 极其重要：防止收缩时文字折行 */
-    will-change: transform, opacity;
-    transition: var(--horizontal-vanish);
-  }
-
-  /* 下滑收缩nav-bar */
-  #menu-toggle:not(:checked) ~ dyn-bar.compact {
-    width: var(--nav-height); /* 正方形 */
-    transform: translateZ(0);
-  }
-  #menu-toggle:not(:checked) ~ dyn-bar.compact :is(#nav-logo, #nav-home) {
-    opacity: 0;
-    max-width: 0;
-    margin: 0;
-    pointer-events: none;
-    transform: translateX(10px);
-    transition-duration: 0.2s;
-    transition-timing-function: var(--ease-in-apple);
-  }
 }
 
-nav {
+.inner-bar {
   width: 100%;
   max-width: var(--max-width);
   padding: 0 var(--padding-width);
   margin: 0 auto;
-
+  
   display: flex;
-  justify-content: flex-end;
+  flex-shrink: 0;
+  /* 不能挤压 */
   align-items: center;
+  justify-content: flex-end;
+  & > :last-child {
+    margin-left: auto;
+  }
 }
 @media screen and (max-width: 768px) {
-  nav {
-    padding: 0px;
+  .inner-bar {
+    overflow: visible;
+    overflow-x: hidden;
+    padding: 0;
+    padding-left: 20px;
   }
 }
 
 #nav-logo {
   font: var(--en-beauty-italic);
-  white-space: nowrap; /* 强制不换行 */
-  margin-left: 0px;
+  white-space: nowrap;
+  /* 强制不换行 */
   font-size: 1.2em;
   color: var(--text-color);
+
+  display: inline-flex;
+  justify-content: flex-end;
+  /* 这样缩小的时候左侧消失 */
 }
-/* 4. 右侧组合区域 */
-#nav-right {
+nav {
   display: flex;
-  margin-left: auto;
-  /* 两侧对齐 */
+  flex-shrink: 0;
+  align-items: center;
   gap: 25px;
-  /* Home 与 菜单第一项 的间距 */
+  /* Home 与 菜单 的间距 */
 }
 @media screen and (max-width: 768px) {
-  #nav-logo {
-    max-width: 150px;
-    margin-left: 20px;
-  }
-  #nav-right {
-    gap: 0px;
+  nav {
+    gap: 0;
   }
 }
 
-#nav-home {
-  max-width: 50px;
-}
 .menu-toggle-label {display: none;}
 @media screen and (max-width: 768px) {
   .menu-toggle-label {
     /* 固定尺寸，不允许被内容撑开 */
     width: var(--nav-height); 
     height: var(--nav-height);
+    flex-shrink: 0;
     cursor: pointer;
     
-    position: relative; 
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  /* 点击动画 */
-  #menu-icon > .line {
-    transition: transform 0.3s var(--ease-in-out-apple);
-  }
-  #menu-toggle:checked ~ dyn-bar {
-    & #menu-icon {
-      & > :nth-child(1) { transform: translateY(var(--gap)) scaleX(0); }
-      & > :nth-child(2) { transform: scaleX(0); }
-      & > :nth-child(3) { transform: rotate(-45deg) translateY(calc(var(--thickness)/2 - var(--gap))) scaleX(0.5); }
-      & > :nth-child(4) { transform: rotate( 45deg) translateY(calc(var(--thickness)/2 - var(--gap))) scaleX(0.5); }
-    }
   }
 }
 
 /* 菜单内部容器 */
 #nav-menu {
   display: flex;
-  /* flex-direction: row; */
   gap: 25px;
-  /* 这里是 菜单内部各项目 的间距 */
+  /* 菜单内部各项目 的间距 */
   margin: 0;
   padding: 0;
 }
@@ -175,14 +142,14 @@ nav {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translateY(15px);
+    transform: translateY(20px);
     transition: var(--transition-hidden);
 
     flex-direction: column;
     gap: 0;
 
     position: absolute;
-    inset: auto 0 calc(var(--nav-height) + 5px) auto;
+    inset: auto 0 calc(var(--nav-height) + 2px) auto;
     /* 这是相对于父对象的位置 */
     width: auto;
   }
@@ -211,15 +178,12 @@ nav {
   }
   
   #menu-overlay {
-    /* background-color: rgba(255, 0, 0); */
     z-index: 999;
   }
 }
 
 .nav-link {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: inline-block;
   white-space: nowrap;
   color: var(--nav-link-color);
   border-bottom: var(--nav-link-border-bottom);
@@ -249,11 +213,46 @@ nav {
 
 @media screen and (max-width: 768px) {
   #nav-menu .nav-link {
-    /* text-align: center; */
     padding: 12px 10px;
   }
 
   #nav-menu .nav-link:last-child {
-    border-bottom: 0px;
+    border-bottom: 0;
+  }
+}
+
+
+/* 收缩动画 */
+@media screen and (max-width: 768px) {
+  /* #nav-logo,
+  nav > :first-child {
+    overflow: hidden;
+  } */
+
+  dyn-bar,
+  .inner-bar,
+  nav {
+    will-change: width, margin;
+    transition: var(--width-change);
+  }
+
+  /* 下滑收缩nav-bar */
+  #menu-toggle:not(:checked) ~ dyn-bar.compact {
+    width: var(--nav-height); /* 正方形 */
+    & > .inner-bar {
+      margin-left: 0;
+    }
+  }
+}
+/* menu-toggle-label 的点击动画 */
+@media screen and (max-width: 768px) {
+  #menu-icon > .line {
+    transition: transform 0.3s var(--ease-in-out-apple);
+  }
+  #menu-toggle:checked ~ dyn-bar #menu-icon {
+    & > :nth-child(1) { transform: translateY(var(--gap)) scaleX(0); }
+    & > :nth-child(2) { transform: scaleX(0); }
+    & > :nth-child(3) { transform: rotate(-45deg) translateY(calc(var(--thickness)/2 - var(--gap))) scaleX(0.5); }
+    & > :nth-child(4) { transform: rotate( 45deg) translateY(calc(var(--thickness)/2 - var(--gap))) scaleX(0.5); }
   }
 }

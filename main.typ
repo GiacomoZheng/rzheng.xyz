@@ -1,63 +1,80 @@
 #import "lib/nav.typ": nav-bar
-#import "lib/bib.typ": render-web-bib, my-cite
-#import "lib/tools.typ": r, overlay, checkbox, render-talks, aclinks
+#import "lib/bib.typ": render-web-bib, other-authors, my-cite
+#import "lib/tools.typ": aclinks, r, avatar, overlay, checkbox, render-talks, render-people
 
 #let name = "Zheng, Renpeng"
-#let works = "res/works.yml"
-#let talks = "res/talks.yml"
+#let talks-data = yaml("res/talks.yml")
+#let works-data = yaml("res/works.yml")
+#let people-data = yaml("res/people.yml")
 #set document(title: name)
 
 #show bibliography: none
-#bibliography(works, style: "apa")
-#show cite: it => my-cite(yaml(works), str(it.key))
+#bibliography("res/works.yml", style: "apa")
+#show cite: it => my-cite(works-data, str(it.key))
 
-#let main-card() = html.div(class: "main-card", [
-  #html.div(class: "intro-row", {
-    html.div(class: "intro-words", {
-      par[PhD Student]
-      par[University of Nottingham]
-      par[Renpeng.Zheng \<at\> Nottingham.ac.uk]
-      par[Supervised by Hamid Abban and Johannes Hofscheier]
-      aclinks()
+#let main() = {
+  html.main([
+    #html.header(class: "intro", {
+      html.div(class: "intro-words", {
+        par[PhD Student]
+        par[University of Nottingham]
+        par[Renpeng.Zheng \<at\> Nottingham.ac.uk]
+        par[Supervised by Hamid Abban and Johannes Hofscheier]
+        aclinks()
+      })
+      r[郑|仁|鹏][zhèng|rén|péng]
+      avatar()
     })
-    html.div(class: "intro-ruby", r[郑|仁|鹏][zhèng|rén|péng])
-    html.div(class: "avatar-frame", html.img(src: "assets/avatar.webp"))
-  })
 
-  I am working on birational and complex algebraic geometry, mainly focusing on K-stability. I am also interested in geometric shapes encoded by combinatorics, especially toric and spherical varieties. 
+    // Show people (e.g., coauthors) as <a>
+    // + tooltips
+    #let pattern = regex(people-data.keys().sorted(key: k => k.len()).rev().join("|"))
+    #show pattern: it => {
+      let details = people-data.at(it.text)
+      let display-name = if details.name.is_cjk { smallcaps(details.name.family) + " " + details.name.given } else {details.name.given + " " + smallcaps(details.name.family)}
+      // html.a(class: "tooltip-link", href: details.url, display-name)
+      html.elem("a", attrs: (href: details.url, class: "tooltip-link", tooltip-target: "#" + it.text.replace(" ", "") + "-tooltip-content"), display-name)
+    }
 
-  My newest paper is @sphcomp, where we find a special ℚ-divisor of a polarised spherical variety.
+    I am working on birational and complex algebraic geometry, mainly focusing on K-stability. I am also interested in geometric shapes encoded by combinatorics, especially toric and spherical varieties. 
 
-  #html.div(id: "education", [ = Education
-    - 2027: (Expected) PhD in Pure Mathematics (supervised by Hamid Abban and Johannes Hofscheier), University of Nottingham, UK
-    - 2022: MSc in Pure Mathematics (supervised by Jonathan Lai), Imperial College London, UK
-    - 2021: BSc in Mathematics and Applied Mathematics, The Chinese University of Hong Kong, Shenzhen, China
-  ])
-  
-  #html.div(id: "calendar-container", class: "no-print", [])
+    My newest paper is @sphcomp, where we find a special ℚ-divisor of a polarised spherical variety.
 
-  #html.div(id: "research", [ = Research
-    #html.div(class: "header-toggle", [ == Publications / Preprints
-      #checkbox("abstracts", [Abstracts])
+    #html.section(id: "education", [ = Education
+      - 2027: (Expected) PhD in Pure Mathematics (supervised by Hamid Abban and Johannes Hofscheier), University of Nottingham, UK
+      - 2022: MSc in Pure Mathematics (supervised by Jonathan Lai), Imperial College London, UK
+      - 2021: BSc in Mathematics and Applied Mathematics, The Chinese University of Hong Kong, Shenzhen, China
     ])
-      #render-web-bib(yaml(works), "abstracts-toggle")
-    == Talks in Conferences / Seminars
-      #render-talks(yaml(talks))
-    #html.div(class: "no-print", [ == Posters / Interactive Media
-      #html.div(id: "poster-container", class: "no-print", [])
+    
+    #html.div(id: "calendar-container", class: "no-print", [])
+
+    #html.section(id: "research", [ = Research
+      #html.header(class: "heading-toggle", [ == Publications / Preprints
+        #checkbox("abstracts", [Abstracts])
+      ])
+        #render-web-bib(works-data, "abstracts-toggle")
+
+      == Talks in Conferences / Seminars
+        #render-talks(talks-data)
+
+      == Visits
+        - Visit Antonio Trusiani at "#emph[Università degli Studi di Roma Tor Vergata (UniRoma2)]", Italy for one month (Apr 2026). // working on [JTZ].
+
+      #html.div(class: "no-print", [ == Posters / Interactive Media
+        #html.div(id: "poster-container", class: "no-print", [])
+      ])
+    ])
+    
+    #html.section(id: "teaching", [ = Teaching
+      == University of Nottingham (Teaching Affiliate & Demonstrator)
+      === 2024-2025
+        - MATH1101 Core Mathematics (Full Year UK) --- Demonstration.
+        - MATH2102 Real Analysis (Spring UK) --- Marking.
+      === 2025-2026
+        - MATH2102 Real Analysis (Autumn UK) --- Marking.
     ])
   ])
-  
-  #html.div(id: "teaching", [ = Teaching and Marking
-    == University of Nottingham (Teaching Affiliate & Demonstrator)
-    === 2024-2025
-      - MATH1101 Core Mathematics (Full Year UK) --- Demonstration.
-      - MATH2102 Real Analysis (Spring UK) --- Marking.
-    === 2025-2026
-      - MATH2102 Real Analysis (Autumn UK) --- Marking.
-  ])
-])
-
+}
 
 #let add_css(..hrefs) = hrefs.pos().map(h => html.link(rel: "stylesheet", href: h)).join()
 #let add_js_mod(..srcs) = srcs.pos().map(s => html.script(src: s, type: "module")).join()
@@ -88,13 +105,13 @@
     add_css(
       "/assets/style.css",
       "/assets/aclinks.css",
-      "/assets/maincard.css",
+      "/assets/main.css",
       "/assets/nav.css",
-      "/assets/cite.css",
+      "/assets/tooltips.css",
       "/assets/bib.css",
       "/assets/google.css",
-      "/assets/print.css",
     )
+    html.link(rel: "stylesheet", href: "/assets/print.css", media: "print")
     add_js_mod(
       "/assets/cite.js", 
       "/assets/nav.js",
@@ -103,9 +120,9 @@
   })
 }
 
-#let footer() = html.footer[
-  © 2025-#datetime.today().year() 郑仁鹏
-]
+#let footer() = html.footer(class: "no-print",
+  [© 2025-#datetime.today().year() 郑仁鹏]
+)
 
 // ---------------------------------------------------
 // main:
@@ -115,10 +132,10 @@
     overlay("menu")
     nav-bar(name)
 
-    // overlay("tooltip")
-    main-card()
+    main()
 
     footer()
     html.script(src: "/assets/google.js")
+    render-people(people-data, works-data)
   })
 ])

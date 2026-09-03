@@ -104,7 +104,6 @@ EOF
 case "$1" in
 update)
 	[ -f "main.typ" ] && compile_main "update"
-	# [ -f "cv.typ" ] && compile_cv "update"
 	for f in *.typ; do
 		if [[ "$f" != "main.typ" && "$f" != "cv.typ" ]]; then
 			compile_generic "$f" "update"
@@ -119,7 +118,6 @@ watch)
 	LAN_IP=$(get_lan_ip) && echo "[SERVER] http://$LAN_IP:3000"
 	lsof -ti:3000 | xargs kill -9 2>/dev/null || true
 	python3 -m http.server 3000 --directory $OUT_DIR >/dev/null 2>&1 &
-	# python3 -c "import http.server, socketserver, os; os.chdir('$OUT_DIR'); class T(socketserver.ThreadingMixIn, socketserver.TCPServer): allow_reuse_address = True; H = type('H', (http.server.SimpleHTTPRequestHandler,), {'end_headers': lambda s: [s.send_header('Cache-Control', 'no-store'), super(http.server.SimpleHTTPRequestHandler, s).end_headers()], 'log_message': lambda *a: None}); T(('', 3000), H).serve_forever()" > /dev/null 2>&1 &
 	SERVER_PID=$!
 	trap "kill $SERVER_PID; rm -f $RELOAD_SIGNAL; exit" SIGINT SIGTERM
 
@@ -139,8 +137,8 @@ watch)
 
 		if [ "$current_state" != "$last_state" ]; then
 			echo "[WATCH] 检测到变更，正在同步..."
-			# 1. 只有 LIB 或 ASSETS 变了才全量处理
-			if [ -n "$(find "$LIB_DIR" "$ASSETS_DIR" -newer "$RELOAD_SIGNAL" 2>/dev/null)" ]; then
+			# 1. 只有 LIB 或 RES_DIR 变了才全量处理
+			if [ -n "$(find "$LIB_DIR" "$RES_DIR" -newer "$RELOAD_SIGNAL" 2>/dev/null)" ]; then
 				echo "[WATCH] 核心资源变更，全量更新..."
 				[ -f "main.typ" ] && compile_main "watch"
 			else

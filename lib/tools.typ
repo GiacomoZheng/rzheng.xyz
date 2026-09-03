@@ -1,20 +1,39 @@
+
+
+// into list
+#let to-list = authors => if type(authors) == array { authors } else { (authors,) }
+
+// inline css
+#let minify-css(css-code) = {
+  css-code.replace(regex("(?s)/\*.*?\*/"), "") // 1. 清除 /* 注释 */
+    .replace(regex("\s+"), " ")          // 2. 多个换行/空格合并为一个空格
+    .replace(regex("\s*([{}:;,])\s*"), m => m.captures.at(0)) // 3. 清除符号 ( { } : ; , ) 两边的空格
+    .trim()                              // 4. 清除首尾空白
+}
+
+
 // ruby
 #let r(base-content, annot-content) = {
-  // 将输入转换为字符串并按 "|" 分割
   let bases = base-content.text.split("|")
   let annots = annot-content.text.split("|")
-  
-  // 确保两边数量一致，如果不一致则取最小个数，防止报错
   let pairs = bases.zip(annots)
   
-  // 遍历每一对，生成 HTML 结构
-  for (b, a) in pairs {
-    html.ruby[
-      #b#html.rp[（]
-      #html.rt(a)
-      #html.rp[）]
-    ]
-  }
+  html.div({ // 需要包起来
+    html.style(minify-css(read("/res/css/ruby.css")))
+    for (b, a) in pairs {
+      html.ruby[
+        #b#html.rp[（]
+        #html.rt(a)
+        #html.rp[）]
+      ]
+    }
+  })
+}
+
+// avatar
+#let avatar() = {
+  html.style(minify-css(read("/res/css/avatar.css")))
+  html.div(class: "avatar-frame", html.img(src: "/assets/avatar.webp"))
 }
 
 // checkbox hack
@@ -31,15 +50,6 @@
     #html.input(type: "checkbox", id: name + "-toggle")
   ])
 }
-
-// inline css
-#let minify-css(css-code) = {
-  css-code.replace(regex("(?s)/\*.*?\*/"), "") // 1. 清除 /* 注释 */
-    .replace(regex("\s+"), " ")          // 2. 多个换行/空格合并为一个空格
-    .replace(regex("\s*([{}:;,])\s*"), m => m.captures.at(0)) // 3. 清除符号 ( { } : ; , ) 两边的空格
-    .trim()                              // 4. 清除首尾空白
-}
-
 
 // talks
 #let parse-date(yyyy-mm-dd) = {
@@ -60,6 +70,22 @@
   ]}
 }
 
+// people
+#let render-people(people, refs) = {
+  for (full-name, details) in people.pairs() {
+    let key = full-name.replace(" ", "")
+    html.div(id: key + "-tooltip-content", class: "hidden", [
+      #par(strong(full-name))
+      #let keys = refs.pairs().filter(((_, work)) => {full-name in to-list(work.author)}).map(((k, _)) => k)
+      #let count = keys.len()
+      #par(if count == 0 [
+        No cooperation yet.
+      ] else [
+        #count collaboration#if count > 1 [s].
+      ])
+    ])
+  }
+}
 
 // academic-links
 #let aclinks() = {

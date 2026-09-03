@@ -1,55 +1,61 @@
-
-@media print {
-  /* 1. 隐藏所有不需要打印的 UI 元素（如导航栏） */
-  header, nav, footer, .no-print {
-    display: none !important;
-  }
-
-  html {
-    margin: 0;
-    padding: 0;
-    filter: none !important; /* 必须移除所有滤镜 */
-  }
-
-  body {
-    background-color: white;
-    display: block;
-    font-size: 12pt;
-    /* 标准字号 */
-  }
-
-  .main-card {
-    max-width: none;
-    margin: 0;
-    padding: 0;
-    color: #333333;
-    box-shadow: none;
-  }
-  .intro-row {
-    margin-top: 0;
-    padding-top: 0;
-  }
-
-  /* abstract */
-  details::details-content {
-    overflow: visible;    /* 极度重要！干掉 hidden，允许跨页打印，绝对不截断 */
-  }
-  
-  @page {
-    size: A4;
-    /* margin: 0; */
-    margin: 1.5cm;
-    /* 设置标准的打印边距 */
-  }
-
-  p, li {
-    widows: 3; /* 页面顶部至少保留3行 */
-    orphans: 3; /* 页面底部至少保留3行 */
-  }
-
-  /* 4. 确保链接不显示 URL（防止浏览器自动在文字后加括注） */
-  a:after {
-    content: "";
-  }
-
+@page {
+  size: A4;
+  margin: 1.5cm;
 }
+
+/* 隐藏所有不需要打印的 UI 元素（如导航栏） */
+.no-print {
+  display: none !important;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  filter: none !important;
+}
+
+body {
+  display: block;
+  font-size: 12pt;
+  margin: 0;
+}
+
+main {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  color: #333333;
+  box-shadow: none;
+}
+header {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* ----------------------------------- */
+/* details & summary 打印展开及去三角形 */
+/* ----------------------------------- */
+details .details-wrapper {
+  height: auto !important;
+  overflow: visible !important;
+  transition: none !important; /* 关键：禁止打印时的过渡，彻底杜绝退出预览时的页面跳动 */
+}
+
+summary {
+  list-style: none !important;
+  cursor: default;
+}
+
+details::details-content {
+  overflow: visible;    /* 极度重要！干掉 hidden，允许跨页打印，绝对不截断 */
+}
+
+
+/* ----------------------------------- */
+/* 分页控制                             */
+/* ----------------------------------- */
+p, li {
+  widows: 3; /* 页面顶部至少保留3行 */
+  orphans: 3; /* 页面底部至少保留3行 */
+}
+

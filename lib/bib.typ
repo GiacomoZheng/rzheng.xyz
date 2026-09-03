@@ -1,21 +1,15 @@
-#import "tools.typ": minify-css
+#import "tools.typ": minify-css, to-list
 
 // --- 格式化作者姓名 ---
 #let other-authors(authors, exclude: "Renpeng Zheng") = {
-  let raw-authors = if type(authors) == array { authors } else { (authors,) }
-  let processed = raw-authors.map(a => {
-    if a.contains(",") {
-      let parts = a.split(",").map(it => it.trim())
-      parts.at(1) + " " + parts.at(0)
-    } else { a }
-  }).filter(name => not name == exclude)
+  let authors = to-list(authors)
 
-  if processed.len() == 0 {
+  if authors.len() == 0 {
     [] // 如果全被过滤了，返回空
-  } else if processed.len() == 1 {
-    processed.at(0)
+  } else if authors.len() == 1 {
+    authors.at(0)
   } else {
-    processed.slice(0, -1).join(", ") + ", and " + processed.last()
+    authors.slice(0, -1).join(", ") + ", and " + authors.last()
   }
 }
 
@@ -65,25 +59,21 @@
   if a.contains(",") { a.split(",").at(0).trim() } else { a.split(" ").last() }
 }
 
-#let create-tooltip-content(details) = {
-  let preview-authors = {
-    let authors = if type(details.author) == array { details.author } else { (details.author,) }
-    
-    if authors.len() <= 3 {
-      // 情况 1：1-3 个作者，全部列出姓氏，用逗号分隔
-      authors.map(get-last-name).join(", ")
-    } else {
-      // 情况 2：超过 3 个作者，列出前三个姓氏 + et al.
-      authors.slice(0, 3).map(get-last-name).join(", ") + " et al."
+#let create-tooltip-content(details) = [
+    #let preview-authors = {
+      let authors = to-list(details.author)
+      if authors.len() <= 3 {
+        // 情况 1：1-3 个作者，全部列出姓氏，用逗号分隔
+        authors.map(get-last-name).join(", ")
+      } else {
+        // 情况 2：超过 3 个作者，列出前三个姓氏 + et al.
+        authors.slice(0, 3).map(get-last-name).join(", ") + " et al."
+      }
     }
-  }
 
-  // 构造悬浮窗内部内容
-  [
-    #strong(preview-authors) (#details.date)\
-    #emph(details.title)
+    #par[#strong(preview-authors) (#details.date)]
+    #par[#emph(details.title)]
   ]
-}
 
 
 #let render-web-bib(refs, toggle-id) = {
@@ -93,7 +83,7 @@
   html.elem("bib-list", attrs: ("toggle-id": toggle-id), {
     for (key, details) in refs.pairs().sorted(key: it => -float(it.at(1).arxiv)) {
       html.div(class: "bib-entry", id: key, [
-        #html.span(class: "bib-label", [\[#details.label\]])#html.div(class: "bib-content", create-web-bib-content(key, details))#html.div(class: "tooltip-content no-print", create-tooltip-content(details))
+        #html.span(class: "bib-label", [ [#details.label] ])#html.div(class: "bib-content", create-web-bib-content(key, details))#html.div(class: "tooltip-content hidden", create-tooltip-content(details))
       ])
     }
   })
@@ -107,16 +97,9 @@
     if key in refs {
       let details = refs.at(key)
 
-      
-
-      html.a(href: "#" + key, class: "cite-link", [
-        \[#details.label\]
-      ])
+      html.elem("a", attrs: (href: "#" + key, class: "tooltip-link", tooltip-target: "#" + key + " .tooltip-content"), [ [#details.label] ])
       // ! 目前typst编译的html.elem会被识别成块，强行切断<p>
-      // html.elem("cite-link", attrs: ("href": "#" + key), [
-      //   \[#details.label\]
-      //   #html.span(class: "no-print", tooltip-inner)
-      // ])
+      // html.elem("tooltip-link", attrs: ("href": "#" + key), [ [#details.label] ])
       
     } else {
       html.span(style: "color: red;", "[" + key + "?]")

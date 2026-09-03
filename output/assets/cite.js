@@ -10,7 +10,8 @@
     return el;
   }
 
-  const links = document.querySelectorAll('a.cite-link');
+  // --- 1. 初始化链接和状态 ---
+  const links = document.querySelectorAll('a.tooltip-link');
   let activeLink = null;
   let hideTimer = null;
 
@@ -86,8 +87,9 @@
     clearTimeout(hideTimer);
     if (activeLink && activeLink !== link) deactivate();
 
-    const targetId = link.getAttribute('href');
-    const tooltipContent = targetId ? document.querySelector(`${targetId} .tooltip-content`).innerHTML : null;
+    const targetId = link.getAttribute('tooltip-target');
+    console.log(`targetId: ${targetId}`);
+    const tooltipContent = targetId ? document.querySelector(targetId).innerHTML : null;
     if (!tooltipContent) return;
 
     tooltip.innerHTML = tooltipContent;

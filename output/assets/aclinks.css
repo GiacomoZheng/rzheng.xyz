@@ -95,8 +95,8 @@ a:hover .ai {
 
 /* ----------------------------------------------------------- */
 /* for future */
-.ai-google-scholar-square::before {
+/* .ai-google-scholar-square::before {
   content: "\e9f9";
   color: #4285F4;
-}
-/* .ai-mathscinet                                { color: #1A365D; } */
+} */
+/* .ai-mathscinet { color: #1A365D; } */

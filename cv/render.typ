@@ -162,7 +162,7 @@
       ]
 
       
-      html.a(href: "#" + key, class: "cite-link", [
+      html.a(href: "#" + key, class: "tooltip-link", [
         #label
         #html.span(class: "no-print", tooltip-inner)
       ])
