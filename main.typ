@@ -54,7 +54,7 @@
       ])
         #render-web-bib(works-data, "abstracts-toggle")
 
-      == Visits
+      == Academic Visits
         - Visit Antonio Trusiani (Apr 2026) at "#emph[Università degli Studi di Roma Tor Vergata (UniRoma2)]", Italy, for one month. // working on [JTZ].
         
       == Invited Presentations
