@@ -1,3 +1,22 @@
+:root {
+  --dialog-bg-color: #fcfcfb;
+  --dialog-border: 1px solid rgba(0, 0, 0, 0.08);
+  --dialog-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1), 
+    0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --code-bg-color: #f5f5f5;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --dialog-bg-color: #202020;
+    --dialog-border: 1px solid rgba(255, 255, 255, 0.12);
+    --dialog-shadow:
+      0 20px 35px -10px rgba(0, 0, 0, 0.65), 
+      0 10px 15px -5px rgba(0, 0, 0, 0.4);
+    --code-bg-color: #1e1e1e;
+  }
+}
+
 /* ============================================================
    Bibliography List (参考文献列表样式)
    ============================================================ */
@@ -54,44 +73,30 @@
 /* ----------------------------------------------------- */
 /* for bib src code */
 /* ----------------------------------------------------- */
-@keyframes popIn {
-  from { transform: scale(0.95); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
 .bib-dialog {
   font-size: 0.8em;
   padding: 1.5em;
   border-radius: 0.75em;
-  width: min(80%, 40em);
-  /* 仍需调整 */
+  width: calc(100% - 2 * var(--padding-width));
+  max-width: var(--max-width);
+  /* 仍需调整，我希望根据overflow-x调整长度 */
   max-height: 50vh;
-  background-color: var(--bg-color);
-  border: 1px solid var(--border-color);
-  box-shadow: none;
-
-  animation: popIn 0.2s var(--ease-out-apple);
-}
-.bib-dialog::backdrop {
-  /* background-color: rgba(0, 0, 0, 0.3); */
-  inset: calc(env(safe-area-inset-top) + 5px) 0 var(--floating-bottom-gap) 0;
-}
-@media screen and (max-width: 768px) {
-  .bib-dialog {
-    width: 99%;
-  }
+  background-color: var(--dialog-bg-color);
+  border: var(--dialog-border);
+  box-shadow: var(--dialog-shadow);
 }
 
-
+.bib-dialog button {
+  display: block;
+  margin-left: auto;
+}
 .bib-dialog pre {
   max-width: 100%;
   overflow-x: auto;         /* 核心：超出时，只有代码块内部出现滚动条 */
   margin: 0;
   padding: 0.25em 0.75em 0.75em;
+  background-color: var(--code-bg-color);
   border-radius: 0.25em;;
-}
-.bib-dialog button {
-  display: block;
-  margin-left: auto;
 }
 
 /* ----------------------------------------------------- */

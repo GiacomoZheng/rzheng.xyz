@@ -1,6 +1,5 @@
 :root {
   color-scheme: light dark;
-  /* interpolate-size: allow-keywords; */
 
   --max-width: 840px;
   --padding-width: 80px;
@@ -19,6 +18,7 @@
   }
 }
 @media (display-mode: standalone), (display-mode: fullscreen) {
+  /* 如果未来内容多的话，可以单独建立文件 <link rel="stylesheet" href="standalone.css" media="(display-mode: standalone)"> */
   :root {
     --floating-bottom-gap: env(safe-area-inset-bottom);
   }
@@ -97,7 +97,12 @@ body {
   font-variant-numeric: tabular-nums;
   font-size: 16px;
   text-wrap: pretty;
+  &.is-resizing :is(*, *::before, *::after) {
+    transition: none !important;
+    animation: none !important;
+  }
 }
+
 
 h1, h2, h3, h4, h5, h6, .title {
   text-wrap: balance;
@@ -105,7 +110,6 @@ h1, h2, h3, h4, h5, h6, .title {
 h4, h5, h6 { margin-block-end: 0; }
 
 p {
-  /* max-width: 65ch; */
   text-align: justify;
   hyphens: auto;
 }
@@ -115,14 +119,17 @@ p {
 
 summary, label {
   -webkit-tap-highlight-color: transparent;
+  /* 仅仅对手机版Safari有效 */
+  -webkit-user-select: none; /* 兼容 Safari */
+  user-select: none;         /* 标准语法 */
 }
 
 summary, label, input[type="checkbox"] {
   cursor: pointer;
 }
 
-/* 统一应用到所有链接 */
-a {
+/* 统一应用到所有链接/按钮 */
+a, button {
   color: var(--link-color);
   transition: color 0.2s var(--ease-in-out-apple);
   text-decoration: none;
@@ -134,35 +141,47 @@ button {
   margin: 0;
   font: inherit;
   cursor: pointer;
-
-  color: var(--link-color);
-  transition: color 0.2s var(--ease-in-out-apple);
-  text-decoration: none;
-
   appearance: none;
-  -webkit-appearance: none;
-}
-button:focus {
-  outline: none;
-}
-button:focus-visible {
-  outline: 2px solid #0066cc;
-  outline-offset: 0;
-  border-radius: 2px;
-}
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.7;
+
+  &:focus {
+    outline: none;
+  }
+  &:focus-visible {
+    outline: 2px solid #0066cc;
+    outline-offset: 0;
+    border-radius: 2px;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
 }
 
+/* --- 代码块样式 --------------------------- */
 pre {
   margin: 0;
   border: 1px solid var(--border-color);
 }
 
-code::selection,
-code *::selection {
+code::selection {
   background-color: var(--bg-color-active);
+}
+
+/* --- 对话框样式 --------------------------- */
+@keyframes popIn {
+  from {
+    transform: scale(0.96) translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+dialog[open] {
+  display: flex;
+  flex-direction: column;
+  animation: popIn 0.2s var(--ease-out-apple);
 }
 
 dialog:focus {
@@ -170,9 +189,11 @@ dialog:focus {
 }
 dialog::backdrop {
   background: var(--overlay-backdrop-bg); /* 几乎无感，主要用来隔绝底层点击 */
-  backdrop-filter: var(--overlay-backdrop-filter); 
+  backdrop-filter: var(--overlay-backdrop-filter);
+  inset: calc(env(safe-area-inset-top) + 5px) 0 var(--floating-bottom-gap) 0;
 }
 
+/* 页脚样式 */
 footer {
   font-size: 0.9em;
   margin-top: 20px;
@@ -181,13 +202,10 @@ footer {
 /* --- details and summary --------------------------- */
 details {
   overflow: hidden;
-}
-details.is-animating {
-  cursor: not-allowed;
-}
-
-summary {
-  user-select: none;
+  /* interpolate-size: allow-keywords; */
+  &.is-animating {
+    cursor: not-allowed;
+  }
 }
 
 /* --- checkbox --------------------------- */
@@ -195,15 +213,14 @@ summary {
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
-}
-
-.checkbox-container input[type="checkbox"] {
-  font-size: inherit;
-  /* 必须显式的写 */
-  margin: 0;
-  width: 1em;
-  height: 1em;
-  flex-shrink: 0;
+  & input[type="checkbox"] {
+    font-size: inherit;
+    /* 必须显式的写 */
+    margin: 0;
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+  }
 }
 
 /* --- unorded list --------------------------- */

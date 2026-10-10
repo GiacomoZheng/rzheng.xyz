@@ -8,9 +8,8 @@
   css-code.replace(regex("(?s)/\*.*?\*/"), "") // 1. 清除 /* 注释 */
     .replace(regex("\s+"), " ")          // 2. 多个换行/空格合并为一个空格
     .replace(regex("\s*([{}:;,])\s*"), m => m.captures.at(0)) // 3. 清除符号 ( { } : ; , ) 两边的空格
-    .trim()                              // 4. 清除首尾空白
+    .trim()
 }
-
 
 // ruby
 #let r(base-content, annot-content) = {
@@ -65,7 +64,7 @@
   datetime(year: year, month: month, day: day).display("[month repr:short] [year]")
 }
 #let render-talks(talks) = {
-  for (_, details) in talks.pairs().sorted(key: it => it.at(1).date) {[
+  for (_, details) in talks.pairs().sorted(key: it => it.at(1).date).rev() {[
     - "#emph(details.title)" (#parse-date(details.date)), #strong(details.event), #(details.institution), #{details.location}. #if details.refs != none [On #cite(label(..details.refs)).]
   ]}
 }
@@ -91,10 +90,10 @@
 #let aclinks() = {
   html.div(class: "academic-links", {
       // html.i(class: "ai ai-google-scholar-square")
-      link("https://arxiv.org/a/zheng_r_3.html", html.div(class: "ai my-arxiv-square", html.img(id: "arxiv-logo", class: "square", src: "assets/arxiv.svg")))
+      link("https://arxiv.org/a/zheng_r_3.html", html.div(class: "ai my-arxiv-square", html.img(id: "arxiv-logo", class: "square", src: "assets/aclinks/arxiv.svg")))
       link("https://cv.hal.science/zheng-renpeng", html.i(class: "ai ai-hal-square", html.span(id: "hal-bg", class: "square")))
       link("https://orcid.org/0009-0005-0309-8458", html.i(class: "ai ai-orcid-square"))
-      link("https://zbmath.org/authors/zheng.renpeng", html.div(class: "ai my-zbmath-square", html.img(id: "zbmath-logo", class: "square", src: "assets/zbmath.svg")))
+      link("https://zbmath.org/authors/zheng.renpeng", html.div(class: "ai my-zbmath-square", html.img(id: "zbmath-logo", class: "square", src: "assets/aclinks/zbmath.svg")))
       // link("", html.i(class: "fa fa-github-square", style: "color: #24292E;"))
   })
 }

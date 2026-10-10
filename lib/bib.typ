@@ -2,7 +2,7 @@
 
 // --- 格式化作者姓名 ---
 #let other-authors(authors, exclude: "Renpeng Zheng") = {
-  let authors = to-list(authors)
+  let authors = to-list(authors).filter(name => not name == exclude)
 
   if authors.len() == 0 {
     [] // 如果全被过滤了，返回空
@@ -14,8 +14,12 @@
 }
 
 // ！ 目前typst编译的table还不能处理class，所以先继续使用html.elem
-#let create-web-bib-content(key, details) = [
-  #emph(details.title) (#details.date)#{
+#let create-bib-content(key, details) = [
+  #emph(details.title) (#if "date" in details {
+    details.date
+  } else {
+    [on preparation]
+  })#{
     let other-authors-str = other-authors(details.author)
     if not other-authors-str == [] {
       [, with #other-authors-str]
@@ -83,7 +87,7 @@
   html.elem("bib-list", attrs: ("toggle-id": toggle-id), {
     for (key, details) in refs.pairs().sorted(key: it => -float(it.at(1).arxiv)) {
       html.div(class: "bib-entry", id: key, [
-        #html.span(class: "bib-label", [ [#details.label] ])#html.div(class: "bib-content", create-web-bib-content(key, details))#html.div(class: "tooltip-content hidden", create-tooltip-content(details))
+        #html.span(class: "bib-label", [ [#details.label] ])#html.div(class: "bib-content", create-bib-content(key, details))#html.div(class: "tooltip-content hidden", create-tooltip-content(details))
       ])
     }
   })

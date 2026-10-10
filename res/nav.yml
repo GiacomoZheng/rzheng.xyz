@@ -1,0 +1,11 @@
+PUBS:
+  name: Research
+  url: "#research"
+  
+TEAC:
+  name: Teaching
+  url: "#teaching"
+
+# Acti:
+#   name: Activities
+#   url: "#activities"

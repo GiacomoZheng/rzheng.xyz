@@ -1,19 +1,19 @@
 :root {
-  --cite-bg-color: #ffffff;
-  --cite-border-color: #d1d9e0;
-  --cite-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  --tooltip-bg-color: #ffffff;
+  --tooltip-border-color: #d1d9e0;
+  --tooltip-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --cite-bg-color: #1e1e1e;
-    --cite-border-color: #444444;
-    --cite-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    --tooltip-bg-color: #1e1e1e;
+    --tooltip-border-color: #444444;
+    --tooltip-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   }
 }
 
 .tooltip-link {
   position: relative;
-  display: inline-block;
+  /* display: inline-block; */
   cursor: pointer;
   font-weight: 500;
   z-index: 100;
@@ -40,9 +40,9 @@
   color: var(--text-color);
   padding: 12px 20px;
 
-  background-color: var(--cite-bg-color);
-  border: 1px solid var(--cite-border-color);
-  box-shadow: var(--cite-shadow);
+  background-color: var(--tooltip-bg-color);
+  border: 1px solid var(--tooltip-border-color);
+  box-shadow: var(--tooltip-shadow);
   border-radius: 8px;
   & > p {
     text-align: left;
@@ -81,13 +81,13 @@ body:has(.tooltip-link.is-peeking) #global-tooltip {
     }
     &:not(.is-bottom)::after {
       top: 100%;
-      border-top-color: var(--cite-bg-color);
-      filter: drop-shadow(0 1px 0 var(--cite-border-color));
+      border-top-color: var(--tooltip-bg-color);
+      filter: drop-shadow(0 1px 0 var(--tooltip-border-color));
     }
     &.is-bottom::after {
       bottom: 100%;
-      border-bottom-color: var(--cite-bg-color);
-      filter: drop-shadow(0 -1px 0 var(--cite-border-color));
+      border-bottom-color: var(--tooltip-bg-color);
+      filter: drop-shadow(0 -1px 0 var(--tooltip-border-color));
     }
   }
 }

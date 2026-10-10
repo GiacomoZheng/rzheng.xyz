@@ -27,7 +27,6 @@
     })
 
     // Show people (e.g., coauthors) as <a>
-    // + tooltips
     #let pattern = regex(people-data.keys().sorted(key: k => k.len()).rev().join("|"))
     #show pattern: it => {
       let details = people-data.at(it.text)
@@ -41,29 +40,30 @@
     My newest paper is @sphcomp, where we find a special ℚ-divisor of a polarised spherical variety.
 
     #html.section(id: "education", [ = Education
-      - 2027: (Expected) PhD in Pure Mathematics (supervised by Hamid Abban and Johannes Hofscheier), University of Nottingham, UK
-      - 2022: MSc in Pure Mathematics (supervised by Jonathan Lai), Imperial College London, UK
-      - 2021: BSc in Mathematics and Applied Mathematics, The Chinese University of Hong Kong, Shenzhen, China
+      - 2027: (Expected) PhD in Pure Mathematics (supervised by Hamid Abban and Johannes Hofscheier), #strong[University of Nottingham], UK
+      - 2022: MSc in Pure Mathematics (supervised by Jonathan Lai), #strong[Imperial College London], UK
+      - 2021: BSc in Mathematics and Applied Mathematics, #strong[the Chinese University of Hong Kong], Shenzhen, China
     ])
     
     #html.div(id: "calendar-container", class: "no-print", [])
 
     #html.section(id: "research", [ = Research
-      #html.header(class: "heading-toggle", [ == Publications / Preprints
+      #html.header(class: "heading-toggle", [ 
+        == Publications / Preprints
         #checkbox("abstracts", [Abstracts])
       ])
         #render-web-bib(works-data, "abstracts-toggle")
 
-      == Talks in Conferences / Seminars
-        #render-talks(talks-data)
-
       == Visits
-        - Visit Antonio Trusiani at "#emph[Università degli Studi di Roma Tor Vergata (UniRoma2)]", Italy for one month (Apr 2026). // working on [JTZ].
+        - Visit Antonio Trusiani (Apr 2026) at "#emph[Università degli Studi di Roma Tor Vergata (UniRoma2)]", Italy, for one month. // working on [JTZ].
+        
+      == Invited Presentations
+        #render-talks(talks-data)
+    ])
 
-      #html.div(class: "no-print", [ == Posters / Interactive Media
+    #html.div(class: "no-print", [ == Posters / Interactive Media
         #html.div(id: "poster-container", class: "no-print", [])
       ])
-    ])
     
     #html.section(id: "teaching", [ = Teaching
       == University of Nottingham (Teaching Affiliate & Demonstrator)
@@ -73,6 +73,10 @@
       === 2025-2026
         - MATH2102 Real Analysis (Autumn UK) --- Marking.
     ])
+    
+    // #html.section(id: "activities", [ = Activities
+    //   - TODO
+    // ])
   ])
 }
 
@@ -114,8 +118,8 @@
     html.link(rel: "stylesheet", href: "/assets/print.css", media: "print")
     add_js_mod(
       "/assets/cite.js", 
-      "/assets/nav.js",
-      "/assets/bib.js",
+      "/assets/components/nav.js",
+      "/assets/components/bib.js",
     )
   })
 }
@@ -135,7 +139,7 @@
     main()
 
     footer()
-    html.script(src: "/assets/google.js")
+    html.script(src: "/assets/init.js")
     render-people(people-data, works-data)
   })
 ])

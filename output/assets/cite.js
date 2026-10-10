@@ -14,6 +14,7 @@
   const links = document.querySelectorAll('a.tooltip-link');
   let activeLink = null;
   let hideTimer = null;
+  let isRight = true; // 用于判断鼠标在链接的左侧还是右侧，决定浮窗的显示位置
 
   // --- 2. 响应式媒体查询与事件信号控制器 ---
   const mediaIsDesktop = window.matchMedia("(min-width: 769px)");
@@ -52,7 +53,10 @@
       console.log(`🔄 切换到 💻 桌面端 (Desktop) 模式`);
       // ================= 桌面端绑定 =================
       links.forEach(link => {
-        link.addEventListener('mouseenter', () => updateActiveDesktop(link), { signal });
+        link.addEventListener('mouseenter', (e) => {
+          isRight = e.clientX > window.innerWidth / 2;
+          updateActiveDesktop(link);
+        }, { signal });
         link.addEventListener('mouseleave', () => deactivateWithDelay(), { signal });
       });
       tooltip.addEventListener('mouseenter', () => clearTimeout(hideTimer), { signal });
@@ -98,9 +102,9 @@
   }
 
   function deactivate() {
-    // 虽然移动端不会有这两个事件，但切换模式时可能会残留
-    window.removeEventListener('scroll', handleScrollOrResize);
-    window.removeEventListener('resize', handleScrollOrResize);
+    // // 虽然移动端不会有这两个事件，但切换模式时可能会残留
+    // window.removeEventListener('scroll', handleScrollOrResize);
+    // window.removeEventListener('resize', handleScrollOrResize);
 
     if (activeLink) {
       activeLink.classList.remove('is-peeking');
@@ -112,8 +116,9 @@
   function updateActiveDesktop(link) {
     updateActive(link);
     positionTooltip(link);
-    window.addEventListener('scroll', handleScrollOrResize, { passive: true });
-    window.addEventListener('resize', handleScrollOrResize);
+    const { signal } = modeController; // 仔细思考到底什么时候消除这两个事件监听器
+    window.addEventListener('scroll', handleScrollOrResize, { passive: true, signal });
+    window.addEventListener('resize', handleScrollOrResize, { signal });
   }
 
   function deactivateWithDelay() {
@@ -122,7 +127,9 @@
   }
 
   function positionTooltip(link) {
-    const rect = link.getBoundingClientRect();
+    // const rect = link.getBoundingClientRect();
+    const rects = Array.from(link.getClientRects());
+    const rect = (isRight ? rects[0] : (rects[1] || rects[0]));
     const tooltipRect = tooltip.getBoundingClientRect();
 
     let top = rect.top - tooltipRect.height - 8;
@@ -142,13 +149,14 @@
     tooltip.style.left = `${left}px`;
   }
 
-  function handleScrollOrResize() {
+  // 也是桌面端专有的
+  function handleScrollOrResize(e) {
     if (!activeLink) return;
     
     // 滚动/缩放时：如果鼠标依然在链接或浮窗上，更新坐标；否则关掉
     const isHovered =  activeLink?.matches(':hover') || tooltip.matches(':hover');
     if (isHovered) {
-      positionTooltip(activeLink);
+      positionTooltip(activeLink, e);
     } else {
       deactivate();
     }

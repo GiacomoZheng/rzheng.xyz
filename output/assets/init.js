@@ -1,3 +1,14 @@
+let resizeTimer;
+window.addEventListener("resize", () => {
+  document.body.classList.add("is-resizing");
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    document.body.classList.remove("is-resizing");
+  }, 150);
+});
+
+
+// Google Calendar / Google Drive iframe 仅在非本地环境加载
 (function () {
     const hostname = window.location.hostname;
 

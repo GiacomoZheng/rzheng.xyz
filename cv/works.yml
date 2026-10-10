@@ -1,0 +1,38 @@
+sphcomp:
+  type: misc
+  label: Zheng26
+  title: K-stability of Q-Fano spherical varieties via compatible divisors
+  author: Renpeng Zheng
+  date: 2026
+  arxiv: '2601.00054'
+  journal: Annales de l’Institut Fourier
+  # doi: '0/11'
+
+tmp1:
+  type: misc
+  label: JTZ27
+  title: A quantization proof of the reduced uniform Yau--Tian--Donaldson conjecture
+  author:
+    - Simon Jubert
+    - Antonio Trusiani
+    - Renpeng Zheng
+  # date: 
+  # arxiv: 
+  # journal: 
+  # bib: 'aa'
+  # doi: '0/11'
+  # abstract: 
+
+tmp2:
+  type: misc
+  label: Zheng27
+  title: Algebraic pluripotential theory on rational linear series
+  author: Renpeng Zheng
+  # date: 
+  # arxiv: 
+  # journal: 
+  # bib: 'aa'
+  # doi: '0/11'
+  # abstract: 
+
+

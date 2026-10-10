@@ -12,8 +12,8 @@
 }
 
 :root {
-  --nav-glass-bg: rgba(255, 255, 255, 0.8);
-  --nav-glass-border: 2px solid rgba(255, 255, 255, 1);
+  --nav-bg-color-glass: rgba(255, 255, 255, 0.8);
+  --nav-border-glass: 2px solid rgba(255, 255, 255, 1);
   --nav-shadow: rgba(220, 220, 220, 0.2) 0 0 8px 0 inset, rgba(220, 220, 220, 0.82) 0 0 10px 0;
   --nav-link-color: #444444; /* it is different from --link-color */
   --nav-link-border-bottom: 1px solid #eaeaea;
@@ -22,8 +22,8 @@
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --nav-glass-bg: rgba(62, 62, 62, 0.4);
-    --nav-glass-border: 2px solid rgba(68, 68, 68, 0.6);
+    --nav-bg-color-glass: rgba(62, 62, 62, 0.4);
+    --nav-border-glass: 2px solid rgba(68, 68, 68, 0.6);
     --nav-shadow: none;
     --nav-link-color: #bbbbbb;
     --nav-link-border-bottom: 1px solid rgba(68, 68, 68, 0.6);
@@ -35,7 +35,7 @@
 dyn-bar {
   position: fixed;
   inset: env(safe-area-inset-top) 0 auto 0;
-  width: 100%;
+  interpolate-size: numeric-only; /* 防止未来加上了auto长度的动画 */
   height: var(--nav-height);
   z-index: 1000;
 
@@ -48,10 +48,10 @@ dyn-bar::before {
   z-index: -1;
 
   backdrop-filter: var(--nav-filter);
-  background-color: var(--nav-glass-bg);
+  background-color: var(--nav-bg-color-glass);
   box-shadow: var(--nav-shadow);
   backface-visibility: hidden;
-  border-bottom: var(--nav-glass-border);
+  border-bottom: var(--nav-border-glass);
 }
 @media screen and (max-width: 768px) {
   dyn-bar {
@@ -65,14 +65,12 @@ dyn-bar::before {
 }
 
 .inner-bar {
-  width: 100%;
   max-width: var(--max-width);
   padding: 0 var(--padding-width);
   margin: 0 auto;
   
   display: flex;
-  flex-shrink: 0;
-  /* 不能挤压 */
+  flex: 1;
   align-items: center;
   justify-content: flex-end;
   & > :last-child {
@@ -152,6 +150,15 @@ nav {
     inset: auto 0 calc(var(--nav-height) + 2px) auto;
     /* 这是相对于父对象的位置 */
     width: auto;
+
+    & > div {
+      border-bottom: var(--nav-link-border-bottom);
+    }
+    
+    & > :is(:last-child) {
+      border-bottom: 0;
+    }
+
   }
   #nav-menu::before {
     content: "";
@@ -160,10 +167,10 @@ nav {
     z-index: -1;
 
     backdrop-filter: var(--nav-filter);
-    background-color: var(--nav-glass-bg);
+    background-color: var(--nav-bg-color-glass);
     box-shadow: var(--nav-shadow);
     backface-visibility: hidden;
-    border: var(--nav-glass-border);
+    border: var(--nav-border-glass);
     border-radius: 8px;
   }
 
@@ -184,6 +191,7 @@ nav {
 
 .nav-link {
   display: inline-block;
+  /* text-align: right; */
   white-space: nowrap;
   color: var(--nav-link-color);
   border-bottom: var(--nav-link-border-bottom);
@@ -192,6 +200,8 @@ nav {
 .nav-link:hover {
   color: var(--nav-hover-color);
 }
+
+/* div:has(.is-active) > .nav-link, */
 .nav-link.is-active {
   color: var(--nav-hover-color);
   font-weight: bolder;
@@ -210,27 +220,57 @@ nav {
   visibility: hidden;
   overflow: hidden;
 }
-
 @media screen and (max-width: 768px) {
   #nav-menu .nav-link {
     padding: 12px 10px;
-  }
-
-  #nav-menu .nav-link:last-child {
     border-bottom: 0;
   }
 }
 
+.nav-submenu {
+  /* 初始隐藏 */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(20px);
+  transition: var(--transition-hidden);
+
+  flex-direction: column;
+  gap: 0;
+
+  position: absolute;
+  inset: auto 0 calc(var(--nav-height) + 2px) auto;
+  /* 这是相对于父对象的位置 */
+  width: auto;
+
+  & > div {
+    border-bottom: var(--nav-link-border-bottom);
+  }
+  
+  & > :is(:last-child) {
+    border-bottom: 0;
+  }
+
+}
+.nav-submenu::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  backdrop-filter: var(--nav-filter);
+  background-color: var(--nav-bg-color-glass);
+  box-shadow: var(--nav-shadow);
+  backface-visibility: hidden;
+  border: var(--nav-border-glass);
+  border-radius: 8px;
+}
+
+
 
 /* 收缩动画 */
 @media screen and (max-width: 768px) {
-  /* #nav-logo,
-  nav > :first-child {
-    overflow: hidden;
-  } */
-
   dyn-bar,
-  .inner-bar,
   nav {
     will-change: width, margin;
     transition: var(--width-change);
